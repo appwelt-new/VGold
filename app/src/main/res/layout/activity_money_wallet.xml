@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MoneyWalletActivity">
+
+
+    <LinearLayout
+        android:id="@+id/moneyll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:id="@+id/txtCurrentBal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_20"
+                android:gravity="center"
+                android:text="Current balance"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorwhite"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCurrentBal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="@dimen/height_3"
+                android:layout_toLeftOf="@+id/txtRupees"
+                android:gravity="center"
+                android:text="\u20B9"
+                android:textColor="@android:color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtRupees"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCurrentBal"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/colorwhite"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnAddMoneyToWallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtRupees"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/height_10"
+                android:layout_marginBottom="@dimen/height_40"
+                android:background="@drawable/round_border"
+                android:backgroundTint="@color/colorOrange"
+                android:paddingLeft="@dimen/height_15"
+                android:paddingRight="@dimen/height_15"
+                android:text="Add Money"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textSize="17dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMoneyWallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/moneyll"></androidx.recyclerview.widget.RecyclerView>
+
+
+</RelativeLayout>

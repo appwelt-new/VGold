@@ -1,0 +1,1410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0B143A"
+    tools:context=".fragments.MainFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bannerLyt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+
+                    android:id="@+id/gainLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@drawable/ribbon"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="3dp"
+                        android:singleLine="true"
+                        android:text="TOTAL GAIN"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/total_gain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/border_transparent"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="20dp"
+                        android:singleLine="true"
+                        android:text="Rs.42200/-"
+                        android:textColor="@android:color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/partnerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/ribbon"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="3dp"
+                        android:singleLine="true"
+                        android:text="Connect with us"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/be_part"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/border_transparent"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:text="Be a Partner"
+                        android:textColor="@android:color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/loanLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/ribbon"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="3dp"
+                        android:singleLine="true"
+                        android:text="You can apply for loan of up to"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/loanAmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/border_transparent"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/certificateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/ribbon"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="3dp"
+                        android:singleLine="true"
+                        android:text="75th Independence Celebration"
+                        android:textColor="@android:color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/certificate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/border_transparent"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="6dp"
+                        android:singleLine="true"
+                        android:text="Appreciation Certificate"
+                        android:textColor="@android:color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/todays_rate"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:text="Today's Gold Rate 99.5ct"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                android:textSize="15sp"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/bannerLyt"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                tools:layout_editor_absoluteY="25dp" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/purchase_rate"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:text="@string/purchase_rate"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                android:textSize="15sp"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/todays_rate"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                tools:layout_editor_absoluteY="25dp" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/txt_prchse_rt"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="@string/rs_5129_40_gm"-->
+            <!--                android:textColor="#FAB220"-->
+            <!--                android:textSize="14sp"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/todays_rate"-->
+            <!--                app:layout_constraintStart_toEndOf="@id/purchase_rate"-->
+            <!--                tools:layout_editor_absoluteY="25dp" />-->
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/sale_rate"-->
+            <!--            android:text="@string/sale_rate"-->
+            <!--            android:textColor="@color/white"-->
+            <!--            android:layout_marginStart="10dp"-->
+            <!--            android:textSize="15sp"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/purchase_rate"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            tools:ignore="MissingConstraints" />-->
+            <!--        <TextView-->
+            <!--            android:id="@+id/txt_sale_rate"-->
+            <!--            android:text="@string/rs_4804_gm"-->
+            <!--            android:textColor="#FAB220"-->
+            <!--            android:textSize="15sp"-->
+            <!--            app:layout_constraintStart_toEndOf="@id/sale_rate"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/txt_prchse_rt"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"/>-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/layoutgoldrate"-->
+            <!--                android:background="@drawable/roundborder1"-->
+            <!--                android:layout_width="150dp"-->
+            <!--                android:gravity="center"-->
+
+            <!--                android:layout_height="40dp"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/txt_sale_rate"-->
+            <!--                android:backgroundTint="@color/white"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:padding="5dp">-->
+
+            <!--                <ImageView-->
+            <!--                    android:layout_width="35dp"-->
+            <!--                    android:layout_height="35dp"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:src="@drawable/goldratecard"-->
+            <!--                    android:backgroundTint="@color/colorPrimary"-->
+            <!--                    app:civ_border_width="10dp"-->
+            <!--                    app:civ_circle_background_color="@color/colorPrimary" />-->
+
+
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/rd_2"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="50dp"-->
+            <!--                    android:textSize="13sp"-->
+            <!--                    android:layout_marginStart="10dp"-->
+            <!--                    android:button="@android:color/transparent"-->
+            <!--                    android:text="@string/gold_rate_card1"-->
+            <!--                    android:textAlignment="textStart" />-->
+
+            <!--            </LinearLayout>-->
+
+
+            <!--                <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+            <!--                    android:id="@+id/goldRateDialog"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintTop_toBottomOf="@id/bannerLyt"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_gravity="center">-->
+
+            <ImageView
+                android:id="@+id/imgTodayGoldRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bannerLyt" />
+
+            <LinearLayout
+                android:id="@+id/layout_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgTodayGoldRate">
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btn_bookgold"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:src="@drawable/booknow" />
+
+                    <!--                    <Button-->
+                    <!--                        android:id="@+id/btnBookGold"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:layout_marginStart="5dp"-->
+                    <!--                        android:background="@color/colorPrimary"-->
+                    <!--                        android:text="Book Gold"-->
+
+                    <!--                        android:textAlignment="textStart"-->
+                    <!--                        android:textColor="@color/colorwhite" />-->
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/oldrteimg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layout_share"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btn_share"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:layout_toEndOf="@id/layout"
+                        android:src="@drawable/sharerate" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--                </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+            <!--            <RelativeLayout-->
+            <!--                android:id="@+id/goldRateDialog"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/bannerLyt"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                >-->
+            <!--            <include-->
+            <!--                layout="@layout/view_today_gold_rate_dialog">-->
+
+            <!--            </include>-->
+
+            <!--            </RelativeLayout>-->
+            <!--<androidx.cardview.widget.CardView-->
+            <!--    android:id="@+id/cardview"-->
+            <!--    android:layout_width="match_parent"-->
+            <!--    android:layout_height="wrap_content"-->
+            <!--    android:backgroundTint="@color/colorPrimary"-->
+            <!--    android:background="@color/colorPrimary"-->
+            <!--    app:layout_constraintTop_toBottomOf="@id/sale_rate"-->
+            <!--    app:layout_constraintStart_toStartOf="parent"-->
+            <!--    app:layout_constraintEnd_toEndOf="parent">-->
+
+            <!--        <RadioGroup-->
+            <!--            android:id="@+id/rd_grp"-->
+            <!--            android:layout_gravity="center"-->
+            <!--            android:gravity="center"-->
+            <!--            android:padding="5dp"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:weightSum="2"-->
+            <!--            android:background="@color/colorPrimary"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/sale_rate"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            android:layout_margin="5dp">-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/layoutbepart"-->
+            <!--                android:background="@drawable/round_border"-->
+            <!--                android:layout_width="160dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                android:backgroundTint="@color/white"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:padding="5dp">-->
+
+            <!--            <ImageView-->
+            <!--                android:layout_width="35dp"-->
+            <!--                android:layout_height="35dp"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:src="@drawable/asset17"-->
+            <!--                android:layout_marginStart="5dp"-->
+            <!--                android:backgroundTint="@color/colorPrimary"-->
+            <!--                app:civ_border_width="10dp"-->
+            <!--                app:civ_circle_background_color="@color/colorPrimary" />-->
+            <!--            -->
+
+            <!--            <RadioButton-->
+            <!--                android:id="@+id/rd_1"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="50dp"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:textSize="13sp"-->
+
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:button="@android:color/transparent"-->
+            <!--                android:text="@string/be_a_partner1"-->
+            <!--                android:textAlignment="textStart" />-->
+
+            <!--            </LinearLayout>-->
+
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/layoutgoldrate"-->
+            <!--                android:background="@drawable/round_border"-->
+            <!--                android:layout_width="160dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                android:backgroundTint="@color/white"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:padding="5dp">-->
+
+            <!--                <ImageView-->
+            <!--                    android:layout_width="35dp"-->
+            <!--                    android:layout_height="35dp"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:src="@drawable/goldratecard"-->
+            <!--                    android:backgroundTint="@color/colorPrimary"-->
+            <!--                    app:civ_border_width="10dp"-->
+            <!--                    app:civ_circle_background_color="@color/colorPrimary" />-->
+
+
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/rd_2"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="50dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:textSize="13sp"-->
+            <!--                    android:layout_marginStart="10dp"-->
+            <!--                    android:button="@android:color/transparent"-->
+            <!--                    android:text="@string/gold_rate_card1"-->
+            <!--                    android:textAlignment="textStart" />-->
+
+            <!--            </LinearLayout>-->
+
+
+            <!--        </RadioGroup>-->
+
+            <!--</androidx.cardview.widget.CardView>-->
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_buttons">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/style_round"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/rate_scroll_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <!--            <com.daimajia.slider.library.SliderLayout-->
+                    <!--                android:id="@+id/slider"-->
+                    <!--                android:layout_width="match_parent"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:fitsSystemWindows="true"-->
+                    <!--                custom:indicator_visibility="invisible" />-->
+
+
+                    <!--                <LinearLayout-->
+                    <!--                    android:id="@+id/gainLayout"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="120dp"-->
+                    <!--                    android:layout_marginTop="6dp"-->
+                    <!--                    android:layout_marginBottom="6dp"-->
+                    <!--                    android:background="@drawable/ribbon"-->
+                    <!--                    android:gravity="center_vertical"-->
+                    <!--                    android:orientation="vertical"-->
+                    <!--                    android:visibility="gone">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:paddingLeft="10dp"-->
+                    <!--                        android:paddingTop="3dp"-->
+                    <!--                        android:paddingRight="10dp"-->
+                    <!--                        android:paddingBottom="3dp"-->
+                    <!--                        android:singleLine="true"-->
+                    <!--                        android:text="TOTAL GAIN"-->
+                    <!--                        android:textColor="@android:color/black"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/total_gain"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:background="@drawable/border_transparent"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:paddingLeft="20dp"-->
+                    <!--                        android:paddingTop="6dp"-->
+                    <!--                        android:paddingRight="20dp"-->
+                    <!--                        android:paddingBottom="6dp"-->
+                    <!--                        android:singleLine="true"-->
+                    <!--                        android:textColor="@android:color/white"-->
+                    <!--                        android:textSize="24sp"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                </LinearLayout>-->
+
+                    <!--                <LinearLayout-->
+                    <!--                    android:id="@+id/partnerLayout"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="120dp"-->
+                    <!--                    android:layout_marginTop="6dp"-->
+                    <!--                    android:layout_marginBottom="6dp"-->
+                    <!--                    android:background="@drawable/ribbon"-->
+                    <!--                    android:gravity="center_vertical"-->
+                    <!--                    android:orientation="vertical"-->
+                    <!--                    android:visibility="gone">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:paddingLeft="10dp"-->
+                    <!--                        android:paddingTop="3dp"-->
+                    <!--                        android:paddingRight="10dp"-->
+                    <!--                        android:paddingBottom="3dp"-->
+                    <!--                        android:singleLine="true"-->
+                    <!--                        android:text="Connect with us"-->
+                    <!--                        android:textColor="@android:color/black"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:background="@drawable/border_transparent"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:paddingLeft="20dp"-->
+                    <!--                        android:paddingTop="6dp"-->
+                    <!--                        android:paddingRight="20dp"-->
+                    <!--                        android:paddingBottom="6dp"-->
+                    <!--                        android:singleLine="true"-->
+                    <!--                        android:text="Be a Partner"-->
+                    <!--                        android:textColor="@android:color/white"-->
+                    <!--                        android:textSize="24sp"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                </LinearLayout>-->
+
+                    <!--                <LinearLayout-->
+                    <!--                    android:id="@+id/loanLayout"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="120dp"-->
+                    <!--                    android:layout_marginTop="6dp"-->
+                    <!--                    android:layout_marginBottom="6dp"-->
+                    <!--                    android:background="@drawable/ribbon"-->
+                    <!--                    android:gravity="center_vertical"-->
+                    <!--                    android:orientation="vertical"-->
+                    <!--                    android:visibility="gone">-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:paddingLeft="10dp"-->
+                    <!--                        android:paddingTop="3dp"-->
+                    <!--                        android:paddingRight="10dp"-->
+                    <!--                        android:paddingBottom="3dp"-->
+                    <!--                        android:singleLine="true"-->
+                    <!--                        android:text="You can apply for loan of up to"-->
+                    <!--                        android:textColor="@android:color/black"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/loanAmt"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:background="@drawable/border_transparent"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        android:paddingLeft="20dp"-->
+                    <!--                        android:paddingTop="6dp"-->
+                    <!--                        android:paddingRight="20dp"-->
+                    <!--                        android:paddingBottom="6dp"-->
+                    <!--                        android:singleLine="true"-->
+                    <!--                        android:text="0"-->
+                    <!--                        android:textColor="@android:color/white"-->
+                    <!--                        android:textSize="24sp"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                </LinearLayout>-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <RelativeLayout
+                            android:id="@+id/rleGoldWallet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1">
+
+
+                            <ImageView
+                                android:id="@+id/imgGoldWallet"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginLeft="@dimen/height_25"
+                                android:src="@drawable/goldwallet" />
+
+                            <TextView
+                                android:id="@+id/txtGoldWallet"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/imgGoldWallet"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="@string/egold_wallet"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent" />
+
+                        <!--  <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_weight="wrap_content"
+                    android:layout_height="match_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:background="@color/colorblack"
+                        android:layout_height="match_parent"/>
+                </RelativeLayout>-->
+
+
+                        <RelativeLayout
+                            android:id="@+id/rlAddGold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal">
+
+                            <ImageView
+                                android:id="@+id/imgAddGold"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginLeft="@dimen/height_25"
+                                android:src="@drawable/addgold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/imgAddGold"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="@string/add_gold"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rleTransferGold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/imgTransferGold"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginLeft="@dimen/height_25"
+                                android:src="@drawable/transfergold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/imgTransferGold"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="@string/gift"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+                            <!--                        android:text="Transfer"-->
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlSellGold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imgSaleGold"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginLeft="@dimen/height_25"
+                                android:src="@drawable/goldsell" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/imgSaleGold"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Sell"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLittleGraylight" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/height_10"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+
+                        android:weightSum="3">
+
+                        <RelativeLayout
+                            android:id="@+id/rlMoneyWallet"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imgMoneyWallet"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginLeft="@dimen/height_25"
+                                android:src="@drawable/moneywallet" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/imgMoneyWallet"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Money Wallet"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent" />
+
+                        <!--   <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_weight="wrap_content"
+                    android:layout_height="match_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:background="@color/colorblack"
+                        android:layout_height="match_parent"/>
+                </RelativeLayout>-->
+
+
+                        <RelativeLayout
+                            android:id="@+id/rlAddMoney"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imgAddMoney"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/addmoney" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgAddMoney"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="@string/add_money"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlTransferMoney"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/imgTransferMoney"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/moneytransfer" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgTransferMoney"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Transfer"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+                            <!--                        android:text="Transfer"-->
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlWithdrawMoney"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/imgWithdrawMoney"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginLeft="25dp"
+                                android:src="@drawable/withdrawmoney" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgWithdrawMoney"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Withdraw"
+                                android:textColor="@color/black"
+                                android:textSize="13dp" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLittleGraylight" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/height_10"
+                        android:layout_marginTop="@dimen/height_10"
+                        android:text="Services"
+                        android:textColor="@color/colorblack"
+                        android:textSize="@dimen/height_15"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="6dp">
+
+                            <ImageView
+                                android:id="@+id/imgGoldBooking"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/goldbooking" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgWithdrawMoney"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="My Booking"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.8dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/colorLittleGraylight" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="6dp">
+
+                            <ImageView
+                                android:id="@+id/imgPayInstallment"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/installment" />
+
+                            <TextView
+                                android:id="@+id/paytxt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgWithdrawMoney"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:gravity="center_horizontal"
+                                android:text="Pay"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/paytxt"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Installment"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.8dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/colorLittleGraylight" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="6dp">
+
+                            <ImageView
+                                android:id="@+id/imgGoldDeposite"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/depos" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgWithdrawMoney"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Deposit Gold"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.8dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/colorLittleGraylight" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="6dp">
+
+                            <ImageView
+                                android:id="@+id/imgPlan"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/plan1" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgWithdrawMoney"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Plan"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.8dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/colorLittleGraylight" />
+
+                        <LinearLayout
+                            android:id="@+id/loanServiceLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="6dp">
+
+                            <ImageView
+                                android:id="@+id/imgLoan"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/addgold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgWithdrawMoney"
+                                android:layout_marginTop="@dimen/height_5"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:text="Loan"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+
+                            <ImageView
+                                android:id="@+id/imgVender"
+                                android:layout_width="200dp"
+                                android:layout_height="200dp"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_search"
+                                android:elevation="@dimen/height_10"
+                                android:padding="@dimen/height_10"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/associate" />
+
+                            <TextView
+                                android:id="@+id/associate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="10dp"
+                                android:text="Associate"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="100dp"
+                            android:orientation="vertical"
+                            android:padding="5dp"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/imgRefer"
+                                android:layout_width="160dp"
+                                android:layout_height="160dp"
+                                android:layout_margin="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_search"
+                                android:elevation="@dimen/height_10"
+                                android:padding="@dimen/height_10"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/refer_earn" />
+
+                            <TextView
+                                android:id="@+id/referEarn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="10dp"
+                                android:text="Refer &amp;Earn"
+                                android:textColor="@color/colorPrimary" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/txtVendorOffer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/height_10"
+                        android:layout_marginTop="@dimen/height_10"
+                        android:text="Offers"
+                        android:textColor="@color/colorblack"
+                        android:textSize="@dimen/height_15"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_vendorOffer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/height_10"
+                        android:layout_marginRight="@dimen/height_10"
+                        android:visibility="gone" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/height_10"
+                        android:layout_marginTop="8dp"
+                        android:text="Membership"
+                        android:textColor="@color/colorblack"
+                        android:textSize="@dimen/height_15"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardTransactionHistory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="#fff"
+                        app:cardCornerRadius="1dp"
+                        app:cardElevation="10dp"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:id="@+id/rlMembershipCard"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/membershipcardlifetime">
+
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="88dp" />
+
+                            <ImageView
+                                android:id="@+id/imgClient"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginLeft="250dp"
+                                android:layout_marginTop="65dp"
+                                android:layout_marginRight="@dimen/height_20"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/grayavator" />
+
+                            <TextView
+                                android:id="@+id/txtClientName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgClient"
+                                android:layout_alignStart="@+id/imgClient"
+                                android:singleLine="true"
+                                android:text="shivraj babule"
+                                android:textColor="@color/colorblack"
+                                android:textSize="@dimen/height_10" />
+
+                            <TextView
+                                android:id="@+id/txtCrnNo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtClientName"
+                                android:layout_alignStart="@+id/imgClient"
+                                android:layout_marginTop="0dp"
+                                android:text="CRN-405"
+                                android:textColor="@color/colorblack"
+                                android:textSize="@dimen/height_10" />
+
+                            <TextView
+                                android:id="@+id/txtValiditydate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/txtCrnNo"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginRight="@dimen/height_10"
+                                android:layout_marginBottom="7dp"
+                                android:text="20-10-2018"
+                                android:textColor="@color/colorwhite"
+                                android:textSize="@dimen/height_12" />
+
+
+                        </RelativeLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="5dp">
+
+                        <!--                    <LinearLayout-->
+                        <!--                        android:id="@+id/layout"-->
+                        <!--                        android:layout_width="300dp"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_margin="10dp"-->
+                        <!--                        android:layout_gravity="center"-->
+                        <!--                        android:background="@drawable/roundborder1"-->
+                        <!--                        android:backgroundTint="@color/colorPrimary"-->
+                        <!--                        android:orientation="horizontal"-->
+                        <!--                        android:padding="5dp">-->
+
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="40dp"-->
+                        <!--                            android:layout_height="40dp"-->
+                        <!--                            android:layout_marginStart="70dp"-->
+                        <!--                            android:src="@drawable/bookgoldbtnlmg"-->
+                        <!--                            app:civ_border_color="@color/colorPrimary"-->
+                        <!--                            app:civ_circle_background_color="@color/colorPrimary" />-->
+
+
+                        <!--                        <Button-->
+                        <!--                            android:id="@+id/btnBookGold"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_weight="1"-->
+                        <!--                            android:layout_marginStart="5dp"-->
+                        <!--                            android:background="@color/colorPrimary"-->
+                        <!--                            android:text="Book Gold"-->
+
+                        <!--                            android:textAlignment="textStart"-->
+                        <!--                            android:textColor="@color/colorwhite" />-->
+
+                        <!--                    </LinearLayout>-->
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--                <Button-->
+                    <!--                    android:id="@+id/btnBookGold"-->
+                    <!--                    android:layout_width="250dp"-->
+                    <!--                    android:drawableStart="@drawable/bookgoldbtnlmg"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_gravity="center"-->
+                    <!--                    android:layout_weight="1"-->
+                    <!--                    android:background="@drawable/round_border"-->
+                    <!--                    android:backgroundTint="#7a1632"-->
+                    <!--                    android:text="Book Gold"-->
+
+                    <!--                    android:textColor="@color/colorwhite" />-->
+
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

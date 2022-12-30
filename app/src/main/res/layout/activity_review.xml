@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ReviewActivity">
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:rating="1"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/edt_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:backgroundTint="@color/colorblack"
+        android:layout_marginLeft="@dimen/height_15"
+        android:layout_marginRight="@dimen/height_15"
+        android:layout_below="@+id/ratingBar"
+        android:hint="Comment"
+        android:imeOptions="actionNext"
+        android:background="@drawable/rounded_search"
+        android:padding="8dp"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:layout_marginTop="@dimen/height_15"/>
+
+
+    <Button
+        android:id="@+id/btnSubmitReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_marginRight="@dimen/height_15"
+        android:layout_marginLeft="@dimen/height_15"
+        android:layout_marginTop="@dimen/height_15"
+        android:textColor="@color/colorwhite"
+        android:layout_below="@+id/edt_comment"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/roundborder1"/>
+
+
+</RelativeLayout>

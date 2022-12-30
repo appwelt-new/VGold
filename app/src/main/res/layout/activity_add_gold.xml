@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        tools:context=".activities.AddGoldActivity">
+
+        <LinearLayout
+            android:id="@+id/llGold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/height_10"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center_horizontal"
+                android:text="Gold Purchase Rate Per/GM"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/txtGoldRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/txtViewForGold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llGold"
+            android:layout_marginTop="@dimen/height_30"
+            android:fontFamily="sans-serif-medium"
+            android:text="Enter Amount For Gold Purchase"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/llGold"
+            tools:layout_editor_absoluteX="10dp" />
+
+        <LinearLayout
+            android:id="@+id/llConversion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtViewForGold"
+            android:layout_marginLeft="@dimen/height_10"
+            android:layout_marginTop="@dimen/height_20"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_constraintTop_toBottomOf="@id/txtViewForGold">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In Rupees (₹)"
+                    android:textSize="14dp" />
+
+
+                <EditText
+                    android:id="@+id/edtAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/height_40"
+                    android:background="@drawable/border_for_plane_edittext_background"
+                    android:hint="Enter Amount"
+                    android:inputType="numberDecimal"
+                    android:maxLength="6"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_below="@+id/edtAmount"
+                    android:layout_marginTop="@dimen/height_10"
+                    android:layout_marginRight="@dimen/height_30"
+                    android:background="@color/colorblack" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In Grams (gm)"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/txtGoldWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/height_40"
+                    android:background="@drawable/border_for_plane_edittext_background"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_below="@+id/txtGoldWeight"
+                    android:layout_marginTop="@dimen/height_10"
+                    android:layout_marginRight="@dimen/height_30"
+                    android:background="@color/colorblack" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llConversion"
+            android:layout_marginTop="@dimen/height_15"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/llConversion">
+
+            <Spinner
+                android:id="@+id/spinner_payment_option"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
+
+                android:entries="@array/payment_option"
+                android:padding="@dimen/height_5" />
+
+            <LinearLayout
+                android:id="@+id/llCheque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtBankDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Bank Details"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edtChequeNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Cheque Number"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRTGS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtRtgsBankDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Bank Details"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edtTxnId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Transaction Id"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnProceedToPayment"
+                style="@style/Button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llPayment"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/height_10"
+                android:layout_marginTop="@dimen/height_20"
+                android:layout_marginRight="@dimen/height_10"
+                android:background="@drawable/roundborder1"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Proceed to Payment" />
+
+            <Button
+                android:visibility="gone"
+                android:id="@+id/btnShareBankDetails"
+                style="@style/Button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnProceedToPayment"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/height_10"
+                android:layout_marginTop="@dimen/height_20"
+                android:layout_marginRight="@dimen/height_10"
+                android:background="@drawable/roundborder1"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Share Bank Details" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/llPayment"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/llPayment">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bnkdetCnstrnt"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp">
+
+                <ImageView
+                    android:id="@+id/bnkdetiv"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/bankdetails"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/shreiv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:elevation="2dp"
+                    android:src="@drawable/ic_share1"
+                    app:layout_constraintEnd_toEndOf="@id/bnkdetiv"
+                    app:layout_constraintTop_toTopOf="@id/bnkdetiv" />
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/bnkdethideiv"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="540px"-->
+                <!--                    android:layout_marginTop="32dp"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintHorizontal_bias="0.822"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="@id/bnkdetiv" />-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

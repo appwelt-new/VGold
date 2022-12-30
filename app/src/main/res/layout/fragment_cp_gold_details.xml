@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etGoldSearch"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_search"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:focusableInTouchMode="true"
+        android:hint="Search by booking id, gold weight, date"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:singleLine="true"
+        android:textColor="@color/colorblack"
+        android:textColorHint="@color/colorfaintblack"
+        android:textCursorDrawable="@null"
+        android:textSize="14sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerGoldDetails"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/etGoldSearch"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/noData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:text="No Bookings Available"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:textColor="@color/colorfaintblack"
+        android:textSize="@dimen/size_medium"
+        android:visibility="gone"/>
+
+</RelativeLayout>

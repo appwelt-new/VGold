@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ChannelPartnerActivity">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_horizontal"
+        android:background="@color/colorPrimary">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etUserSearch"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/add_patient"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_search_white"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:focusableInTouchMode="true"
+            android:hint="Search by Name, CRN No, Mobile No, Email"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff"
+            android:textCursorDrawable="@null"
+            android:textSize="15dp"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginTop="50dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:padding="@dimen/height_5">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/height_5">
+
+                <TextView
+                    android:id="@+id/txtUserCountr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="0"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"
+                    android:textColor="@color/colorblack"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="Users"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorblack"
+                    android:textSize="@dimen/size_medium" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/txtName"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginRight="@dimen/height_5"
+                android:background="@color/colorblack" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/totCommission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_toRightOf="@+id/rltest"
+                android:layout_marginRight="@dimen/height_5">
+
+                <TextView
+                    android:id="@+id/txtCommission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="0"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"
+                    android:textColor="@color/colorblack"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="Commission"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorblack"
+                    android:textSize="@dimen/size_medium" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/txtName"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginRight="@dimen/height_5"
+                android:background="@color/colorblack" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_toRightOf="@+id/totCommission"
+                android:layout_marginRight="@dimen/height_5">
+
+                <TextView
+                    android:id="@+id/txtGold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="0g"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"
+                    android:textColor="@color/colorblack"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="Gold Booking"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorblack"
+                    android:textSize="@dimen/size_medium" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRating1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp"
+        android:layout_below="@+id/cardView"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="@dimen/height_5">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginRight="@dimen/height_5"
+                android:text="Priyanka"
+                android:drawableTint="@color/colorblack"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/height_20"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/dateSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/txtName"
+                android:layout_marginTop="@dimen/height_5"
+                android:background="@color/colorblack" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/rltest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dateSeparator"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/height_5">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/gold_coin_progress" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Gold booked"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium" />
+
+
+                <TextView
+                    android:id="@+id/tvGoldVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="100g"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/emiLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rltest"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/height_5">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/emi" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payable EMI "
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"/>
+
+
+                <TextView
+                    android:id="@+id/tvEmiAmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="10000 Rs"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/emiStatusLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emiLL"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/height_5">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/status" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EMI Status"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"/>
+
+
+                <TextView
+                    android:id="@+id/emiStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="Paid"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/commessionLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emiStatusLL"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/height_5">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/commission" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="Commission earned"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium" />
+
+                <TextView
+                    android:id="@+id/tvCommisonVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="5000"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="@dimen/size_medium"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardRating1"/>
+
+    <TextView
+        android:id="@+id/noData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:text="No Users Available"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:textColor="@color/colorfaintblack"
+        android:textSize="@dimen/size_medium"
+        android:visibility="gone"/>
+
+</RelativeLayout>

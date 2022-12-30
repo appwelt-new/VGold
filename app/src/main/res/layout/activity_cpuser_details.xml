@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CPUserDetailsActivity">
+
+    <LinearLayout
+        android:id="@+id/userDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:foregroundGravity="center_horizontal"
+            android:padding="5dp"
+            android:src="@drawable/black_user" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorwhite"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="@dimen/height_5">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginRight="@dimen/height_5"
+                android:textSize="@dimen/height_15"
+                android:textColor="@color/colorblack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtMobNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginRight="@dimen/height_5"
+                android:textSize="@dimen/height_15"
+                android:textColor="@color/colorblack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginRight="@dimen/height_5"
+                android:textSize="@dimen/height_15"
+                android:textColor="@color/colorblack"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCommission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/height_5"
+                android:layout_marginRight="@dimen/height_5"
+                android:textSize="@dimen/height_15"
+                android:textColor="@color/colorblack"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userDetails"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/colorwhite"
+        app:tabIndicatorHeight="2dp"
+        app:tabInlineLabel="true"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/colorwhite"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:tabTextColor="@color/colorwhite"
+        tools:ignore="UnusedAttribute" />
+
+    <com.cognifygroup.vgold.CPModule.CustomViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewPager"
+        android:layout_below="@+id/tabLayout"
+        android:background="@color/colorwhite"/>
+
+
+</RelativeLayout>

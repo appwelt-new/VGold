@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PayActivity">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_below="@+id/txtName"
+        android:layout_marginTop="@dimen/height_10"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/height_12"
+        android:layout_marginRight="@dimen/height_10"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wallet Balance"
+            android:layout_weight="1"
+            android:textSize="@dimen/height_20"/>
+
+        <TextView
+            android:id="@+id/txtWalletBalence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorgreen"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/height_20"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginLeft="@dimen/height_10"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtMobile"
+        android:layout_below="@+id/ll"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginLeft="@dimen/height_10"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:id="@+id/llGold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:layout_below="@+id/txtMobile"
+        android:layout_marginTop="@dimen/height_10">
+
+        <TextView
+            android:id="@+id/tt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gold Current Rate Per/GM"
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/txtGoldRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="@dimen/height_15"
+        android:background="@color/colorblack"
+        android:layout_below="@+id/llGold"/>
+
+
+
+    <TextView
+        android:id="@+id/txtViewForGold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llGold"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/height_30"
+        android:layout_marginLeft="@dimen/height_10"
+        android:text="Enter Amount For Gold Transfer"/>
+
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/txtViewForGold">
+
+
+
+        <LinearLayout
+            android:id="@+id/acg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/height_10"
+            android:layout_marginTop="@dimen/height_20"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In Grams (gm)"/>
+
+
+                <EditText
+                    android:id="@+id/edtGoldWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:maxLength="6"
+                    android:layout_marginTop="@dimen/height_40"
+                    android:background="@drawable/border_for_plane_edittext_background"
+                    android:hint="Gold Weight"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginRight="@dimen/height_30"
+                    android:layout_marginTop="@dimen/height_10"
+                    android:background="@color/colorblack"
+                    android:layout_below="@+id/edtGoldWeight"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/height_5"
+                android:layout_weight="0.4">
+
+                <ImageView
+                    android:id="@+id/imgSwap1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/swap"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In Rupees (₹)"/>
+
+                <TextView
+                    android:id="@+id/txtSellAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/height_18"
+                    android:textStyle="bold"
+                    android:background="@drawable/border_for_plane_edittext_background"
+                    android:layout_marginTop="@dimen/height_40" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginRight="@dimen/height_30"
+                    android:layout_marginTop="@dimen/height_10"
+                    android:background="@color/colorblack"
+                    android:layout_below="@+id/txtSellAmount"/>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llConversion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:layout_below="@+id/txtViewForGold"
+            android:layout_marginLeft="@dimen/height_10"
+            android:layout_marginTop="@dimen/height_20"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In Rupees (₹)"/>
+
+
+                <EditText
+                    android:id="@+id/edtAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:maxLength="6"
+                    android:layout_marginTop="@dimen/height_40"
+                    android:background="@drawable/border_for_plane_edittext_background"
+                    android:hint="Enter Amount"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginRight="@dimen/height_30"
+                    android:layout_marginTop="@dimen/height_10"
+                    android:background="@color/colorblack"
+                    android:layout_below="@+id/edtAmount"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/height_5"
+                android:layout_weight="0.4">
+
+                <ImageView
+                    android:id="@+id/imgSwap"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/swap"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="In Grams (gm)"/>
+
+                <TextView
+                    android:id="@+id/txtGoldWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/height_18"
+                    android:textStyle="bold"
+                    android:background="@drawable/border_for_plane_edittext_background"
+                    android:layout_marginTop="@dimen/height_40" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginRight="@dimen/height_30"
+                    android:layout_marginTop="@dimen/height_10"
+                    android:background="@color/colorblack"
+                    android:layout_below="@+id/txtGoldWeight"/>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/btnAddGoldWallet"
+        android:text="Add Gold To Wallet "
+        android:layout_marginTop="@dimen/height_10"
+        android:layout_below="@+id/llMain"
+        android:background="@drawable/border_for_button"
+        android:textColor="@color/colorwhite"
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/height_10"
+        android:layout_marginLeft="@dimen/height_10"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_below="@+id/llMain"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginLeft="@dimen/height_10"
+        android:text="This number is not register with vighnaharta gold, you can refer your friend to register on vighnaharta gold app."
+        android:textColor="@color/colorred"
+        android:visibility="gone"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnRefer"
+        android:text="Refer "
+        android:layout_marginTop="@dimen/height_10"
+        android:layout_below="@+id/txtError"
+        android:background="@drawable/border_for_button"
+        android:textColor="@color/colorwhite"
+        android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/height_10"
+        android:layout_marginLeft="@dimen/height_10"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btnPay"
+        android:text="Pay"
+        android:layout_below="@+id/llMain"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="@dimen/height_10"
+        android:background="@drawable/roundborder1"
+        style="@style/Button"
+        android:layout_width="300dp"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="wrap_content" />
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:text="Would you like to process with the below deductions?"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorwhite"
+        android:textSize="16sp"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtPayableAmtId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorblack"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/txtWalletAmtId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorblack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtSaleRateId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorblack"
+                android:textSize="15sp"/>
+
+
+            <TextView
+                android:id="@+id/txtGSTAmtId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorblack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtGSTPayableAmtId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorblack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtDeductedGoldId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorblack"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/txtBalanceRemainId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorblack"
+                android:textSize="15sp" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnYes"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/api"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginTop="@dimen/height_20"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_for_button"
+                    android:text="YES"
+                    android:textColor="@color/colorwhite" />
+
+                <Button
+                    android:id="@+id/btnNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/api"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginTop="@dimen/height_20"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_for_button"
+                    android:text="NO"
+                    android:textColor="@color/colorwhite" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
+
+

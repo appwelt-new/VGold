@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoanActivity">
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/loanLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/loanEligibleAmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/height_20"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorblack"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/amtLbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/loanEligibleAmt"
+            android:layout_marginTop="15dp"
+            android:text="How much you are applying for?"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edtPayableAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/amtLbl"
+            android:layout_marginTop="6dp"
+            android:hint="Enter Amount"
+            android:inputType="numberDecimal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorblack" />
+
+        <TextView
+            android:id="@+id/reasonLbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtPayableAmount"
+            android:layout_marginTop="10dp"
+            android:text="Reason of taking loan?"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reasonLbl"
+            android:layout_marginTop="6dp"
+            android:entries="@array/loan_array" />
+
+
+        <Button
+            android:id="@+id/btnApply"
+            style="@style/Button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerReason"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/height_10"
+            android:layout_marginTop="@dimen/height_20"
+            android:layout_marginRight="@dimen/height_10"
+            android:background="@drawable/roundborder1"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Apply"
+            android:visibility="visible" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/height_10"
+        android:layout_marginTop="@dimen/height_10"
+        android:layout_weight="1"
+        android:text="Not eligible for loan"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/height_5"
+    android:layout_marginRight="@dimen/height_5"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/height_10"
+        android:layout_marginTop="8dp"
+        android:text="Membership"
+        android:textColor="@color/colorblack"
+        android:textSize="@dimen/height_15"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTransactionHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="1dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:id="@+id/rlMembershipCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/membershipcardlifetime">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="88dp" />
+
+            <ImageView
+                android:id="@+id/imgClient"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginRight="@dimen/height_20"
+                android:scaleType="fitXY"
+                android:src="@drawable/grayavator" />
+
+            <TextView
+                android:id="@+id/txtClientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgClient"
+                android:layout_alignStart="@+id/imgClient"
+                android:singleLine="true"
+                android:text="shivraj babule"
+                android:textColor="@color/colorblack"
+                android:textSize="@dimen/height_10" />
+
+            <TextView
+                android:id="@+id/txtCrnNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtClientName"
+                android:layout_alignStart="@+id/imgClient"
+                android:layout_marginTop="0dp"
+                android:text="CRN-405"
+                android:textColor="@color/colorblack"
+                android:textSize="@dimen/height_10" />
+
+            <TextView
+                android:id="@+id/txtValiditydate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCrnNo"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="@dimen/height_10"
+                android:layout_marginBottom="7dp"
+                android:text="20-10-2018"
+                android:textColor="@color/colorwhite"
+                android:textSize="@dimen/height_12" />
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
+
+

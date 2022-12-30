@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ReferActivity">
+
+
+    <LinearLayout
+        android:id="@+id/llar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/height_10">
+
+        <ImageView
+            android:id="@+id/imgContact"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:src="@drawable/phonebook"/>
+
+        <EditText
+            android:id="@+id/edtNameR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorblack"
+            android:hint="Enter Name"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/height_5"/>
+
+        <EditText
+            android:id="@+id/edtEmailR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorblack"
+            android:hint="Enter Email"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
+            android:layout_marginTop="@dimen/height_5"/>
+
+        <EditText
+            android:id="@+id/edtMobileR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorblack"
+            android:hint="Enter Mobile No"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            android:singleLine="true"
+            android:layout_marginTop="@dimen/height_5"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSubmitR"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llar"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="@dimen/height_10"
+        android:gravity="center"
+        android:background="@drawable/roundborder1"
+        android:text="Refer"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorwhite"/>
+
+</RelativeLayout>

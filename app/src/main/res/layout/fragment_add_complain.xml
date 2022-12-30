@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.AddComplainFragment">
+
+    <EditText
+        android:id="@+id/edt_complain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:backgroundTint="@color/colorblack"
+        android:layout_marginLeft="@dimen/height_15"
+        android:background="@drawable/rounded_search"
+        android:padding="8dp"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:layout_marginRight="@dimen/height_15"
+        android:hint="@string/enter_complaint"
+        android:imeOptions="actionNext"
+        android:layout_marginTop="@dimen/height_15"/>
+
+
+    <Button
+        android:id="@+id/btnSubmitComplain"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/submit"
+        android:layout_marginRight="@dimen/height_15"
+        android:layout_marginLeft="@dimen/height_15"
+        android:layout_marginTop="@dimen/height_15"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorwhite"
+        android:layout_below="@+id/edt_complain"
+        android:background="@drawable/round_border"/>
+
+
+</RelativeLayout>

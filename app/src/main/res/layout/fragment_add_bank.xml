@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.AddBankFragment">
+
+
+    <LinearLayout
+        android:id="@+id/lladd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/height_10">
+
+        <TextView
+            android:id="@+id/addBanktxt"
+            android:text="Add New Bank Details"
+            android:textColor="#f6b428"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <EditText
+            android:id="@+id/edtBankName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorblack"
+            android:hint="Enter Bank Name"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:textSize="15dp"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/height_5"/>
+
+        <EditText
+            android:id="@+id/edtBranch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorblack"
+            android:hint="@string/enter_branch"
+            android:singleLine="true"
+            android:textSize="15dp"
+            android:imeOptions="actionNext"
+            android:layout_marginTop="@dimen/height_5"/>
+
+        <EditText
+            android:id="@+id/edtAcc_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:backgroundTint="@color/colorblack"
+            android:hint="@string/enter_account_number"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:layout_marginTop="@dimen/height_5"/>
+
+        <EditText
+            android:id="@+id/edtAcc_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorblack"
+            android:hint="@string/enter_account_type"
+            android:textSize="15dp"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_marginTop="@dimen/height_5"/>
+
+
+        <EditText
+            android:id="@+id/edtIfsc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:backgroundTint="@color/colorblack"
+            android:hint="@string/enter_ifsc_code"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_marginTop="@dimen/height_5"/>
+
+        <EditText
+            android:id="@+id/edtAcc_holder_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:backgroundTint="@color/colorblack"
+            android:singleLine="true"
+            android:hint="@string/enter_account_holders_name"
+            android:imeOptions="actionDone"
+            android:layout_marginTop="@dimen/height_5"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lladd"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/height_10"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginRight="@dimen/height_10"
+        android:background="@drawable/roundborder1"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Submit"
+        android:textColor="@color/colorwhite" />
+
+</RelativeLayout>

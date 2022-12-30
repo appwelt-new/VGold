@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:elevation="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/rltest"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtGoldBookingId1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fddfs"
+                android:textSize="17dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtAccountStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:textSize="17dp"
+                android:layout_toLeftOf="@+id/imgGoldBookingHistory"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageView
+                android:id="@+id/imgGoldBookingHistory"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/pdf"/>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/dateSeparator"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/rltest"
+            android:layout_marginTop="5dp"
+            android:background="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/imgPart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@id/dateSeparator"
+            android:weightSum="2">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/custom_progress_bar" />
+
+            <RelativeLayout
+                android:id="@+id/bookingDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/layoutDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
+                   >
+
+                    <TextView
+                        android:text="Booking Date"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/txtDate1"
+                        android:text=""
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/layoutDate"
+                    >
+
+                    <TextView
+                        android:text="Weight"
+                        android:textSize="14dp"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:id="@+id/txtweight1"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/layoutWeight"
+                    >
+
+                    <TextView
+                        android:text="Rate"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                       />
+
+                    <TextView
+                        android:id="@+id/txtRate1"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/layoutGoldBookingValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/layoutRate">
+
+                    <TextView
+                        android:text="Value"
+                        android:textSize="14dp"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtGoldBookingValue1"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layoutTenure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:layout_below="@id/layoutGoldBookingValue">
+
+                    <TextView
+                        android:text="Tenure"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/txtTenure1"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/totPdInstlmnt"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:visibility="invisible"/>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+        <View
+            android:id="@+id/bgoldimgSeparator"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/imgPart"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/imgPart2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@id/bgoldimgSeparator"
+            android:weightSum="2">
+
+
+            <LinearLayout
+                android:id="@+id/layoutTodayGain"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="3">
+
+                <TextView
+                    android:text="Today's Gain"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/txtGain"
+                    android:text="hh"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"/>
+
+            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/bookingAmtCharges"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/layoutBookingAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="Booking Amt"
+                        android:textSize="14dp"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtDownPayment1"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutBookingCharges"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/layoutBookingAmount">
+
+                    <TextView
+                        android:text="Booking Charge"
+                        android:textSize="14dp"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtBookingCharge1"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:id="@+id/separator3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/imgPart2"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/imgPart3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_below="@id/separator3"
+            android:weightSum="3">
+            <RelativeLayout
+                android:id="@+id/paidAmt"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/layoutPaidAmount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="Paid Amt"
+                        android:textSize="14dp"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtPaidAmt"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layoutInstallment"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/layoutPaidAmount"
+                    >
+
+                    <TextView
+                        android:text="EMI Amt"
+                        android:textSize="14dp"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtInstallment1"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/balAmt"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/layoutBalanceAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="Balance Amt"
+                        android:textSize="14dp"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtBalAmt"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layoutClosingDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/layoutBalanceAmount">
+
+                    <TextView
+
+                        android:text="Closing Date"
+                        android:textSize="14dp"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/txtClosingDate"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.cardview.widget.CardView-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:id="@+id/cardRating1"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:foreground="?android:attr/selectableItemBackground"-->
+<!--    app:cardBackgroundColor="#fff"-->
+<!--    app:cardCornerRadius="5dp"-->
+<!--    app:cardElevation="7dp"-->
+<!--    app:cardUseCompatPadding="true">-->
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="@dimen/height_5">-->
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/rltest"-->
+<!--            android:layout_marginLeft="@dimen/height_15"-->
+<!--            android:layout_marginRight="@dimen/height_15"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtDate1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="wewe"-->
+<!--                android:textAppearance="?android:attr/textAppearanceMedium" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtAccountStatus"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginRight="@dimen/height_10"-->
+<!--                android:layout_toLeftOf="@+id/imgGoldBookingHistory"-->
+<!--                android:textAppearance="?android:attr/textAppearanceMedium" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/imgGoldBookingHistory"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:src="@drawable/pdf"/>-->
+
+<!--        </RelativeLayout>-->
+
+<!--        <View-->
+<!--            android:id="@+id/dateSeparator"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0.5dp"-->
+<!--            android:layout_below="@+id/rltest"-->
+<!--            android:layout_marginTop="@dimen/height_5"-->
+<!--            android:background="@color/colorblack" />-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/ll"-->
+<!--            android:layout_below="@+id/dateSeparator"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="3">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtGoldBookingId1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_marginLeft="@dimen/height_15"-->
+<!--                android:layout_marginTop="@dimen/height_20"-->
+<!--                android:layout_toLeftOf="@+id/txtRupee"-->
+<!--                android:layout_toRightOf="@+id/imageViewExercise"-->
+<!--                android:text="fddfs"-->
+<!--                android:textAppearance="?android:attr/textAppearanceMedium"-->
+<!--                android:textStyle="bold" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtGoldQty1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="2"-->
+<!--                android:layout_below="@+id/dateSeparator"-->
+<!--                android:layout_marginRight="@dimen/height_20"-->
+<!--                android:layout_marginTop="@dimen/height_20"-->
+<!--                android:visibility="gone"-->
+<!--                android:textAppearance="?android:attr/textAppearanceMedium"-->
+<!--                android:textStyle="bold" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/data"-->
+<!--            android:layout_marginLeft="@dimen/height_10"-->
+<!--            android:layout_marginTop="@dimen/height_10"-->
+<!--            android:layout_marginBottom="5dp"-->
+<!--            android:layout_below="@+id/ll"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutRate"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Rate"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtRate1"-->
+<!--                    android:text="Rs."-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutGoldBookingValue"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Gold Booking Value"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtGoldBookingValue1"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutBookingCharges"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Booking Charge"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtBookingCharge1"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutBookingAmount"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Booking Amount"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtDownPayment1"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutInstallment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Installment"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtInstallment1"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutTenure"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Tenure"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtTenure1"-->
+<!--                    android:text=""-->
+
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutPaidAmount"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Paid Amount"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtPaidAmt"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutBalanceAmount"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Balance Amount"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtBalAmt"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutTodayGain"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+<!--                    android:text="Today's Gain"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtGain"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layoutClosingDate"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <TextView-->
+
+<!--                    android:text="Closing Date"-->
+<!--                    android:layout_marginLeft="@dimen/height_10"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtClosingDate"-->
+<!--                    android:text=""-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"/>-->
+
+<!--            </LinearLayout>-->
+
+
+
+
+<!--        </LinearLayout>-->
+
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/layoutLogo"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:layout_below="@+id/data">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/totPdInstlmnt"-->
+<!--                android:layout_width="10dp"-->
+<!--                android:layout_height="10dp"-->
+<!--                android:visibility="invisible"/>-->
+
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progressBar"-->
+<!--                style="@android:style/Widget.ProgressBar.Horizontal"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="150dp"-->
+<!--                android:indeterminate="false"-->
+<!--                android:progressDrawable="@drawable/custom_progress_bar" />-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/closeLayout"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:layout_marginRight="6dp"-->
+<!--                android:background="@color/colorred"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:visibility="gone">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Closed"-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:padding="4dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:gravity="center"-->
+<!--                    android:textColor="@color/colorwhite"/>-->
+
+<!--            </LinearLayout>-->
+
+<!--        </RelativeLayout>-->
+
+
+<!--    </RelativeLayout>-->
+
+<!--</androidx.cardview.widget.CardView>-->
+

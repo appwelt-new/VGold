@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/user"
+            android:title="Profile" />
+
+        <item
+            android:id="@+id/nav_certificate"
+            android:icon="@drawable/membershipcardlifetime"
+            android:title="Certificates" />
+
+        <item
+            android:id="@+id/nav_goldBookingHistory"
+            android:icon="@drawable/bookinghistory"
+            android:title="Gold Booking History"/>
+        <item
+            android:id="@+id/nav_goldDepositeHistory"
+            android:icon="@drawable/bookinghistory"
+            android:title="Gold Deposit History"/>
+
+        <item
+            android:id="@+id/nav_membership"
+            android:icon="@drawable/membershipcardlifetime"
+            android:title="Membership" />
+        <item
+            android:id="@+id/nav_eGoldWallet"
+            android:icon="@drawable/addgold"
+            android:title="eGold Wallet" />
+        <item
+            android:id="@+id/nav_moneyWallet"
+            android:icon="@drawable/wallet"
+            android:title="Money Wallet" />
+        <item
+            android:id="@+id/nav_payInstallment"
+            android:icon="@drawable/payinstallment"
+            android:title="Pay Installment" />
+        <item
+            android:id="@+id/nav_addBank"
+            android:icon="@drawable/bank"
+            android:title="Add Bank" />
+
+        <item
+            android:id="@+id/nav_channel_partner"
+            android:icon="@drawable/ic_baseline_groups_24"
+            android:title="Channel Partner" />
+
+        <item
+            android:id="@+id/nav_review"
+            android:icon="@drawable/ic_baseline_comment_24"
+            android:title="Review" />
+
+
+        <item
+            android:id="@+id/nav_addComplain"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Complaint" />
+
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_baseline_feedback_24"
+            android:title="Feedback" />
+
+
+        <item
+            android:id="@+id/nav_Share"
+            android:icon="@drawable/share"
+            android:title="Share" />
+        <item
+            android:id="@+id/nav_refer"
+            android:icon="@drawable/share"
+            android:title="Refer To Friend" />
+
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+    </group>
+
+</menu>

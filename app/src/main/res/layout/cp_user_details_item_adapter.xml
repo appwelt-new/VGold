@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detailLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@color/colorwhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/height_5">
+
+<!--        <ImageView-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/gold_coin_progress" />-->
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/height_5"
+            android:layout_marginRight="@dimen/height_5"
+            android:layout_weight="1"
+            android:text="X"
+            android:background="@color/bright_orange"
+            android:textColor="@color/colorblack"
+            android:textSize="@dimen/height_15" />
+
+<!--        <TextView-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="@dimen/height_5"-->
+<!--            android:layout_marginRight="@dimen/height_5"-->
+<!--            android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"-->
+<!--            android:drawableTint="@color/colorblack"-->
+<!--            android:textAppearance="?android:attr/textAppearanceMedium"-->
+<!--            android:textSize="@dimen/height_20" />-->
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/dateSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/txtName"
+        android:background="@color/colorblack" />
+
+
+</LinearLayout>

@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegistrationActivity">
+
+    <RelativeLayout
+        android:id="@+id/rlayout_toolbar_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_subservices"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <TextView
+                android:id="@+id/tv_toolbarservice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Sign Up"
+                android:textSize="15sp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorwhite" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:src="@drawable/vlogo" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rlayout_toolbar_signup">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/circularPicProfile">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                android:padding="@dimen/height_10">
+
+                <TextView
+                    android:id="@+id/regtxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Registration Form"
+                    android:textColor="#f6b428"
+                    android:textSize="20sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="First Name"
+                    app:errorTextColor="#f6b428"
+                    android:textColorHint="@color/colorfaintblack"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true"
+                    app:boxCornerRadiusBottomEnd="@dimen/height_10"
+                    app:boxCornerRadiusBottomStart="@dimen/height_10"
+                    app:boxCornerRadiusTopEnd="@dimen/height_10"
+                    app:boxCornerRadiusTopStart="@dimen/height_10"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/HintText">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtfirst"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:drawableLeft="@drawable/person"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--<LinearLayout
+                    android:id="@+id/layout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/black_user" />
+
+                    <EditText
+                        android:id="@+id/edtfirst"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/border_for_bottom_lineview"
+                        android:hint="First Name"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textAllCaps="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorfaintblack"
+                        android:textColorHint="@color/colorfaintblack"
+                        android:textCursorDrawable="@null" />
+
+                </LinearLayout>-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Last Name"
+                    app:errorTextColor="#f6b428"
+                    android:textColorHint="@color/colorfaintblack"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true"
+                    app:boxCornerRadiusBottomEnd="@dimen/height_10"
+                    app:boxCornerRadiusBottomStart="@dimen/height_10"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="@dimen/height_10"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/HintText">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtlast1"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/round_style"
+                        android:drawableLeft="@drawable/person"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@color/colorfaintblack"
+                        android:typeface="serif"
+                        app:met_textColor="@color/colorfaintblack" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--<LinearLayout
+                    android:id="@+id/layout_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/black_user" />
+
+                    <EditText
+                        android:id="@+id/edtlast1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/border_for_bottom_lineview"
+                        android:hint="Last Name"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorfaintblack"
+                        android:textColorHint="@color/colorfaintblack"/>
+
+                </LinearLayout>-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Email"
+                    android:textColorHint="@color/colorfaintblack"
+                    app:errorTextColor="#f6b428"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true"
+                    app:boxCornerRadiusBottomEnd="@dimen/height_10"
+                    app:boxCornerRadiusBottomStart="@dimen/height_10"
+                    app:boxCornerRadiusTopEnd="@dimen/height_10"
+                    app:boxCornerRadiusTopStart="@dimen/height_10"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/HintText">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/round_style"
+                        android:drawableLeft="@drawable/email"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@color/colorfaintblack"
+                        android:typeface="serif"
+                        app:met_textColor="@color/colorfaintblack" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--<LinearLayout
+                    android:id="@+id/layout_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/email" />
+
+                    <EditText
+                        android:id="@+id/edtmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/border_for_bottom_lineview"
+                        android:hint="Email"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textAllCaps="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorfaintblack"
+                        android:textColorHint="@color/colorfaintblack"
+                        android:textCursorDrawable="@null" />
+
+                </LinearLayout>-->
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Mobile No"
+                    app:errorTextColor="#f6b428"
+                    android:textColorHint="@color/colorfaintblack"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true"
+                    app:boxCornerRadiusBottomEnd="@dimen/height_10"
+                    app:boxCornerRadiusBottomStart="@dimen/height_10"
+                    app:boxCornerRadiusTopEnd="@dimen/height_10"
+                    app:boxCornerRadiusTopStart="@dimen/height_10"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/HintText">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtno"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/round_style"
+                        android:drawableLeft="@drawable/phone"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@color/colorfaintblack"
+                        android:typeface="serif"
+                        app:met_textColor="@color/colorfaintblack" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- <LinearLayout
+                     android:id="@+id/layout_address"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginLeft="@dimen/height_10"
+                     android:layout_marginRight="@dimen/height_10"
+                     android:layout_marginTop="10dp"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="23dp"
+                         android:layout_height="23dp"
+                         android:layout_gravity="center_vertical"
+                         android:src="@drawable/phone" />
+
+                     <EditText
+                         android:id="@+id/edtno"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_vertical"
+                         android:background="@drawable/border_for_bottom_lineview"
+                         android:hint="Mobile No"
+                         android:imeOptions="actionDone"
+                         android:inputType="phone"
+                         android:maxLines="1"
+                         android:padding="10dp"
+                         android:textAllCaps="true"
+                         android:textAppearance="?android:attr/textAppearanceMedium"
+                         android:textColor="@color/colorfaintblack"
+                         android:textColorHint="@color/colorfaintblack"
+                         android:textCursorDrawable="@null" />
+
+                 </LinearLayout>-->
+
+                <!--<com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/HintText"
+                    android:hint="Password"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/colorfaintblack"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtPass"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
+                        android:drawablePadding="5dp"
+                        android:typeface="serif"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:inputType="textPassword"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@color/colorfaintblack"
+                        app:met_textColor="@color/colorfaintblack"
+                        android:ems="10" />
+                </com.google.android.material.textfield.TextInputLayout>-->
+
+                <!-- <LinearLayout
+                     android:id="@+id/layout_password"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginLeft="@dimen/height_10"
+                     android:layout_marginRight="@dimen/height_10"
+                     android:layout_marginTop="10dp"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="23dp"
+                         android:layout_height="23dp"
+                         android:layout_gravity="center_vertical"
+                         android:src="@drawable/passwordimg" />
+
+                     <EditText
+                         android:id="@+id/edtPass"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_vertical"
+                         android:background="@drawable/border_for_bottom_lineview"
+                         android:hint="Enter Password"
+                         android:imeOptions="actionNext"
+                         android:inputType="textPassword"
+                         android:maxLines="1"
+                         android:padding="10dp"
+                         android:textAllCaps="true"
+                         android:textAppearance="?android:attr/textAppearanceMedium"
+                         android:textColor="@color/colorfaintblack"
+                         android:textColorHint="@color/colorfaintblack"
+                         android:textCursorDrawable="@null" />
+
+                 </LinearLayout>-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_pancard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Pancard Number"
+                    app:errorTextColor="#f6b428"
+                    android:textColorHint="@color/colorfaintblack"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true"
+                    app:boxCornerRadiusBottomEnd="@dimen/height_10"
+                    app:boxCornerRadiusBottomStart="@dimen/height_10"
+                    app:boxCornerRadiusTopEnd="@dimen/height_10"
+                    app:boxCornerRadiusTopStart="@dimen/height_10"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/HintText">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtPancard"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/round_style"
+                        android:drawableLeft="@drawable/credit_card"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textAllCaps="true"
+                        android:textCursorDrawable="@color/colorfaintblack"
+                        android:typeface="serif"
+                        app:met_textColor="@color/colorfaintblack" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_aadharCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Aadhar Number"
+                    app:errorTextColor="#f6b428"
+                    android:textColorHint="@color/colorfaintblack"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true"
+                    app:boxCornerRadiusBottomEnd="@dimen/height_10"
+                    app:boxCornerRadiusBottomStart="@dimen/height_10"
+                    app:boxCornerRadiusTopEnd="@dimen/height_10"
+                    app:boxCornerRadiusTopStart="@dimen/height_10"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/HintText">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtAadarCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/round_style"
+                        android:drawableLeft="@drawable/credit_card"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textAllCaps="true"
+                        android:textCursorDrawable="@color/colorfaintblack"
+                        android:typeface="serif"
+                        app:met_textColor="@color/colorfaintblack" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <!--<LinearLayout
+                    android:id="@+id/layout_pancard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/email" />
+
+                    <EditText
+                        android:id="@+id/edtPancard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/border_for_bottom_lineview"
+                        android:hint="Enter Pancard Number"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textAllCaps="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorfaintblack"
+                        android:textColorHint="@color/colorfaintblack"
+                        android:textCursorDrawable="@null" />
+
+                </LinearLayout>-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_refercode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Enter Refer Code "
+                    app:errorTextColor="#f6b428"
+                    android:textColorHint="@color/colorfaintblack"
+                    android:typeface="serif"
+                    android:windowLightStatusBar="true"
+                    app:boxCornerRadiusBottomEnd="@dimen/height_10"
+                    app:boxCornerRadiusBottomStart="@dimen/height_10"
+                    app:boxCornerRadiusTopEnd="@dimen/height_10"
+                    app:boxCornerRadiusTopStart="@dimen/height_10"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextAppearance="@style/HintText">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/edtReferCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/round_style"
+                        android:drawableLeft="@drawable/group_add"
+                        android:drawablePadding="5dp"
+                        android:ems="10"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textCursorDrawable="@color/colorfaintblack"
+                        android:typeface="serif"
+                        app:met_textColor="@color/colorfaintblack" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--<LinearLayout
+                    android:id="@+id/layout_refercode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_baseline_group_add_24" />
+
+                    <EditText
+                        android:id="@+id/edtReferCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/border_for_bottom_lineview"
+                        android:hint="Enter Refer Code (optional)"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textAllCaps="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorfaintblack"
+                        android:textColorHint="@color/colorfaintblack"
+                        android:textCursorDrawable="@null" />
+
+                </LinearLayout>-->
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/iv_aadharFront_Card"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginRight="@dimen/height_18"
+                        android:background="@drawable/button_selected"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_aadhar_front"
+                        app:layout_constraintEnd_toStartOf="@id/iv_aadharBack_card"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_aadharFront"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/ic_personal_identificat" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_aadhar_front"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Aadhar Front"
+                        android:typeface="serif"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/iv_aadharFront_Card"
+                        app:layout_constraintStart_toStartOf="@id/iv_aadharFront_Card"
+                        app:layout_constraintTop_toBottomOf="@id/iv_aadharFront_Card" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/iv_aadharBack_card"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:layout_marginRight="@dimen/height_18"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_aadhar_back"
+                        app:layout_constraintEnd_toStartOf="@id/iv_pancard_card"
+                        app:layout_constraintStart_toEndOf="@id/iv_aadharFront_Card"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_aadharBack"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/ic_personal_identificat" />
+
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_aadhar_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Aadhar Back"
+                        android:typeface="serif"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/iv_aadharBack_card"
+                        app:layout_constraintStart_toStartOf="@id/iv_aadharBack_card"
+                        app:layout_constraintTop_toBottomOf="@id/iv_aadharBack_card" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/iv_pancard_card"
+                        android:layout_width="0dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/button_selected"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_pan_card"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_aadharBack_card"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_pancard"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:cropToPadding="true"
+                            app:srcCompat="@drawable/ic_personal_identificat" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_pan_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Pan Card"
+                        android:typeface="serif"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/iv_pancard_card"
+                        app:layout_constraintStart_toStartOf="@id/iv_pancard_card"
+                        app:layout_constraintTop_toBottomOf="@id/iv_pancard_card" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <Button
+                    android:id="@+id/btnUploadImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llar"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:background="@drawable/border_for_button"
+                    android:gravity="center"
+                    android:padding="@dimen/height_10"
+                    android:text="Upload Document"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llar"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/height_10"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:background="@drawable/roundborder1"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:padding="@dimen/height_10"
+                    android:text="Register"
+
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@android:color/white"
+                    android:textSize="17sp" />
+
+                <Button
+                    android:id="@+id/BtnSubmitEmail"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/roundborder1"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="Reset Password"
+                    android:textSize="17sp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorwhite"
+                    app:backgroundTint="@color/colorPrimary" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

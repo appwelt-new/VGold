@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        tools:context=".activities.AddMoneyActivity">
+
+
+        <EditText
+            android:id="@+id/edtAddMoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/height_10"
+            android:layout_marginTop="@dimen/height_20"
+            android:layout_marginRight="@dimen/height_10"
+            android:background="@drawable/border_for_edittext_pay_money"
+            android:hint=" Enter Amount "
+            android:inputType="numberDecimal"
+            android:padding="@dimen/height_10"
+            android:textColorHint="@color/colorblack"
+            android:textSize="15dp" />
+
+
+        <LinearLayout
+            android:id="@+id/lladdmoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtAddMoney"
+            android:layout_marginTop="@dimen/height_15"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinner_payment_option1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
+                android:entries="@array/payment_option1"
+                android:padding="@dimen/height_5"></Spinner>
+
+            <LinearLayout
+                android:id="@+id/llCheque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtBankDetail1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Bank Details"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edtChequeNo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Cheque Number"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llRTGS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtRtgsBankDetail1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Bank Details"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edtTxnId1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Transaction Id"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnAddMoney"
+            style="@style/Button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lladdmoney"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/height_20"
+            android:layout_marginRight="@dimen/height_10"
+            android:background="@drawable/roundborder1"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Add Money" />
+
+        <Button
+            android:id="@+id/btnShareBankDetails"
+            style="@style/Button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnAddMoney"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/height_20"
+            android:layout_marginRight="@dimen/height_10"
+            android:background="@drawable/roundborder1"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Share Bank Details"
+            android:visibility="gone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutimage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnShareBankDetails"
+            android:layout_marginTop="30dp">
+
+            <ImageView
+                android:id="@+id/bnkdetiv"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="40dp"
+                android:src="@drawable/bankdetails"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutimage" />
+
+            <ImageView
+                android:id="@+id/shreiv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:elevation="2dp"
+                android:src="@drawable/ic_share1"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@id/bnkdetiv"
+                app:layout_constraintTop_toTopOf="@id/bnkdetiv" />
+
+            <!--            <ImageView-->
+            <!--                android:id="@+id/bnkdethideiv"-->
+            <!--                android:layout_width="30dp"-->
+            <!--                android:layout_height="30dp"-->
+            <!--                android:layout_marginTop="32dp"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.822"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="@id/bnkdetiv" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

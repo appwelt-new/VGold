@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.GoldTransactionHistoryActivity">
+
+    <RelativeLayout
+        android:id="@+id/rlayout_toolbar_addBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_goldTransactionHistory"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <TextView
+                android:id="@+id/tv_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gold Transaction History"
+                android:textColor="@color/colorwhite"
+                android:textSize="15dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgGoldTransactionHistory"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="@dimen/height_10"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/pdf"/>
+
+            </RelativeLayout>
+
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGoldTransactioHistory"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/rlayout_toolbar_addBank"
+        android:layout_height="wrap_content">
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

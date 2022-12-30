@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.MainFragment">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <!--  <TextView
+                  android:id="@+id/toolbar_title"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:ellipsize="marquee"
+                  android:focusable="true"
+                  android:focusableInTouchMode="true"
+                  android:marqueeRepeatLimit="marquee_forever"
+                  android:scrollHorizontally="true"
+                  android:singleLine="true" />-->
+
+          <!--  <com.sunfusheng.marqueeview.MarqueeView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="end">
+                <ImageView
+                    android:id="@+id/gold_price"
+                    android:layout_width="35dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/gold_rate"/>
+                <ImageView
+                    android:layout_width="59dp"
+                    android:layout_height="59dp"
+                    android:layout_marginRight="4dp"
+                    android:src="@drawable/vlogo" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/fragment_main" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
