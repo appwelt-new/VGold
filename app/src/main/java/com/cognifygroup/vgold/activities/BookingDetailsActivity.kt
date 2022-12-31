@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.activities
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -23,12 +24,15 @@ import butterknife.ButterKnife
 import com.cognifygroup.vgold.BuildConfig
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.goldbookingrequest.GoldBookingRequestModel
-import com.cognifygroup.vgold.goldbookingrequest.GoldBookingRequestServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.*
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.bumptech.glide.Glide
+import okhttp3.Call
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -106,19 +110,20 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
     var disc: String? = null
     var booking_charge: String? = null
     val UPI_PAYMENT = 0
-    var getAllTransactionMoneyServiceProvider: GetAllTransactionMoneyServiceProvider? = null
-    var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
-    var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
+    //   var getAllTransactionMoneyServiceProvider: GetAllTransactionMoneyServiceProvider? = null
+    //  var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
+    // var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
 
     var GOOGLE_PAY_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user"
     var GOOGLE_PAY_REQUEST_CODE = 123
     private var moneyWalletBal: String? = null
 
     var mAlert: AlertDialogs? = null
-    var goldBookingRequestServiceProvider: GoldBookingRequestServiceProvider? = null
+
+    //   var goldBookingRequestServiceProvider: GoldBookingRequestServiceProvider? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+//    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
 
     private var dataModel: GoldBookingRequestModel.Data? = null
 
@@ -188,6 +193,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         }
 
     }
+
     fun getLocalBitmapUri(imageView: ImageView): Uri? {
         // Extract Bitmap from ImageView drawable
         val drawable = imageView.drawable
@@ -203,7 +209,8 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         try {
 
             val file = File(
-                this@BookingDetailsActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png"
+                this@BookingDetailsActivity.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "share_image_" + System.currentTimeMillis() + ".png"
             )
             file.parentFile.mkdirs()
             val out = FileOutputStream(file)
@@ -232,10 +239,10 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         progressDialog!!.setCancelable(false)
         setFinishOnTouchOutside(false)
         mAlert = AlertDialogs().getInstance()
-        goldBookingRequestServiceProvider = GoldBookingRequestServiceProvider(this)
-        getAllTransactionMoneyServiceProvider = GetAllTransactionMoneyServiceProvider(this)
-        getAllTransactionGoldServiceProvider = GetAllTransactionGoldServiceProvider(this)
-        getTodayGoldRateServiceProvider = GetTodayGoldRateServiceProvider(this)
+        //  goldBookingRequestServiceProvider = GoldBookingRequestServiceProvider(this)
+        // getAllTransactionMoneyServiceProvider = GetAllTransactionMoneyServiceProvider(this)
+        // getAllTransactionGoldServiceProvider = GetAllTransactionGoldServiceProvider(this)
+        // getTodayGoldRateServiceProvider = GetTodayGoldRateServiceProvider(this)
         if (intent.hasExtra("monthly")) {
             monthly = intent.getStringExtra("monthly")
             booking_value = intent.getStringExtra("booking_value")
@@ -324,136 +331,14 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
 
                     override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                 }
-            loginStatusServiceProvider = LoginStatusServiceProvider(this)
-            checkLoginSession()
+            //  loginStatusServiceProvider = LoginStatusServiceProvider(this)
+            // checkLoginSession()
             AttemptToGetMoneyBalance(VGoldApp.onGetUerId())
             AttemptToGetGoldBalance(VGoldApp.onGetUerId())
         }
     }
 
-//    private fun checkLoginSession() {
-//        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-//            override fun <T> onSuccess(serviceResponse: T) {
-//                try {
-//                    progressDialog!!.hide()
-//
-//                    val json = JSONObject(serviceResponse.toString())
-//                    val gson = Gson()
-//                    val loginSessionModel = gson.fromJson(json.toString(), LoginSessionModel::class.java)
-//
-//                    val status: String? = loginSessionModel.getStatus()
-//                    val message: String? = loginSessionModel.getMessage()
-//                    val data: Boolean = loginSessionModel.getData() == true
-//                    Log.i("TAG", "onSuccess: $status")
-//                    Log.i("TAG", "onSuccess: $message")
-//                    if (status == "200") {
-//                        if (!data) {
-//                            AlertDialogs().alertDialogOk(
-//                                this@BookingDetailsActivity,
-//                                "Alert",
-//                                "$message,  Please relogin to app",
-//                                resources.getString(R.string.btn_ok),
-//                                11,
-//                                false,
-//                                alertDialogOkListener
-//                            )
-//                        }
-//                    } else {
-//                        AlertDialogs().alertDialogOk(
-//                            this@BookingDetailsActivity, "Alert", message,
-//                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-//                        )
-//                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-//                    }
-//                } catch (e: Exception) {
-//                    //  progressDialog.hide();
-//                    e.printStackTrace()
-//                } finally {
-//                    //  progressDialog.hide();
-//                }
-//            }
-//
-//            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-//                try {
-//                    progressDialog!!.hide()
-//                    if (apiErrorModel != null) {
-//                        PrintUtil.showToast(
-//                            this@BookingDetailsActivity,
-//                            (apiErrorModel as BaseServiceResponseModel).message
-//                        )
-//                    } else {
-//                        PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-//                    }
-//                } catch (e: Exception) {
-//                    progressDialog!!.hide()
-//                    e.printStackTrace()
-//                    PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-//                } finally {
-//                    progressDialog!!.hide()
-//                }
-//            }
-//        })
-//    }
-
-    private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog!!.hide()
-                    val status = (serviceResponse as LoginSessionModel).getStatus()
-                    val message = (serviceResponse as LoginSessionModel).getMessage()
-                    val data = (serviceResponse as LoginSessionModel).getData()
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data!!) {
-                            AlertDialogs().alertDialogOk(
-                                this@BookingDetailsActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@BookingDetailsActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog!!.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@BookingDetailsActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog!!.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
-        })
-    }
+    @SuppressLint("SetTextI18n")
     private fun calculateMoneyAmount(payableAmt: Double) {
         if (moneyWalletBal != null && !TextUtils.isEmpty(moneyWalletBal) && !moneyWalletBal.equals(
                 "null",
@@ -484,51 +369,85 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
     }
 
     private fun AttemptToGetMoneyBalance(user_id: String?) {
-        progressDialog!!.show()
-        getAllTransactionMoneyServiceProvider!!.getAllTransactionMoneyHistory(
-            user_id,
-            object : APICallback {
-                override fun <T> onSuccess(serviceResponse: T) {
-                    try {
-                        val status: String? =
-                            (serviceResponse as GetAllTransactionMoneyModel).status
-                        val message: String? =
-                            (serviceResponse as GetAllTransactionMoneyModel).message
-                        moneyWalletBal =
-                            (serviceResponse as GetAllTransactionMoneyModel).wallet_Balance
+        /*  progressDialog!!.show()
+          getAllTransactionMoneyServiceProvider!!.getAllTransactionMoneyHistory(
+              user_id,
+              object : APICallback {
+                  override fun <T> onSuccess(serviceResponse: T) {
+                      try {
+                          val status: String? =
+                              (serviceResponse as GetAllTransactionMoneyModel).status
+                          val message: String? =
+                              (serviceResponse as GetAllTransactionMoneyModel).message
+                          moneyWalletBal =
+                              (serviceResponse as GetAllTransactionMoneyModel).wallet_Balance
 
-//                    txtWalletRupee.setText(getResources().getString(R.string.rs));
-//                    txtWalletAmount.setText(moneyWalletBal);
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        progressDialog!!.hide()
-                    }
-                }
+  //                    txtWalletRupee.setText(getResources().getString(R.string.rs));
+  //                    txtWalletAmount.setText(moneyWalletBal);
+                      } catch (e: Exception) {
+                          e.printStackTrace()
+                      } finally {
+                          progressDialog!!.hide()
+                      }
+                  }
 
-                override fun <T> onFailure(apiErrorModel: T, extras: T) {
-                    try {
-                        if (apiErrorModel != null) {
-                            PrintUtil.showToast(
-                                this@BookingDetailsActivity,
-                                (apiErrorModel as BaseServiceResponseModel).message
-                            )
-                        } else {
-                            PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                  override fun <T> onFailure(apiErrorModel: T, extras: T) {
+                      try {
+                          if (apiErrorModel != null) {
+                              PrintUtil.showToast(
+                                  this@BookingDetailsActivity,
+                                  (apiErrorModel as BaseServiceResponseModel).message
+                              )
+                          } else {
+                              PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                          }
+                      } catch (e: Exception) {
+                          e.printStackTrace()
+                          PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                      } finally {
+                          progressDialog!!.hide()
+                      }
+                  }
+              })
+
+  */
+        // change in api calling
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("user_id", user_id)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/money_wallet_transactions.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    if (status.equals("200"))
+                        runOnUiThread {
+                            moneyWalletBal = json.optString("Wallet_Balance")
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                    } finally {
-                        progressDialog!!.hide()
-                    }
                 }
-            })
+            }
+        })
     }
 
     private fun AttemptToGetGoldBalance(user_id: String?) {
-        progressDialog!!.show()
-        getAllTransactionGoldServiceProvider!!.getAllTransactionGoldHistory(
+        //  progressDialog!!.show()
+        /*getAllTransactionGoldServiceProvider!!.getAllTransactionGoldHistory(
             user_id,
             object : APICallback {
                 override fun <T> onSuccess(serviceResponse: T) {
@@ -568,43 +487,119 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
                         progressDialog!!.hide()
                     }
                 }
-            })
+            })*/
+
+        // change in api calling
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("user_id", user_id)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/gold_wallet_transactions.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    if (status.equals("200"))
+                        runOnUiThread {
+                            val balance: String? =
+                                json.optString("gold_Balance")
+                            var gold = balance?.toDouble()
+                            val numberFormat = DecimalFormat("#.000")
+                            gold = numberFormat.format(gold).toDouble()
+                            //                    txtGoldAmount.setText(gold + " GM");
+                            AttemptToGetTodayGoldRate(gold.toDouble())
+                        }
+                }
+            }
+        })
     }
 
     private fun AttemptToGetTodayGoldRate(gold: Double) {
-        getTodayGoldRateServiceProvider!!.getTodayGoldRate(VGoldApp.onGetUerId(),object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    val status: String? = (serviceResponse as GetTodayGoldRateModel).status
-                    val message: String? = (serviceResponse as GetTodayGoldRateModel).message
-                    val todayGoldPurchaseRate: String? =
-                        (serviceResponse as GetTodayGoldRateModel).gold_purchase_rate
-                    val sellingRate = gold * todayGoldPurchaseRate?.toDouble()!!
-                    GoldAmt = DecimalFormat("##.##").format(sellingRate)
-                    //                    txtGoldValue.setText("(Worth ₹ " + amt + ")");
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    progressDialog!!.hide()
+        /*getTodayGoldRateServiceProvider!!.getTodayGoldRate(VGoldApp.onGetUerId(),
+            object : APICallback {
+                override fun <T> onSuccess(serviceResponse: T) {
+                    try {
+                        val status: String? = (serviceResponse as GetTodayGoldRateModel).status
+                        val message: String? = (serviceResponse as GetTodayGoldRateModel).message
+                        val todayGoldPurchaseRate: String? =
+                            (serviceResponse as GetTodayGoldRateModel).gold_purchase_rate
+                        val sellingRate = gold * todayGoldPurchaseRate?.toDouble()!!
+                        GoldAmt = DecimalFormat("##.##").format(sellingRate)
+                        //                    txtGoldValue.setText("(Worth ₹ " + amt + ")");
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        progressDialog!!.hide()
+                    }
                 }
+
+                override fun <T> onFailure(apiErrorModel: T, extras: T) {
+
+                    try {
+                        if (apiErrorModel != null) {
+                            PrintUtil.showToast(
+                                this@BookingDetailsActivity,
+                                (apiErrorModel as BaseServiceResponseModel).message
+                            )
+                        } else {
+                            PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                    } finally {
+                        progressDialog!!.hide()
+                    }
+                }
+            })*/
+
+        // change in api calling
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/get_purchase_rate.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
             }
 
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@BookingDetailsActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                } finally {
-                    progressDialog!!.hide()
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    if (status.equals("200"))
+                        runOnUiThread {
+                            var todayGoldPurchaseRate: String? =
+                                json.optString("Gold_purchase_rate")
+                            var sellingRate = gold * todayGoldPurchaseRate?.toDouble()!!
+                            GoldAmt = DecimalFormat("##.##").format(sellingRate)
+                        }
                 }
             }
         })
@@ -698,6 +693,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun ShowPopupDialog(
         dataModel: GoldBookingRequestModel.Data?,
         key: String,
@@ -963,20 +959,150 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         disc: String, booking_charge: String, confirmedVal: String
     ) {
         // mAlert.onShowProgressDialog(AddBankActivity.this, true);
-        goldBookingRequestServiceProvider?.getGoldBookingRequest(user_id,
-            booking_value, down_payment, monthly, rate, gold_weight, tennure, pc,
-            payment_option, bank_details, tr_id, cheque_no, initBookingCharge, disc, booking_charge,
-            confirmedVal, object : APICallback {
-                override fun <T> onSuccess(serviceResponse: T) {
-                    try {
-                        val status: String? =
-                            (serviceResponse as GoldBookingRequestModel).status
-                        val message: String? =
-                            (serviceResponse as GoldBookingRequestModel).message
-                        dataModel = (serviceResponse as GoldBookingRequestModel).data
-                        if (status == "200") {
+         /*goldBookingRequestServiceProvider?.getGoldBookingRequest(user_id,
+             booking_value, down_payment, monthly, rate, gold_weight, tennure, pc,
+             payment_option, bank_details, tr_id, cheque_no, initBookingCharge, disc, booking_charge,
+             confirmedVal, object : APICallback {
+                 @SuppressLint("SetTextI18n")
+                 override fun <T> onSuccess(serviceResponse: T) {
+                     try {
+                         val status: String? =
+                             (serviceResponse as GoldBookingRequestModel).status
+                         val message: String? =
+                             (serviceResponse as GoldBookingRequestModel).message
+                         dataModel = (serviceResponse as GoldBookingRequestModel).data
+                         if (status == "200") {
+                             if (payment_option.equals("Gold Wallet", ignoreCase = true) &&
+                                 confirmedVal.equals("0", ignoreCase = true)
+                             ) {
+                                 calculationLayout!!.visibility = View.VISIBLE
+                                 txtGSTAmtId!!.visibility = View.VISIBLE
+                                 txtGSTPayableAmtId!!.visibility = View.VISIBLE
+                                 txtDeductedGoldId!!.visibility = View.VISIBLE
+                                 txtSaleRateId!!.visibility = View.VISIBLE
+                                 txtPayableAmtId!!.text =
+                                     ("Payable Amount : " + resources.getString(R.string.rs)
+                                             + dataModel?.amount_to_pay)
+                                 txtWalletAmtId!!.text =
+                                     "Gold in Wallet : " + dataModel?.gold_in_wallet
+                                         .toString() + " gm"
+                                 txtSaleRateId!!.text =
+                                     ("Today's Gold Sale Rate : " + resources.getString(R.string.rs)
+                                             + dataModel?.today_sale_rate)
+                                 txtGSTAmtId!!.text =
+                                     "GST for Today's Gold Sale Rate : " + dataModel?.gst_per
+                                         .toString() + "%"
+                                 txtGSTPayableAmtId!!.text =
+                                     ("GST on Payable Amount : " + resources.getString(R.string.rs)
+                                             + dataModel?.amount_to_pay_gst)
+                                 txtDeductedGoldId!!.text =
+                                     "Deducted Gold from Wallet : " + dataModel?.gold_reduce
+                                         .toString() + " gm"
+                                 txtBalanceRemainId!!.text = ("Remaining Gold in Wallet : "
+                                         + dataModel?.reduced_gold_in_wallet) + " gm"
+
+                                 //                                    ShowPopupDialog(dataModel, "goldWallet");
+                             } else {
+                                 val intent =
+                                     Intent(this@BookingDetailsActivity, SuccessActivity::class.java)
+                                 intent.putExtra("message", message)
+                                 startActivity(intent)
+                             }
+
+
+                             //   mAlert.onShowToastNotification(BookingDetailActivity.this, message);
+                         } else {
+                             AlertDialogs().alertDialogOk(
+                                 this@BookingDetailsActivity,
+                                 "Alert",
+                                 message,
+                                 resources.getString(R.string.btn_ok),
+                                 1,
+                                 false,
+                                 alertDialogOkListener
+                             )
+                             //                        mAlert.onShowToastNotification(BookingDetailActivity.this, message);
+                             //                        Intent intent = new Intent(BookingDetailActivity.this, MainActivity.class);
+                             //                        startActivity(intent);
+                         }
+                     } catch (e: Exception) {
+                         e.printStackTrace()
+                     } finally {
+                         progressDialog!!.hide()
+                     }
+                 }
+
+                 override fun <T> onFailure(apiErrorModel: T, extras: T) {
+
+                     try {
+                         if (apiErrorModel != null) {
+                             PrintUtil.showToast(
+                                 this@BookingDetailsActivity,
+                                 (apiErrorModel as BaseServiceResponseModel).message
+                             )
+                         } else {
+                             PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                         }
+                     } catch (e: Exception) {
+                         e.printStackTrace()
+                         PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                     } finally {
+                         progressDialog!!.hide()
+                     }
+                 }
+             })
+
+        // gold_booking*/
+
+
+        // change in api calling
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("booking_value", booking_value)
+            .addFormDataPart("down_payment", down_payment)
+            .addFormDataPart("monthly", monthly)
+            .addFormDataPart("rate", rate)
+            .addFormDataPart("gold_weight", gold_weight)
+            .addFormDataPart("tennure", tennure)
+            .addFormDataPart("pc", pc)
+            .addFormDataPart("payment_option", payment_option)
+            .addFormDataPart("bank_details", bank_details)
+            .addFormDataPart("tr_id", tr_id)
+            .addFormDataPart("cheque_no", cheque_no)
+            .addFormDataPart("initial_booking_charges", initBookingCharge)
+            .addFormDataPart("booking_charges_discount", disc)
+            .addFormDataPart("booking_charges", booking_charge)
+            .addFormDataPart("confirmed", confirmedVal)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/gold_booking.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    progressDialog!!.hide()
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message: String? = json.optString("Message")
+                    if (status.equals("200"))
+                        runOnUiThread {
+                            var data = json.optJSONObject("data")
                             if (payment_option.equals("Gold Wallet", ignoreCase = true) &&
-                                confirmedVal.equals("0", ignoreCase = true)
+                                confirmedVal.equals("0")
                             ) {
                                 calculationLayout!!.visibility = View.VISIBLE
                                 txtGSTAmtId!!.visibility = View.VISIBLE
@@ -985,24 +1111,24 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
                                 txtSaleRateId!!.visibility = View.VISIBLE
                                 txtPayableAmtId!!.text =
                                     ("Payable Amount : " + resources.getString(R.string.rs)
-                                            + dataModel?.amount_to_pay)
+                                            + data.optString("amount_to_pay"))
                                 txtWalletAmtId!!.text =
-                                    "Gold in Wallet : " + dataModel?.gold_in_wallet
+                                    "Gold in Wallet : " + data.optString("gold_in_wallet")
                                         .toString() + " gm"
                                 txtSaleRateId!!.text =
                                     ("Today's Gold Sale Rate : " + resources.getString(R.string.rs)
-                                            + dataModel?.today_sale_rate)
+                                            + data.optString("today_sale_rate"))
                                 txtGSTAmtId!!.text =
-                                    "GST for Today's Gold Sale Rate : " + dataModel?.gst_per
+                                    "GST for Today's Gold Sale Rate : " + data.optString("gst_per")
                                         .toString() + "%"
                                 txtGSTPayableAmtId!!.text =
                                     ("GST on Payable Amount : " + resources.getString(R.string.rs)
-                                            + dataModel?.amount_to_pay_gst )
+                                            + data.optString("amount_to_pay_gst"))
                                 txtDeductedGoldId!!.text =
-                                    "Deducted Gold from Wallet : " + dataModel?.gold_reduce
+                                    "Deducted Gold from Wallet : " + data.optString("gold_reduce")
                                         .toString() + " gm"
                                 txtBalanceRemainId!!.text = ("Remaining Gold in Wallet : "
-                                        + dataModel?.reduced_gold_in_wallet ) + " gm"
+                                        + data.optString("reduced_gold_in_wallet")) + " gm"
 
                                 //                                    ShowPopupDialog(dataModel, "goldWallet");
                             } else {
@@ -1011,10 +1137,8 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
                                 intent.putExtra("message", message)
                                 startActivity(intent)
                             }
-
-
-                            //   mAlert.onShowToastNotification(BookingDetailActivity.this, message);
                         } else {
+                        runOnUiThread {
                             AlertDialogs().alertDialogOk(
                                 this@BookingDetailsActivity,
                                 "Alert",
@@ -1024,36 +1148,11 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
                                 false,
                                 alertDialogOkListener
                             )
-                            //                        mAlert.onShowToastNotification(BookingDetailActivity.this, message);
-    //                        Intent intent = new Intent(BookingDetailActivity.this, MainActivity.class);
-    //                        startActivity(intent);
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        progressDialog!!.hide()
                     }
                 }
-
-                override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                    try {
-                        if (apiErrorModel != null) {
-                            PrintUtil.showToast(
-                                this@BookingDetailsActivity,
-                                (apiErrorModel as BaseServiceResponseModel).message
-                            )
-                        } else {
-                            PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                    } finally {
-                        progressDialog!!.hide()
-                    }
-                }
-            })
+            }
+        })
     }
 
     override fun onDialogOk(resultCode: Int) {

@@ -17,18 +17,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/goldgrm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorwhite"
-                android:background="@drawable/roundborder1"
                 android:layout_margin="5dp"
                 android:layout_weight="0.5"
+                android:background="@drawable/roundborder1"
+                android:backgroundTint="@color/colorwhite"
                 android:orientation="vertical">
 
                 <TextView
@@ -37,10 +37,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="15dp"
                     android:text="Current balance"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/black"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -48,19 +48,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtCurrentBal"
-                    android:gravity="center"
                     android:layout_centerInParent="true"
+                    android:gravity="center"
                     android:text="\u20B9"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:layout_margin="5dp"
+                android:layout_weight="0.5"
                 android:background="@drawable/roundborder1"
                 android:backgroundTint="@color/colorwhite"
                 android:orientation="vertical">
@@ -73,9 +73,9 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="Value"
-                    android:textSize="15dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/black"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -83,9 +83,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtSaleRate"
-                    android:gravity="center"
                     android:layout_centerInParent="true"
-                    android:text="\u20B9 537.54"
+                    android:gravity="center"
+                    android:text="\u20B9"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14dp" />
 
@@ -97,18 +97,18 @@
             android:id="@+id/btnAddGoldToWallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@drawable/round_border"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="@dimen/height_10"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_border"
             android:backgroundTint="@color/colorOrange"
+            android:gravity="center"
             android:paddingLeft="@dimen/height_15"
             android:paddingRight="@dimen/height_15"
             android:text="Add Gold"
-            android:textSize="17dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="17dp" />
 
 
         <!--<RelativeLayout
@@ -162,9 +162,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewGoldWallet"
         android:layout_width="match_parent"
-        android:layout_below="@+id/goldll"
-        android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/goldll"></androidx.recyclerview.widget.RecyclerView>
 
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.activities.GetAllTransactionMoneyModel
+import org.json.JSONArray
+import org.json.JSONObject
 
-class MoneyTransactionAdapter(mContext: Context, moneyTransactionArraylist:ArrayList<GetAllTransactionMoneyModel.Data>):
-    RecyclerView.Adapter<MoneyTransactionAdapter.MyViewHolder>(){
+class MoneyTransactionAdapter(mContext: Context, moneyTransactionArraylist: JSONArray) :
+    RecyclerView.Adapter<MoneyTransactionAdapter.MyViewHolder>() {
     var mContext: Context
-     var moneyTransactionArraylist: ArrayList<GetAllTransactionMoneyModel.Data>
+    var moneyTransactionArraylist: JSONArray
 
     init {
         this.mContext = mContext
@@ -20,9 +22,7 @@ class MoneyTransactionAdapter(mContext: Context, moneyTransactionArraylist:Array
     }
 
 
-
-    class MyViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtTxnIdMoney: TextView = itemView.findViewById(R.id.txtTxnIdMoney)
         val txtRupeeMoney: TextView = itemView.findViewById(R.id.txtRupeeMoney)
         val txtTimeDateMoney: TextView = itemView.findViewById(R.id.txtTimeDateMoney)
@@ -31,50 +31,56 @@ class MoneyTransactionAdapter(mContext: Context, moneyTransactionArraylist:Array
         val txtStatus1: TextView = itemView.findViewById(R.id.txtStatus1)
 
 
-
-
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoneyTransactionAdapter.MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): MoneyTransactionAdapter.MyViewHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.booking_history_adapter, null)
         return MoneyTransactionAdapter.MyViewHolder(view)
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        if (!moneyTransactionArraylist.get(position).transaction_id.equals("")) {
-            holder.txtTxnIdMoney!!.setText(
-                moneyTransactionArraylist.get(position).transaction_id
+        val list: JSONObject? = moneyTransactionArraylist.get(position) as JSONObject?
+
+        if (list?.optString("transaction_id").equals("")) {
+            holder.txtTxnIdMoney.setText(
+                list?.getString("transaction_id")
             )
-        } else if (!moneyTransactionArraylist.get(position).online_transaction_id.equals("")) {
+        } else if (list?.optString("online_transaction_id").equals("")) {
             holder.txtTxnIdMoney!!.setText(
-                moneyTransactionArraylist.get(position).online_transaction_id
+                list?.getString("online_transaction_id")
             )
         } else {
-            holder.txtTxnIdMoney!!.setText(moneyTransactionArraylist.get(position).cheque_no)
+            holder.txtTxnIdMoney.setText(list?.getString("cheque_no"))
         }
-        holder.txtRupeeMoney!!.text = "Rs." + moneyTransactionArraylist.get(position).amount
-        holder.txtTimeDateMoney!!.setText(
-            moneyTransactionArraylist.get(position).transaction_date
+
+        holder.txtRupeeMoney.text = "Rs." + list?.getString("amount")
+        holder.txtTimeDateMoney.setText(
+            list?.getString("transaction_date")
         )
         holder.txtPaymentThrough!!.setText(
-            moneyTransactionArraylist.get(position).payment_method
+            list?.getString("payment_method")
         )
 
-        if (!moneyTransactionArraylist.get(position).received_from.equals("")) {
+        if (!list?.getString("received_from").equals("")) {
             holder.txtPaymentFromTo!!.setText(
-                moneyTransactionArraylist.get(position).received_from
+                list?.getString("received_from")
             )
         } else {
             holder.txtPaymentFromTo!!.setText(
-                moneyTransactionArraylist.get(position).transafer_to
+                list?.getString("transafer_to")
             )
         }
-        holder.txtStatus1!!.setText(moneyTransactionArraylist.get(position).status)
+        holder.txtStatus1!!.setText(
+            list?.getString("status")
+        )
     }
 
     override fun getItemCount(): Int {
-        return moneyTransactionArraylist.size
+        return moneyTransactionArraylist.length()
     }
 }

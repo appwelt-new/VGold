@@ -340,11 +340,11 @@ class OtpVerificationActivity : AppCompatActivity() {
                                         }
 
 
-                                        Toast.makeText(
+                                       /* Toast.makeText(
                                             this@OtpVerificationActivity,
                                             "OTP Verification Done",
                                             Toast.LENGTH_LONG
-                                        ).show()
+                                        ).show()*/
                                     })
                                 }
                             } else {

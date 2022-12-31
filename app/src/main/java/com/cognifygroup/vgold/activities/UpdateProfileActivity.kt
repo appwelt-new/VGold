@@ -45,21 +45,21 @@ class UpdateProfileActivity : AppCompatActivity() {
     private var coDFile: File? = null
     private var path = ""
     private var imageBytes: ByteArray? = null
-    private  var aboutCompQue : RequestQueue?= null
+    private var aboutCompQue: RequestQueue? = null
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var camBtn: ImageView
     private lateinit var profPic: CircleImageView
     private lateinit var updatePrfBtn: Button
-    private  lateinit var  edtemail: EditText
-    private  lateinit var  edtmobno: EditText
-    private  lateinit var  edtaddr: EditText
-    private  lateinit var  edtcity: EditText
-    private  lateinit var  edtstate: EditText
-    private  lateinit var  edtpanno: EditText
-    private  lateinit var  edtadharno: EditText
-    private  lateinit var pancard: ImageView
-    private  lateinit var  adharfront: ImageView
-    private lateinit var adharback : ImageView
+    private lateinit var edtemail: EditText
+    private lateinit var edtmobno: EditText
+    private lateinit var edtaddr: EditText
+    private lateinit var edtcity: EditText
+    private lateinit var edtstate: EditText
+    private lateinit var edtpanno: EditText
+    private lateinit var edtadharno: EditText
+    private lateinit var pancard: ImageView
+    private lateinit var adharfront: ImageView
+    private lateinit var adharback: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +71,7 @@ class UpdateProfileActivity : AppCompatActivity() {
         edtemail = findViewById(R.id.edtEmail)
         edtmobno = findViewById(R.id.edtMobileNumber)
         edtaddr = findViewById(R.id.edtAddress)
-        edtcity =findViewById(R.id.edtCity)
+        edtcity = findViewById(R.id.edtCity)
         edtstate = findViewById(R.id.edtState)
         edtadharno = findViewById(R.id.edtAadhar)
         edtpanno = findViewById(R.id.edtPan)
@@ -111,26 +111,26 @@ class UpdateProfileActivity : AppCompatActivity() {
             if (edtemail.text.isEmpty()) {
                 edtemail.error = "Please Enter the Email  !"
                 edtemail.requestFocus()
-            }else if (edtmobno.text.isEmpty()){
+            } else if (edtmobno.text.isEmpty()) {
                 edtmobno.error = " Please Enter the Mobile Number  !"
                 edtmobno.requestFocus()
-            }else if (edtaddr.text.isEmpty()){
+            } else if (edtaddr.text.isEmpty()) {
                 edtaddr.error = " Please Enter the Address  !"
                 edtaddr.requestFocus()
-            }else if (edtcity.text.isEmpty()){
+            } else if (edtcity.text.isEmpty()) {
                 edtcity.error = " Please Enter the City   !"
                 edtcity.requestFocus()
-            }else if (edtstate.text.isEmpty()){
+            } else if (edtstate.text.isEmpty()) {
                 edtstate.error = " Please Enter the State   !"
                 edtstate.requestFocus()
-            }else if (edtadharno.text.isEmpty()){
+            } else if (edtadharno.text.isEmpty()) {
                 edtadharno.error = " Please Enter the  Aadhar Number !"
                 edtadharno.requestFocus()
-            }else if (edtpanno.text.isEmpty()){
+            } else if (edtpanno.text.isEmpty()) {
                 edtpanno.error = " Please Enter the Pancard Number  !"
                 edtpanno.requestFocus()
-            }else
-              updateProfileFunction()
+            } else
+                updateProfileFunction()
         }
     }
 
@@ -138,7 +138,10 @@ class UpdateProfileActivity : AppCompatActivity() {
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("user_id", userId)
-            .addFormDataPart("email", edtemail.text.toString()) // "email", emailEdText.text.toString()
+            .addFormDataPart(
+                "email",
+                edtemail.text.toString()
+            ) // "email", emailEdText.text.toString()
             .addFormDataPart("no", edtmobno.text.toString())
             .addFormDataPart("address", edtaddr.text.toString())
             .addFormDataPart("city", edtcity.text.toString())
@@ -173,7 +176,8 @@ class UpdateProfileActivity : AppCompatActivity() {
                         editor.putString(Constants.prfcity, edtcity.text.toString())
                         editor.putString(Constants.prfstate, edtstate.text.toString())
                         editor.apply()
-                         Toast.makeText(this@UpdateProfileActivity, mMessage, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@UpdateProfileActivity, mMessage, Toast.LENGTH_SHORT)
+                            .show()
 //                        startActivity(Intent(this@UpdateProfileActivity, MainActivity::class.java))
                         finish()
                     })
@@ -237,7 +241,8 @@ class UpdateProfileActivity : AppCompatActivity() {
                         } else {
                             Log.d("Upload Status", "Image Uploaded Successfully !")
                             runOnUiThread(Runnable {
-                                Toast.makeText(this@UpdateProfileActivity,
+                                Toast.makeText(
+                                    this@UpdateProfileActivity,
                                     "Selfi Uploaded" + mMessage,
                                     Toast.LENGTH_LONG
                                 ).show()

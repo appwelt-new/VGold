@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.activities
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -16,11 +17,11 @@ import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.*
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
-import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.text.DecimalFormat
@@ -86,10 +87,10 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
         progressDialog!!.setCancelable(false)
         setFinishOnTouchOutside(false)
         mAlert = AlertDialogs().getInstance()
-        getAllTransactionGoldServiceProvider = GetAllTransactionGoldServiceProvider(this)
-        getTodayGoldSellRateServiceProvider = GetTodayGoldSellRateServiceProvider(this)
-        getTodayGoldRateServiceProvider = GetTodayGoldRateServiceProvider(this)
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
+        // getAllTransactionGoldServiceProvider = GetAllTransactionGoldServiceProvider(this)
+        //getTodayGoldSellRateServiceProvider = GetTodayGoldSellRateServiceProvider(this)
+        // getTodayGoldRateServiceProvider = GetTodayGoldRateServiceProvider(this)
+        //  loginStatusServiceProvider = LoginStatusServiceProvider(this)
         //  checkLoginSession()
 
         btnAddGoldToWallet!!.setOnClickListener {
@@ -97,64 +98,6 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
         }
     }
 
-    private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog!!.hide()
-                    val status = (serviceResponse as LoginSessionModel).getStatus()
-                    val message = (serviceResponse as LoginSessionModel).getMessage()
-                    val data = (serviceResponse as LoginSessionModel).getData()
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data!!) {
-                            AlertDialogs().alertDialogOk(
-                                this@GoldWalletActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@GoldWalletActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-                try {
-                    progressDialog!!.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@GoldWalletActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@GoldWalletActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog!!.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@GoldWalletActivity)
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
-        })
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -280,6 +223,7 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
                 Log.e("failure Response", mMessage)
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
                 val responce = response.body()!!.string()
                 val json = JSONObject(responce)
@@ -287,55 +231,36 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
                     throw IOException("Unexpected code" + response)
                 } else {
                     try {
-                        val jsonString: String = responce //http request
-                        var dataValue = GetAllTransactionGoldModel()
-                        val gson = Gson()
-                        dataValue =
-                            gson.fromJson(jsonString, GetAllTransactionGoldModel::class.java)
-                        val status: String? =
-                            json.getString("status")
+                        val status = json.get("status").toString()
                         val message: String? =
                             json.getString("Message")
-                        val balance: String? =
-                            dataValue.gold_Balance
-                        var gold = balance?.toDouble()
-                        val numberFormat = DecimalFormat("#.000")
-                        gold = numberFormat.format(gold).toDouble()
-                        txtWalletGoldWeight!!.text = "$gold GM"
-                        val mArrGoldTransactonHistory: ArrayList<GetAllTransactionGoldModel.Data>? =
-                            dataValue.data
-
-                        Log.i("TAG", "onResponse: " + mArrGoldTransactonHistory)
-                        if (status == "200") {
-                            AttemptToGetTodayGoldRate(gold)
-
-
-
-                            runOnUiThread {
-                                // Stuff that updates the UI
-
+                        runOnUiThread {
+                            if (status == "200") {
+                                var jsonArray: JSONArray = json.getJSONArray("Data")
+                                var gold_Balance = json.get("gold_Balance").toString()
+                                var gold = gold_Balance.toDouble()
+                                AttemptToGetTodayGoldRate(gold)
+                                txtWalletGoldWeight!!.text = "$gold GM"
                                 recyclerViewGoldWallet!!.layoutManager =
                                     LinearLayoutManager(this@GoldWalletActivity)
                                 recyclerViewGoldWallet!!.adapter =
                                     GoldTransactionAdapter(
                                         this@GoldWalletActivity,
-                                        mArrGoldTransactonHistory!!
+                                        jsonArray
                                     )
+
+                            } else {
+                                AlertDialogs().alertDialogOk(
+                                    this@GoldWalletActivity,
+                                    "Alert",
+                                    message,
+                                    resources.getString(R.string.btn_ok),
+                                    0,
+                                    false,
+                                    alertDialogOkListener
+                                )
                             }
-                            //  mAlert.onShowToastNotification(GoldWalletActivity.this, message);
-                        } else {
-                            AlertDialogs().alertDialogOk(
-                                this@GoldWalletActivity,
-                                "Alert",
-                                message,
-                                resources.getString(R.string.btn_ok),
-                                0,
-                                false,
-                                alertDialogOkListener
-                            )
-                            //                        mAlert.onShowToastNotification(GoldWalletActivity.this, message);
-                            // rvGoldBookingHistory.setLayoutManager(new LinearLayoutManager(MoneyWalletActivity.this));
-                            //rvGoldBookingHistory.setAdapter(new GoldBookingHistoryAdapter(MoneyWalletActivity.this,mArrGoldBookingHistory));
+
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -345,8 +270,6 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
                 }
             }
         })
-
-
     }
 
 
@@ -425,32 +348,27 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
                 Log.e("failure Response", mMessage)
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val responce = response.body()!!.string()
+                var responce = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(responce)
-                    val status = json.get("status").toString()
-
-                    val jsonString: String = responce //http request
-                    var dataValue = GetTodayGoldRateModel()
-                    val gson = Gson()
-                    dataValue =
-                        gson.fromJson(jsonString, GetTodayGoldRateModel::class.java)
-
-                    if (status == "200") {
-                        Log.e(" Response", responce)
-                        val sale_value: String? = dataValue.gold_sale_rate;
-                        val sellingRate: Double = gold * sale_value!!.toDouble()
-                        val amt = DecimalFormat("##.##").format(sellingRate)
-                        txSaleAmt!!.text = "₹ $amt"
-
-                    } else {
-                        /* PrintUtil.showToast(
+                    var json = JSONObject(responce)
+                    var status = json.get("status").toString()
+                    runOnUiThread {
+                        if (status == "200") {
+                            Log.e(" Response", responce)
+                            var Gold_sale_rate: String = json.get("Gold_sale_rate") as String
+                            var sellingRate: Double = gold * Gold_sale_rate.toDouble()
+                            var amt = DecimalFormat("##.##").format(sellingRate)
+                            txSaleAmt!!.text = "₹ $amt"
+                        } else {
+                            /* PrintUtil.showToast(
                              this@SellGoldActivity,
                              json.getString("Message").toString()
                          )*/
+                        }
                     }
                 }
             }

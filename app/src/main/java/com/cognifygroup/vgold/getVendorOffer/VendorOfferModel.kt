@@ -17,21 +17,12 @@ class VendorOfferModel {
     @SerializedName("status")
     var status: String? = null
 
-    class Data {
-        @Expose
-        @SerializedName("vendor_id")
-        var vendor_id: String? = null
+    class Data(
+        val vendor_id: String,
+        val logo_path: String,
+        val letter_path: String,
+        val advertisement_path: String
+    )
 
-        @Expose
-        @SerializedName("logo_path")
-        var logo_path: String? = null
 
-        @Expose
-        @SerializedName("letter_path")
-        var letter_path: String? = null
-
-        @Expose
-        @SerializedName("advertisement_path")
-        var advertisement_path: String? = null
-    }
 }

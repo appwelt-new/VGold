@@ -15,18 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.OnClick
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.adapters.MoneyTransactionAdapter
-import com.cognifygroup.vgold.interfaces.APICallback
-import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
-import com.cognifygroup.vgold.model.BaseServiceResponseModel
-import com.cognifygroup.vgold.model.LoginSessionModel
-import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
-import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -44,8 +39,8 @@ class MoneyWalletActivity : AppCompatActivity() {
 
     private val GetAmount: String? = null
     private lateinit var progressDialog: TransparentProgressDialog
-    private lateinit var alertDialogOkListener: AlertDialogOkListener
-    private lateinit var loginStatusServiceProvider: LoginStatusServiceProvider
+    //  private lateinit var alertDialogOkListener: AlertDialogOkListener
+    //   private lateinit var loginStatusServiceProvider: LoginStatusServiceProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,132 +67,10 @@ class MoneyWalletActivity : AppCompatActivity() {
         progressDialog.setCancelable(false)
         setFinishOnTouchOutside(false)
         mAlert = AlertDialogs().getInstance()
-        getAllTransactionMoneyServiceProvider = GetAllTransactionMoneyServiceProvider(this)
+        // getAllTransactionMoneyServiceProvider = GetAllTransactionMoneyServiceProvider(this)
         //     loginStatusServiceProvider = LoginStatusServiceProvider(this)
         // checkLoginSession()
     }
-
-    private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog!!.hide()
-                    val status = (serviceResponse as LoginSessionModel).getStatus()
-                    val message = (serviceResponse as LoginSessionModel).getMessage()
-                    val data = (serviceResponse as LoginSessionModel).getData()
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data!!) {
-                            AlertDialogs().alertDialogOk(
-                                this@MoneyWalletActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@MoneyWalletActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog!!.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@MoneyWalletActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@MoneyWalletActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog!!.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@MoneyWalletActivity)
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
-        })
-    }
-//    private fun checkLoginSession() {
-//        loginStatusServiceProvider.getLoginStatus(userId, object : APICallback {
-//            override fun <T> onSuccess(serviceResponse: T) {
-//                try {
-//                    progressDialog.hide()
-//                    val json = JSONObject(serviceResponse.toString())
-//                    val gson = Gson()
-//                    val loginSessionModel = gson.fromJson(json.toString(), LoginSessionModel::class.java)
-//
-//                    val status: String? = loginSessionModel.getStatus()
-//                    val message: String? = loginSessionModel.getMessage()
-//                    val data: Boolean = loginSessionModel.getData() == true
-//                    Log.i("TAG", "onSuccess: $status")
-//                    Log.i("TAG", "onSuccess: $message")
-//                    if (status == "200") {
-//                        if (!data) {
-//                            AlertDialogs().alertDialogOk(
-//                                this@MoneyWalletActivity,
-//                                "Alert",
-//                                "$message,  Please relogin to app",
-//                                resources.getString(R.string.btn_ok),
-//                                11,
-//                                false,
-//                                alertDialogOkListener
-//                            )
-//                        }
-//                    } else {
-//                        AlertDialogs().alertDialogOk(
-//                            this@MoneyWalletActivity, "Alert", message,
-//                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-//                        )
-//                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-//                    }
-//                } catch (e: Exception) {
-//                    //  progressDialog.hide();
-//                    e.printStackTrace()
-//                } finally {
-//                    //  progressDialog.hide();
-//                }
-//            }
-//
-//            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-//                try {
-//                    progressDialog.hide()
-//                    if (apiErrorModel != null) {
-//                        PrintUtil.showToast(
-//                            this@MoneyWalletActivity,
-//                            (apiErrorModel as BaseServiceResponseModel).message
-//                        )
-//                    } else {
-//                        PrintUtil.showNetworkAvailableToast(this@MoneyWalletActivity)
-//                    }
-//                } catch (e: Exception) {
-//                    progressDialog.hide()
-//                    e.printStackTrace()
-//                    PrintUtil.showNetworkAvailableToast(this@MoneyWalletActivity)
-//                } finally {
-//                    progressDialog.hide()
-//                }
-//            }
-//        })
-//    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -340,34 +213,21 @@ class MoneyWalletActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    val status = json.get("status").toString()
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
                     if (status == "200") {
                         Log.e(" Response", resp)
                         if (json.getString("Message").toString().equals("Success")) {
-
-                            val jsonString: String = resp //http request
-                            var dataValue = GetAllTransactionMoneyModel()
-                            val gson = Gson()
-                            dataValue =
-                                gson.fromJson(jsonString, GetAllTransactionMoneyModel::class.java)
-
-
-                            val mArrMoneyTransactonHistory: ArrayList<GetAllTransactionMoneyModel.Data>? =
-                                dataValue.data
-
-
                             runOnUiThread {
-                                // Stuff that updates the UI
-
-                                txtRupees.text = dataValue.wallet_Balance
+                                var jsonArray: JSONArray = json.getJSONArray("Data")
+                                txtRupees.text = json.getString("Wallet_Balance")
                                 recyclerViewMoneyWallet.layoutManager =
                                     LinearLayoutManager(this@MoneyWalletActivity)
-                                recyclerViewMoneyWallet.adapter = mArrMoneyTransactonHistory?.let {
+                                recyclerViewMoneyWallet.adapter = jsonArray.let {
                                     MoneyTransactionAdapter(
                                         this@MoneyWalletActivity,
                                         it
@@ -378,10 +238,12 @@ class MoneyWalletActivity : AppCompatActivity() {
 
                         }
                     } else {
-                        PrintUtil.showToast(
-                            this@MoneyWalletActivity,
-                            json.getString("Message").toString()
-                        )
+                        runOnUiThread {
+                            PrintUtil.showToast(
+                                this@MoneyWalletActivity,
+                                json.getString("Message").toString()
+                            )
+                        }
                     }
                 }
             }

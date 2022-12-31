@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +9,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.model.GetAllTransactionGoldModel
+import org.json.JSONArray
+import org.json.JSONObject
 import java.text.DecimalFormat
 
 
 class GoldTransactionAdapter(
     mContext: Context,
-    goldTransactionArraylist: ArrayList<GetAllTransactionGoldModel.Data>
+    goldTransactionArraylist: JSONArray
 ) :
     RecyclerView.Adapter<GoldTransactionAdapter.MyViewHolder>() {
     var mContext: Context
-    var goldTransactionArraylist: ArrayList<GetAllTransactionGoldModel.Data>
+    var goldTransactionArraylist: JSONArray
 
     init {
         this.mContext = mContext
@@ -33,26 +36,29 @@ class GoldTransactionAdapter(
         return GoldTransactionAdapter.MyViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: GoldTransactionAdapter.MyViewHolder, position: Int) {
-        if (!goldTransactionArraylist[position].transaction_id.equals("")) {
-            holder.txtTxnIdMoney1.setText(goldTransactionArraylist[position].transaction_id)
-        } else if (!goldTransactionArraylist[position].online_transaction_id.equals("")) {
-            holder.txtTxnIdMoney1.setText(goldTransactionArraylist[position].online_transaction_id)
+        val list: JSONObject? = goldTransactionArraylist.get(position) as JSONObject?
+
+        if (!list?.opt("transaction_id")?.equals("")!!) {
+            holder.txtTxnIdMoney1.setText(list.optString("transaction_id"))
+        } else if (!list.opt("online_transaction_id")!!.equals("")) {
+            holder.txtTxnIdMoney1.setText(list.optString("online_transaction_id"))
         } else {
-            holder.txtTxnIdMoney1.setText(goldTransactionArraylist[position].cheque_no)
+            holder.txtTxnIdMoney1.setText(list.optString("cheque_no"))
         }
-        var gold: Double = goldTransactionArraylist[position].gold!!.toDouble()
+        var gold: Double = list.optString("gold").toDouble()
         val numberFormat = DecimalFormat("#.000")
         gold = numberFormat.format(gold).toDouble()
         holder.txtgoldBalance.text = "$gold GM"
-        holder.txtTimeDateMoney1.setText(goldTransactionArraylist[position].transaction_date)
-        holder.txtPaymentThrough.setText(goldTransactionArraylist[position].payment_method)
-        if (!goldTransactionArraylist[position].received_from.equals("")) {
-            holder.txtPaymentFromTo.setText(goldTransactionArraylist[position].received_from)
+        holder.txtTimeDateMoney1.setText(list.optString("transaction_date"))
+        holder.txtPaymentThrough.setText(list.optString("payment_method"))
+        if (!list.optString("received_from").equals("")) {
+            holder.txtPaymentFromTo.setText(list.optString("received_from"))
         } else {
-            holder.txtPaymentFromTo!!.setText(goldTransactionArraylist[position].transafer_to)
+            holder.txtPaymentFromTo!!.setText(list.optString("transafer_to"))
         }
-        if (goldTransactionArraylist[position].admin_status.equals("0")) {
+        if (list.optString("admin_status").equals("0")) {
             holder.txtStatus1.setText("Pending")
         } else {
             holder.txtStatus1.setText("Success")
@@ -60,7 +66,7 @@ class GoldTransactionAdapter(
     }
 
     override fun getItemCount(): Int {
-        return goldTransactionArraylist.size
+        return goldTransactionArraylist.length()
     }
 
 

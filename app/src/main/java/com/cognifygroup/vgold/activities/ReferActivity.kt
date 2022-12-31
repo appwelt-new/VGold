@@ -14,13 +14,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.getVendorOffer.VendorOfferModel
 import com.cognifygroup.vgold.getrefercode.ReferModel
 import com.cognifygroup.vgold.getrefercode.ReferServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
-import com.cognifygroup.vgold.model.BaseServiceResponseModel
-import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.google.firebase.FirebaseApp

@@ -247,24 +247,23 @@ class PlanActivity : AppCompatActivity(), AlertDialogOkListener {
                 Log.e("failure Response", mMessage)
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
                 val mMessage = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
 //                    Log.d("Upload Status", "Image Uploaded Successfully !")
-                    val json = JSONObject(mMessage)
-                    val status = json.get("status").toString()
-                    val message = json.get("Message").toString()
-                    val prdds = json.getJSONObject("Data")
+                    var json = JSONObject(mMessage)
+                    var status = json.get("status").toString()
+                    var message = json.get("Message").toString()
+                    var prdds = json.optJSONObject("Data")
                     runOnUiThread(Runnable {
-                        if (status.equals("200", ignoreCase = true)) {
+                        if (status.equals("200")) {
                             shareFab.visibility = View.VISIBLE
                             palnLayout.visibility = View.VISIBLE
 
-
-
-                            lblDate.text = prdds.get("rate_date").toString()
+                            lblDate.text = prdds?.get("rate_date").toString()
                             lblQuantity.text = ("For " + prdds.get("quantity").toString() + " gms")
                             txtTotAmt.text =
                                 resources.getString(R.string.rs) + prdds.get("total_amount")
@@ -279,7 +278,7 @@ class PlanActivity : AppCompatActivity(), AlertDialogOkListener {
                                 "You Pay " + resources.getString(R.string.rs) + prdds.get("have_to_pay")
                                     .toString() + "/-"
 
-                            val remAmt = prdds.get("remaing_amount").toString()
+                            var remAmt = prdds.get("remaing_amount").toString()
 
                             if (remAmt != "null" && !TextUtils.isEmpty(remAmt)) {
                                 val remainAmt: Double =
@@ -322,7 +321,7 @@ class PlanActivity : AppCompatActivity(), AlertDialogOkListener {
                             }
                             //  downloadPDFFile(model.getPdf_url())
 
-                            val pdfurl = prdds.get("pdf_url").toString()
+                            var pdfurl = prdds.get("pdf_url").toString()
                             if (pdfurl != "null" && !TextUtils.isEmpty(pdfurl))
                                 DownloadFileFromURL(pdfurl)
 

@@ -1,8 +1,10 @@
 package com.cognifygroup.vgold.adapters
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,22 +14,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.activities.CPUserDetailsActivity
-import com.cognifygroup.vgold.channelpartner.UserDetailsModel
-import java.io.Serializable
+import com.cognifygroup.vgold.channelpartner.UserDetailsModel_
 import java.util.*
 
 class CPUserDetailsAdapter(
     private val mContext: Context,
-    userDetailsArrayList: ArrayList<UserDetailsModel.Data>
+    userDetailsArrayList: ArrayList<UserDetailsModel_.Data>
 ) : RecyclerView.Adapter<CPUserDetailsAdapter.MyViewHolder>() {
 
-     val activity: Activity
+    val activity: Activity
     var str: String? = null
-    var userDetailsArrayList: ArrayList<UserDetailsModel.Data>
-    var orgUserDetailsArrayList: ArrayList<UserDetailsModel.Data>
+    var userDetailsArrayList: ArrayList<UserDetailsModel_.Data>
+    var orgUserDetailsArrayList: ArrayList<UserDetailsModel_.Data>
     private var customerFilter: Filter? = null
-
 
 
     init {
@@ -43,8 +42,9 @@ class CPUserDetailsAdapter(
         return MyViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val dataList: UserDetailsModel.Data =this.userDetailsArrayList[position]
+        var dataList: UserDetailsModel_.Data = this.userDetailsArrayList.get(position)
         holder.txtName?.setText(dataList.uname + " " + dataList.total_gold_in_account + " gm")
 
 //        holder.detailLayout?.setOnClickListener {
@@ -60,19 +60,8 @@ class CPUserDetailsAdapter(
     }
 
 
-    inner class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(
-        itemView!!
-
-    ) {
-
-        var txtName: TextView? = null
-
-        var detailLayout: LinearLayout? = null
-
-
-        init {
-            ButterKnife.inject(this, itemView)
-        }
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var txtName: TextView = itemView.findViewById(R.id.txtName)
     }
 
     fun resetData() {
@@ -80,10 +69,9 @@ class CPUserDetailsAdapter(
     }
 
 
-
     fun getFilter(): Filter? {
         if (customerFilter == null) customerFilter =
-           CustomFilter()
+            CustomFilter()
 
         return customerFilter
     }
@@ -106,8 +94,8 @@ class CPUserDetailsAdapter(
                     results.count = orgUserDetailsArrayList.size
                 } else {
                     // We perform filtering operation
-                    val customerArrayList: MutableList<UserDetailsModel.Data> =
-                        ArrayList<UserDetailsModel.Data>()
+                    val customerArrayList: MutableList<UserDetailsModel_.Data> =
+                        ArrayList<UserDetailsModel_.Data>()
                     for (dataModel in userDetailsArrayList) {
                         if (dataModel.uname?.toLowerCase(Locale.getDefault())!!.contains(
                                 constraint.toString().lowercase(
@@ -143,7 +131,7 @@ class CPUserDetailsAdapter(
         }
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            userDetailsArrayList = results.values as ArrayList<UserDetailsModel.Data>
+            userDetailsArrayList = results.values as ArrayList<UserDetailsModel_.Data>
             notifyDataSetChanged()
 
 //            no_tv.setText("(" + String.valueOf(results.count) + ")");

@@ -9,19 +9,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.adapters.MoneyTransactionAdapter
 import com.cognifygroup.vgold.getbankdetails.GetBankModel
-import com.cognifygroup.vgold.getbankdetails.GetBankServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
-import com.cognifygroup.vgold.model.BaseServiceResponseModel
-import com.cognifygroup.vgold.model.LoginSessionModel
-import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
-import com.cognifygroup.vgold.withdrawmoney.WithdrawMoneyModel
-import com.cognifygroup.vgold.withdrawmoney.WithdrawMoneyServiceProvider
 import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -50,7 +41,7 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
     var balance: String? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+   // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,137 +69,12 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
         //  checkLoginSession()
 
         AttemptToGetMoneyTransactionHistory(VGoldApp.onGetUerId())
-        AttemptToBank(VGoldApp.onGetUerId())
+      //  AttemptToBank(VGoldApp.onGetUerId())
 
         btnWithdrawMoney!!.setOnClickListener {
             onClickOfBtnWithdrawMoney()
-
-
         }
     }
-
-    /*private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog!!.hide()
-                    val status = (serviceResponse as LoginSessionModel).getStatus()
-                    val message = (serviceResponse as LoginSessionModel).getMessage()
-                    val data = (serviceResponse as LoginSessionModel).getData()
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data!!) {
-                            AlertDialogs().alertDialogOk(
-                                this@WithdrawActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@WithdrawActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog!!.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@WithdrawActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@WithdrawActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog!!.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@WithdrawActivity)
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
-        })
-    }*/
-//    private fun checkLoginSession() {
-//        loginStatusServiceProvider?.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-//            override fun <T> onSuccess(serviceResponse: T) {
-//                try {
-//                    progressDialog?.hide()
-//                    val json = JSONObject(serviceResponse.toString())
-//                    val gson = Gson()
-//                    val loginSessionModel = gson.fromJson(json.toString(), LoginSessionModel::class.java)
-//
-//                    val status: String? = loginSessionModel.getStatus()
-//                    val message: String? = loginSessionModel.getMessage()
-//                    val data: Boolean = loginSessionModel.getData() == true
-//                    Log.i("TAG", "onSuccess: $status")
-//                    Log.i("TAG", "onSuccess: $message")
-//                    if (status == "200") {
-//                        if (!data) {
-//                            AlertDialogs().alertDialogOk(
-//                                this@WithdrawActivity,
-//                                "Alert",
-//                                "$message,  Please relogin to app",
-//                                resources.getString(R.string.btn_ok),
-//                                11,
-//                                false,
-//                                alertDialogOkListener
-//                            )
-//                        }
-//                    } else {
-//                        AlertDialogs().alertDialogOk(
-//                            this@WithdrawActivity, "Alert", message,
-//                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-//                        )
-//                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-//                    }
-//                } catch (e: Exception) {
-//                    //  progressDialog.hide();
-//                    e.printStackTrace()
-//                } finally {
-//                    //  progressDialog.hide();
-//                }
-//            }
-//
-//            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-//
-//                try {
-//                    progressDialog?.hide()
-//                    if (apiErrorModel != null) {
-//                        PrintUtil.showToast(
-//                            this@WithdrawActivity,
-//                            (apiErrorModel as BaseServiceResponseModel).message
-//                        )
-//                    } else {
-//                        PrintUtil.showNetworkAvailableToast(this@WithdrawActivity)
-//                    }
-//                } catch (e: Exception) {
-//                    progressDialog?.hide()
-//                    e.printStackTrace()
-//                    PrintUtil.showNetworkAvailableToast(this@WithdrawActivity)
-//                } finally {
-//                    progressDialog?.hide()
-//                }
-//            }
-//        })
-//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -319,7 +185,7 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api calling
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", user_id)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/get_bank_details.php")
@@ -335,20 +201,20 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
             }
 
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    val status = json.get("status").toString()
-                    val message: String = json.get("Message").toString()
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message: String = json.get("Message").toString()
 
                     if (status == "200") {
                         Log.e(" Response", resp)
 
-                        val jsonString: String = resp //http request
+                        var jsonString: String = resp //http request
                         var dataValue = GetBankModel()
-                        val gson = Gson()
+                        var gson = Gson()
                         dataValue =
                             gson.fromJson(jsonString, GetBankModel::class.java)
 
@@ -479,19 +345,19 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
             .build()
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: Call, e: IOException) {
-                val mMessage = e.message.toString()
+                var mMessage = e.message.toString()
                 e.printStackTrace()
                 Log.e("failure Response", mMessage)
             }
 
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    val status = json.get("status").toString()
-                    val message = json.get("Message").toString()
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message = json.get("Message").toString()
                     runOnUiThread {
                         if (status == "200") {
                             val intent = Intent(this@WithdrawActivity, SuccessActivity::class.java)
@@ -598,34 +464,22 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
 
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    val status = json.get("status").toString()
-                    val message: String = json.get("Message").toString()
-
-                    if (status == "200") {
-                        Log.e(" Response", resp)
-
-                        val jsonString: String = resp //http request
-                        var dataValue = GetAllTransactionMoneyModel()
-                        val gson = Gson()
-                        dataValue =
-                            gson.fromJson(jsonString, GetAllTransactionMoneyModel::class.java)
-
-                        val message: String? =
-                            dataValue.message;
-                        runOnUiThread {
-                            balance = dataValue.wallet_Balance
+                    var json = JSONObject(resp)
+                    var status = json.optString("status").toString()
+                    var Wallet_Balance = json.optString("Wallet_Balance").toString()
+                    var message: String = json.optString("Message").toString()
+                    runOnUiThread {
+                        if (status == "200") {
+                            balance = Wallet_Balance
                             if (balance != null) {
                                 txtWalletBalence!!.text = "\u20B9 $balance"
                             }
-                        }
 
-                    } else {
-                        runOnUiThread {
+                        } else {
                             AlertDialogs().alertDialogOk(
                                 this@WithdrawActivity,
                                 "Alert",
@@ -640,8 +494,6 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
                 }
             }
         })
-
-
     }
 
     override fun onDialogOk(resultCode: Int) {

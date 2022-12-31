@@ -11,19 +11,19 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import com.cognifygroup.vgold.BuildConfig
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.activities.addmoney.AddMoneyModel
 import com.cognifygroup.vgold.activities.addmoney.AddMoneyServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
-import com.cognifygroup.vgold.model.BaseServiceResponseModel
-import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.bumptech.glide.Glide
+import okhttp3.Call
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -49,10 +49,10 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
     //var bnkdethideiv: ImageView? = null
 
     var mAlert: AlertDialogs? = null
-    var addMoneyServiceProvider: AddMoneyServiceProvider? = null
+   // var addMoneyServiceProvider: AddMoneyServiceProvider? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+   // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +82,8 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
 
         mAlert = AlertDialogs().getInstance()
 
-        addMoneyServiceProvider = AddMoneyServiceProvider(this)
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
+       // addMoneyServiceProvider = AddMoneyServiceProvider(this)
+      //  loginStatusServiceProvider = LoginStatusServiceProvider(this)
 
         Glide.with(this)
             .load("https://www.vgold.co.in/dashboard/vgold_rate/bank%20details.png")
@@ -201,66 +201,6 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
     }
 
 
-    private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog!!.hide()
-                    val status = (serviceResponse as LoginSessionModel).getStatus()
-                    val message = (serviceResponse as LoginSessionModel).getMessage()
-                    val data = (serviceResponse as LoginSessionModel).getData()
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data!!) {
-                            AlertDialogs().alertDialogOk(
-                                this@AddMoneyActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@AddMoneyActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog!!.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@AddMoneyActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@AddMoneyActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog!!.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@AddMoneyActivity)
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
-        })
-    }
-
     fun onClickOfBtnAddMoney() {
         if (payment_option == "Cheque") {
             AttemptToAddMoney(
@@ -311,25 +251,105 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
         cheque_no: String
     ) {
         // mAlert.onShowProgressDialog(AddBankActivity.this, true);
-        addMoneyServiceProvider!!.getAddBankDetails(
-            user_id,
-            amount,
-            payment_option,
-            bank_details,
-            tr_id,
-            cheque_no,
-            object : APICallback {
-                override fun <T> onSuccess(serviceResponse: T) {
-                    try {
-                        val status = (serviceResponse as AddMoneyModel).getStatus()
-                        val message = (serviceResponse as AddMoneyModel).getMessage()
-                        if (status == "200") {
+        /*   addMoneyServiceProvider!!.getAddBankDetails(
+               user_id,
+               amount,
+               payment_option,
+               bank_details,
+               tr_id,
+               cheque_no,
+               object : APICallback {
+                   override fun <T> onSuccess(serviceResponse: T) {
+                       try {
+                           val status = (serviceResponse as AddMoneyModel).getStatus()
+                           val message = (serviceResponse as AddMoneyModel).getMessage()
+                           if (status == "200") {
 
-                            //  mAlert.onShowToastNotification(AddMoneyActivity.this, message);
+                               //  mAlert.onShowToastNotification(AddMoneyActivity.this, message);
+                               val intent = Intent(this@AddMoneyActivity, SuccessActivity::class.java)
+                               intent.putExtra("message", message)
+                               startActivity(intent)
+                               finish()
+                           } else {
+                               AlertDialogs().alertDialogOk(
+                                   this@AddMoneyActivity,
+                                   "Alert",
+                                   message,
+                                   resources.getString(R.string.btn_ok),
+                                   0,
+                                   false,
+                                   alertDialogOkListener
+                               )
+                               //                        mAlert.onShowToastNotification(AddMoneyActivity.this, message);
+   //                        Intent intent=new Intent(AddMoneyActivity.this,MainActivity.class);
+   //                        startActivity(intent);
+                           }
+                       } catch (e: Exception) {
+                           e.printStackTrace()
+                       } finally {
+                           progressDialog!!.hide()
+                       }
+                   }
+
+                   override fun <T> onFailure(apiErrorModel: T, extras: T) {
+
+                       try {
+                           if (apiErrorModel != null) {
+   //                            PrintUtil.showToast(
+   //                                this@AddMoneyActivity,
+   //                                (apiErrorModel as BaseServiceResponseModel).message
+   //                            )
+                           } else {
+                               PrintUtil.showNetworkAvailableToast(this@AddMoneyActivity)
+                           }
+                       } catch (e: Exception) {
+                           e.printStackTrace()
+                           PrintUtil.showNetworkAvailableToast(this@AddMoneyActivity)
+                       } finally {
+                           progressDialog!!.hide()
+                       }
+                   }
+               })*/
+
+        // change in api calling
+        // change in api
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("amount", amount)
+            .addFormDataPart("payment_option", payment_option)
+            .addFormDataPart("bank_details", bank_details)
+            .addFormDataPart("tr_id", tr_id)
+            .addFormDataPart("cheque_no", cheque_no)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/add_money.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message = json.get("Message").toString()
+                    runOnUiThread {
+                        if (status == "200") {
                             val intent = Intent(this@AddMoneyActivity, SuccessActivity::class.java)
                             intent.putExtra("message", message)
                             startActivity(intent)
                             finish()
+
                         } else {
                             AlertDialogs().alertDialogOk(
                                 this@AddMoneyActivity,
@@ -340,36 +360,11 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
                                 false,
                                 alertDialogOkListener
                             )
-                            //                        mAlert.onShowToastNotification(AddMoneyActivity.this, message);
-//                        Intent intent=new Intent(AddMoneyActivity.this,MainActivity.class);
-//                        startActivity(intent);
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        progressDialog!!.hide()
                     }
                 }
-
-                override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                    try {
-                        if (apiErrorModel != null) {
-//                            PrintUtil.showToast(
-//                                this@AddMoneyActivity,
-//                                (apiErrorModel as BaseServiceResponseModel).message
-//                            )
-                        } else {
-                            PrintUtil.showNetworkAvailableToast(this@AddMoneyActivity)
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        PrintUtil.showNetworkAvailableToast(this@AddMoneyActivity)
-                    } finally {
-                        progressDialog!!.hide()
-                    }
-                }
-            })
+            }
+        })
     }
 
     override fun onDialogOk(resultCode: Int) {

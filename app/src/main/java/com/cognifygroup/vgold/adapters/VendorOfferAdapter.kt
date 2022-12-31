@@ -9,23 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
-import butterknife.InjectView
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.activities.OfferLetterActivity
 import com.cognifygroup.vgold.getVendorOffer.VendorOfferModel
-import com.google.firebase.messaging.Constants.MessageNotificationKeys.IMAGE_URL
 import com.nostra13.universalimageloader.core.DisplayImageOptions
 import com.squareup.picasso.Picasso
 
 class VendorOfferAdapter(
-    Context: Context,
-    mCategoryArray: ArrayList<VendorOfferModel.Data>,
-    key: String
-) :
-    RecyclerView.Adapter<VendorOfferAdapter.UserViewHolder>() {
+    Context: Context, mCategoryArray: ArrayList<VendorOfferModel.Data>, key: String
+) : RecyclerView.Adapter<VendorOfferAdapter.UserViewHolder>() {
     private val mContext: Activity
     var mCategoryArray: ArrayList<VendorOfferModel.Data>
     private val area: String? = null
@@ -43,8 +37,7 @@ class VendorOfferAdapter(
     }
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent: ViewGroup, viewType: Int
     ): UserViewHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.adapter_our_business, null)
@@ -54,7 +47,7 @@ class VendorOfferAdapter(
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         //set font
 
-        holder.rlayout_category!!.setOnClickListener {
+        holder.rlayout_category.setOnClickListener {
             val intent = Intent(mContext, OfferLetterActivity::class.java)
             intent.putExtra("offer", mCategoryArray[position].letter_path)
             intent.putExtra("offer1", mCategoryArray[position].advertisement_path)
@@ -77,10 +70,8 @@ class VendorOfferAdapter(
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher)
                     .into(holder.imv_category);*/
-            Picasso.with(mContext).load(BaseUrl)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .into(holder.imv_category)
+            Picasso.with(mContext).load(BaseUrl).placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher).into(holder.imv_category)
 
 
             /*Picasso.with(mContext)
@@ -110,8 +101,7 @@ class VendorOfferAdapter(
         return mCategoryArray.size
     }
 
-    inner class UserViewHolder(itemView: View?) :
-        RecyclerView.ViewHolder(itemView!!) {
+    inner class UserViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val rlayout_category: RelativeLayout = itemView!!.findViewById(R.id.rlayout_category)
         val imv_category: ImageView = itemView!!.findViewById(R.id.imv_category)
         /*@InjectView(R.id.cardView)

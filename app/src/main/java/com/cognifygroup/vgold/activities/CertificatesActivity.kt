@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.activities
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -69,6 +70,7 @@ class CertificatesActivity : AppCompatActivity() {
     private var xCoOrdinate = 0f
     private var yCoOrdinate: kotlin.Float = 0f
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_certificates)

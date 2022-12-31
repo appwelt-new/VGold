@@ -16,7 +16,7 @@ class VendorForDepositeModel {
     @SerializedName("status")
     var status: String? = null
 
-    class Data {
+    class Data() {
         @Expose
         @SerializedName("firm_name")
         var firm_name: String? = null

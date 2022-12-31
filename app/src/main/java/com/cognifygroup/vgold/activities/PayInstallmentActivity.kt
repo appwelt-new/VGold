@@ -25,17 +25,12 @@ import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.cognifygroup.vgold.BuildConfig
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.fetchDownPayment.FetchDownPaymentModel
-import com.cognifygroup.vgold.fetchDownPayment.FetchDownPaymentServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.interfaces.GetBookingIdModel
 import com.cognifygroup.vgold.model.*
 import com.cognifygroup.vgold.payInstallment.PayInstallmentModel
-import com.cognifygroup.vgold.payInstallment.PayInstallmentServiceProvider
 import com.cognifygroup.vgold.utilities.ColorSpinnerAdapter
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
-import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -109,13 +104,13 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
     private var alertDialogOkListener: AlertDialogOkListener = this
 
     var mAlert: AlertDialogs? = null
-    var getGoldBookingIdServiceProvider: GetGoldBookingIdServiceProvider? = null
+ /*   var getGoldBookingIdServiceProvider: GetGoldBookingIdServiceProvider? = null
     var fetchDownPaymentServiceProvider: FetchDownPaymentServiceProvider? = null
     var payInstallmentServiceProvider: PayInstallmentServiceProvider? = null
     var getAllTransactionMoneyServiceProvider: GetAllTransactionMoneyServiceProvider? = null
     var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
     var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -429,7 +424,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", user_id)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/money_wallet_transactions.php")
@@ -439,51 +434,32 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
             .build()
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: Call, e: IOException) {
-                val mMessage = e.message.toString()
-                e.printStackTrace()
-                progressDialog!!.dismiss()
 
-                Log.e("failure Response", mMessage)
-                PrintUtil.showToast(
-                    this@PayInstallmentActivity,
-                    (call as BaseServiceResponseModel).message
-                )
             }
 
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    val status = json.get("status").toString()
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
                     runOnUiThread {
                         if (status == "200") {
+                            var Wallet_Balance = json.optString("Wallet_Balance").toString()
                             progressDialog!!.dismiss()
-
-                            val jsonString: String = resp //http request
-                            var dataValue = GetAllTransactionMoneyModel()
-                            val gson = Gson()
-                            dataValue =
-                                gson.fromJson(jsonString, GetAllTransactionMoneyModel::class.java)
-
-                            runOnUiThread {
-                                val message: String? = dataValue.message
-                                moneyWalletBal = dataValue.wallet_Balance
-                                txtWalletRupee!!.text = resources.getString(R.string.rs)
-                                txtWalletAmount!!.text = moneyWalletBal
-                            }
-
+                            moneyWalletBal = Wallet_Balance
+                            txtWalletRupee!!.text = resources.getString(R.string.rs)
+                            txtWalletAmount!!.text = moneyWalletBal
                         }
                     }
-
                 }
             }
         })
     }
 
     private fun AttemptToGetGoldBalance(user_id: String?) {
-        progressDialog!!.show()
+      //  progressDialog!!.show()
         /*  getAllTransactionGoldServiceProvider?.getAllTransactionGoldHistory(
               user_id,
               object : APICallback {
@@ -531,7 +507,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", user_id)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/gold_wallet_transactions.php")
@@ -556,34 +532,26 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
             }
 
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
+                    var json = JSONObject(resp)
                     val status = json.get("status").toString()
                     runOnUiThread {
                         if (status == "200") {
+                            var gold_Balance = json.optString("gold_Balance").toString()
                             progressDialog!!.hide()
-
-                            val jsonString: String = resp //http request
-                            var dataValue = GetAllTransactionGoldModel()
-                            val gson = Gson()
-                            dataValue =
-                                gson.fromJson(jsonString, GetAllTransactionGoldModel::class.java)
-
-                            val balance: String? =
-                                dataValue.gold_Balance
+                            var balance: String? =
+                                gold_Balance
                             var gold = balance?.toDouble()
-                            val numberFormat = DecimalFormat("#.000")
+                            var numberFormat = DecimalFormat("#.000")
                             gold = numberFormat.format(gold).toDouble()
                             //                    walletAmtId.setText("Gold Wallet Balance " + gold + " GM");
                             txtGoldAmount!!.text = "$gold GM"
                             AttemptToGetTodayGoldRate(gold)
-
                         }
                     }
-
                 }
             }
         })
@@ -639,116 +607,40 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
             .build()
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: Call, e: IOException) {
-                val mMessage = e.message.toString()
+                var mMessage = e.message.toString()
                 e.printStackTrace()
                 progressDialog!!.hide()
 
                 Log.e("failure Response", mMessage)
                 PrintUtil.showToast(
                     this@PayInstallmentActivity,
-                   mMessage.toString()
+                    mMessage.toString()
                 )
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    val status = json.get("status").toString()
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
                     runOnUiThread {
                         if (status == "200") {
+                            var Gold_purchase_rate = json.optString("Gold_purchase_rate").toString()
                             progressDialog!!.hide()
-                            val jsonString: String = resp //http request
-                            var dataValue = GetTodayGoldRateModel()
-                            val gson = Gson()
-                            dataValue =
-                                gson.fromJson(jsonString, GetTodayGoldRateModel::class.java)
-
-                            val todayGoldPurchaseRate: String? =
-                                dataValue.gold_purchase_rate
-                            val sellingRate = gold * todayGoldPurchaseRate!!.toDouble()
+                            var todayGoldPurchaseRate: String? =
+                                Gold_purchase_rate
+                            var sellingRate = gold * todayGoldPurchaseRate!!.toDouble()
                             GoldAmt = DecimalFormat("##.##").format(sellingRate)
                             txtGoldValue!!.text = "(Worth ₹ $GoldAmt)"
-
                         }
                     }
-
-
                 }
             }
         })
     }
-
-    /*private fun checkLoginSession() {
-        loginStatusServiceProvider?.getLoginStatus(
-            VGoldApp.onGetUerId(),
-            object : APICallback {
-                override fun <T> onSuccess(serviceResponse: T) {
-                    try {
-                        progressDialog!!.hide()
-                        val status: String? = (serviceResponse as LoginSessionModel).getStatus()
-                        val message: String? =
-                            (serviceResponse as LoginSessionModel).getMessage()
-                        val data: Boolean =
-                            (serviceResponse as LoginSessionModel).getData() == true
-                        Log.i("TAG", "onSuccess: $status")
-                        Log.i("TAG", "onSuccess: $message")
-                        if (status == "200") {
-                            if (!data) {
-                                AlertDialogs().alertDialogOk(
-                                    this@PayInstallmentActivity,
-                                    "Alert",
-                                    "$message,  Please relogin to app",
-                                    resources.getString(R.string.btn_ok),
-                                    11,
-                                    false,
-                                    alertDialogOkListener
-                                )
-                            }
-                        } else {
-                            AlertDialogs().alertDialogOk(
-                                this@PayInstallmentActivity,
-                                "Alert",
-                                message,
-                                resources.getString(R.string.btn_ok),
-                                0,
-                                false,
-                                alertDialogOkListener
-                            )
-                            //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                        }
-                    } catch (e: Exception) {
-                        //  progressDialog.hide();
-                        e.printStackTrace()
-                    } finally {
-                        //  progressDialog.hide();
-                    }
-                }
-
-                override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                    try {
-                        progressDialog!!.hide()
-                        if (apiErrorModel != null) {
-                            PrintUtil.showToast(
-                                this@PayInstallmentActivity,
-                                (apiErrorModel as BaseServiceResponseModel).message
-                            )
-                        } else {
-                            PrintUtil.showNetworkAvailableToast(this@PayInstallmentActivity)
-                        }
-                    } catch (e: Exception) {
-                        progressDialog!!.hide()
-                        e.printStackTrace()
-                        PrintUtil.showNetworkAvailableToast(this@PayInstallmentActivity)
-                    } finally {
-                        progressDialog!!.hide()
-                    }
-                }
-            })
-    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -1115,15 +1007,15 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        val btnYes = dialog.findViewById<AppCompatButton>(R.id.btnYes)
-        val btnNo = dialog.findViewById<AppCompatButton>(R.id.btnNo)
-        val txtBalanceRemainId = dialog.findViewById<TextView>(R.id.txtBalanceRemainId)
-        val txtPayableAmtId = dialog.findViewById<TextView>(R.id.txtPayableAmtId)
-        val txtSaleRateId = dialog.findViewById<TextView>(R.id.txtSaleRateId)
-        val txtGSTAmtId = dialog.findViewById<TextView>(R.id.txtGSTAmtId)
-        val txtWalletAmtId = dialog.findViewById<TextView>(R.id.txtWalletAmtId)
-        val txtGSTPayableAmtId = dialog.findViewById<TextView>(R.id.txtGSTPayableAmtId)
-        val txtDeductedGoldId = dialog.findViewById<TextView>(R.id.txtDeductedGoldId)
+        var btnYes = dialog.findViewById<AppCompatButton>(R.id.btnYes)
+        var btnNo = dialog.findViewById<AppCompatButton>(R.id.btnNo)
+        var txtBalanceRemainId = dialog.findViewById<TextView>(R.id.txtBalanceRemainId)
+        var txtPayableAmtId = dialog.findViewById<TextView>(R.id.txtPayableAmtId)
+        var txtSaleRateId = dialog.findViewById<TextView>(R.id.txtSaleRateId)
+        var txtGSTAmtId = dialog.findViewById<TextView>(R.id.txtGSTAmtId)
+        var txtWalletAmtId = dialog.findViewById<TextView>(R.id.txtWalletAmtId)
+        var txtGSTPayableAmtId = dialog.findViewById<TextView>(R.id.txtGSTPayableAmtId)
+        var txtDeductedGoldId = dialog.findViewById<TextView>(R.id.txtDeductedGoldId)
         if (key.equals("moneyWallet", ignoreCase = true)) {
             txtGSTAmtId.visibility = View.GONE
             txtGSTPayableAmtId.visibility = View.GONE
@@ -1447,30 +1339,19 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    val status = json.get("status").toString()
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var monthly_installment = json.optString("monthly_installment").toString()
 
                     runOnUiThread {
                         if (status == "200") {
-                            val jsonString: String = resp //http request
-                            var dataValue = FetchDownPaymentModel()
-                            val gson = Gson()
-                            dataValue =
-                                gson.fromJson(jsonString, FetchDownPaymentModel::class.java)
-
-                            val amount: String? =
-                                dataValue.getMonthly_installment()
-
-                            txtAmount!!.text = amount
+                            txtAmount!!.text = monthly_installment
                             txtRupee!!.text = resources.getString(R.string.rs)
                             txtAmount!!.visibility = View.VISIBLE
-
                         } else {
                             txtAmount!!.text = ""
                         }
                     }
-
-
                 }
             }
         })
@@ -1563,34 +1444,40 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
             }
 
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
+                var resp = response.body()!!.string()
 
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
-                    //  val message: String = json.get("Message").toString()
-                    val jsonString: String = resp //http request
-                    var dataValue = GetBookingIdModel()
-                    val gson = Gson()
-                    dataValue =
-                        gson.fromJson(jsonString, GetBookingIdModel::class.java)
+                    var json = JSONObject(resp)
 
+                    val status: String? =
+                        json.getString("status")
                     val message: String? =
-                        dataValue.message;
+                        json.getString("Message")
 
-                    if (dataValue.status.toString().equals("200")) {
+                    if (status.equals("200")) {
                         Log.e(" Response", resp)
-
-
 
                         runOnUiThread {
 
-                            val mArrCity: ArrayList<GetBookingIdModel.Data>? =
-                                dataValue.data
-                            val maritalStatusSpinnerAdapter = ColorSpinnerAdapter(
+                            var prdds = json.getJSONArray("Data")
+                            var cndList = ArrayList<GetBookingIdModel.Data>()
+                            for (i in 0 until prdds.length()) {
+                                var item = GetBookingIdModel.Data(
+                                    prdds.getJSONObject(i).optString("id"),
+                                    prdds.getJSONObject(i).optInt("is_paid")
+                                )
+                                cndList += item
+                            }
+
+
+                            var mArrCity: ArrayList<GetBookingIdModel.Data> =
+                                cndList
+
+                            var maritalStatusSpinnerAdapter = ColorSpinnerAdapter(
                                 this@PayInstallmentActivity,
-                                R.layout.support_simple_spinner_dropdown_item, mArrCity!!
+                                R.layout.support_simple_spinner_dropdown_item, mArrCity
                             )
                             maritalStatusSpinnerAdapter.setDropDownViewResource(R.layout.custom_spinner_item)
                             maritalStatusSpinnerAdapter.notifyDataSetChanged()
@@ -1604,7 +1491,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
                                         id: Long
                                     ) {
                                         bookingId =
-                                            java.lang.String.valueOf(mArrCity?.get(position)!!.id)
+                                            java.lang.String.valueOf(mArrCity.get(position).id)
                                         AttemptTogetDownPayment(bookingId!!)
                                     }
 
@@ -1728,8 +1615,8 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
     */
 
         // change in api calling
-        val client = OkHttpClient().newBuilder().build()
-        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+        var client = OkHttpClient().newBuilder().build()
+        var requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("user_id", user_id)
             .addFormDataPart("gbid", gbid)
             .addFormDataPart("amountr", amountr)
@@ -1755,28 +1642,33 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
 
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val resp = response.body()!!.string()
-
-
+                var resp = response.body()!!.string()
+                var json = JSONObject(resp)
                 // Stuff that updates the UI
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(resp)
                     // val status = json.get("status").toString()
+                    var status: String? =
+                        json.getString("status")
+                    var message: String? =
+                        json.getString("Message")
+                    var data: JSONObject? = json.optJSONObject("data")
 
-                    val jsonString: String = resp //http request
-                    var dataValue = PayInstallmentModel()
-                    val gson = Gson()
-                    dataValue =
-                        gson.fromJson(jsonString, PayInstallmentModel::class.java)
 
-                    val status: String? = dataValue.getStatus()
-                    val message: String? = dataValue.getMessage()
+                    var newData: PayInstallmentModel.Data? = PayInstallmentModel.Data()
+                    newData?.today_sale_rate = data?.optString("today_sale_rate")
+                    newData?.amount_to_pay = data?.optString("amount_to_pay")
+                    newData?.amount_to_pay_gst = data?.optString("amount_to_pay_gst")
+                    newData?.gst_per = data?.optString("gst_per")
+                    newData?.gold_in_wallet = data?.optString("gold_in_wallet")
+                    newData?.gold_reduce = data?.optString("gold_reduce")
+                    newData?.reduced_gold_in_wallet = data?.optString("reduced_gold_in_wallet")
+
 
                     runOnUiThread {
                         if (status == "200") {
-                            dataModel = dataValue.getData()
+                            dataModel = newData
                             msg = message
                             if (payment_option.equals("Gold Wallet", ignoreCase = true) &&
                                 confirmVal.equals("0", ignoreCase = true)

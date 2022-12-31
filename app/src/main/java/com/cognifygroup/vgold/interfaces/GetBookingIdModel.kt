@@ -17,18 +17,9 @@ class GetBookingIdModel {
     @SerializedName("status")
     var status: String? = null
 
-    class Data {
-        @Expose
-        @SerializedName("id")
-        var id: String? = null
+    class Data(var id:String,var is_paid:Int ) {
 
-        @Expose
-        @SerializedName("is_paid")
-        var is_paid: Int? = null
 
-        override fun toString(): String {
-            return id!!
-        }
     }
 }
 

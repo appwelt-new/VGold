@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -8,17 +9,12 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.getbankdetails.GetBankServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.*
-import com.cognifygroup.vgold.sellGold.SellGoldModel
 import com.cognifygroup.vgold.sellGold.SellGoldServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
-import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -45,13 +41,15 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
     private var amt: kotlin.String? = null
 
     var mAlert: AlertDialogs? = null
+
     var sellGoldServiceProvider: SellGoldServiceProvider? = null
-    var getBankServiceProvider: GetBankServiceProvider? = null
-    var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
-    var getTodayGoldSellRateServiceProvider: GetTodayGoldSellRateServiceProvider? = null
+
+    //  var getBankServiceProvider: GetBankServiceProvider? = null
+    // var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
+    //  var getTodayGoldSellRateServiceProvider: GetTodayGoldSellRateServiceProvider? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,15 +71,15 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         mAlert = AlertDialogs().getInstance()
 
-        //  sellGoldServiceProvider = SellGoldServiceProvider(this)
+        // sellGoldServiceProvider = SellGoldServiceProvider(this)
         // getBankServiceProvider = GetBankServiceProvider()
         //  getAllTransactionGoldServiceProvider = GetAllTransactionGoldServiceProvider(this)
         //   getTodayGoldSellRateServiceProvider = GetTodayGoldSellRateServiceProvider(this)
         //  loginStatusServiceProvider = LoginStatusServiceProvider(this)
         //   checkLoginSession()
 
-        //AttemptToGetTodayGoldRateOld()
-        AttemptToGetTodayGoldRate()
+        AttemptToGetTodayGoldRateOld()
+
 
         AttemptToGetGoldTransactionHistory(VGoldApp.onGetUerId())
 
@@ -97,11 +95,12 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
             }
 
+            @SuppressLint("SetTextI18n")
             override fun afterTextChanged(s: Editable) {
                 //edtGoldWeight.addTextChangedListener(null);
                 if (s.length != 0 && s.toString() != ".") {
                     weight = edtGoldWeight!!.text.toString().toDouble()
-                    result = weight * TodayGoldSellRateValue!!.toDouble()
+                    result = weight * TodayGoldSellRate!!.toDouble()
                     if (result != 0.00) {
                         txtSellAmount!!.text = "" + DecimalFormat("##.##").format(result) + " ₹"
                     }
@@ -114,65 +113,6 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         edtGoldWeight!!.addTextChangedListener(textWatcher)
     }
 
-    private fun checkLoginSession() {
-        loginStatusServiceProvider?.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog?.hide()
-                    val status: String? = (serviceResponse as LoginSessionModel).getStatus()
-                    val message: String? = (serviceResponse as LoginSessionModel).getMessage()
-                    val data: Boolean = (serviceResponse as LoginSessionModel).getData() == true
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data) {
-                            AlertDialogs().alertDialogOk(
-                                this@SellGoldActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@SellGoldActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog?.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@SellGoldActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog?.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
-                } finally {
-                    progressDialog?.hide()
-                }
-            }
-        })
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -217,7 +157,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
     }
 
     private fun getOtp(user_id: String?) {
-        progressDialog!!.show()
+        //     progressDialog!!.show()
 /*        sellGoldServiceProvider?.getOTP(user_id, "send_otp", object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 val Status: String? = (serviceResponse as SellGoldModel).getStatus()
@@ -280,7 +220,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", user_id)
             .addFormDataPart("action", "send_otp")
             .build()
         val request = okhttp3.Request.Builder()
@@ -302,36 +242,31 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(mMessage)
-                    val status = json.get("status").toString()
-                    val msg = json.get("Message").toString()
+                    var json = JSONObject(mMessage)
+                    var status = json.get("status").toString()
+                    var msg = json.get("Message").toString()
                     try {
-                        if (status == "200") {
-                            startActivity(
-                                Intent(this@SellGoldActivity, OtpVerificationActivity::class.java)
-                                    .putExtra("moveFrom", "SellGold")
-                                    .putExtra("Weight", goldWeight)
-                                    .putExtra("AMOUNT", amt)
-                            )
-
-
-                            /*startActivity(new Intent(PayActivity.this, Otp1Activity.class)
-                                        .putExtra("OTP", otp)
-                                        .putExtra("AMOUNT", "" + result)
-                                        .putExtra("Weight", weight)
-                                        .putExtra("NO", mobNo));*/
-                        } else {
-                            AlertDialogs().alertDialogOk(
-                                this@SellGoldActivity,
-                                "Alert",
-                                msg,
-                                resources.getString(R.string.btn_ok),
-                                0,
-                                false,
-                                alertDialogOkListener
-                            )
-
-                            //                        mAlert.onShowToastNotification(PayActivity.this, message);
+                        runOnUiThread {
+                            if (status == "200") {
+                                startActivity(
+                                    Intent(
+                                        this@SellGoldActivity,
+                                        OtpVerificationActivity::class.java
+                                    )
+                                        .putExtra("moveFrom", "SellGold")
+                                        .putExtra("Weight", goldWeight)
+                                        .putExtra("AMOUNT", amt)
+                                )
+                            } else {
+                                AlertDialogs().alertDialogOk(
+                                    this@SellGoldActivity, "Alert",
+                                    msg,
+                                    resources.getString(R.string.btn_ok),
+                                    0,
+                                    false,
+                                    alertDialogOkListener
+                                )
+                            }
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -347,54 +282,54 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
     private fun AttemptToSellGold(user_id: String, gold: String, amount: String) {
         // mAlert.onShowProgressDialog(AddBankActivity.this, true);
-        sellGoldServiceProvider?.getAddBankDetails(user_id, gold, amount, object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    val status: String? = (serviceResponse as SellGoldModel).getStatus()
-                    val message: String? = (serviceResponse as SellGoldModel).getMessage()
-                    if (status == "200") {
+        /* sellGoldServiceProvider?.getAddBankDetails(user_id, gold, amount, object : APICallback {
+             override fun <T> onSuccess(serviceResponse: T) {
+                 try {
+                     val status: String? = (serviceResponse as SellGoldModel).getStatus()
+                     val message: String? = (serviceResponse as SellGoldModel).getMessage()
+                     if (status == "200") {
 
-                        //  mAlert.onShowToastNotification(SellGoldActivity.this, message);
-                        val intent = Intent(this@SellGoldActivity, SuccessActivity::class.java)
-                        intent.putExtra("message", message)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@SellGoldActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
+                         //  mAlert.onShowToastNotification(SellGoldActivity.this, message);
+                         val intent = Intent(this@SellGoldActivity, SuccessActivity::class.java)
+                         intent.putExtra("message", message)
+                         startActivity(intent)
+                         finish()
+                     } else {
+                         AlertDialogs().alertDialogOk(
+                             this@SellGoldActivity, "Alert", message,
+                             resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
+                         )
 
-                        //                        mAlert.onShowToastNotification(SellGoldActivity.this, message);
-                        //                        Intent intent = new Intent(SellGoldActivity.this, MainActivity.class);
-                        //                        startActivity(intent);
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
+                         //                        mAlert.onShowToastNotification(SellGoldActivity.this, message);
+                         //                        Intent intent = new Intent(SellGoldActivity.this, MainActivity.class);
+                         //                        startActivity(intent);
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                 } finally {
+                     progressDialog!!.hide()
+                 }
+             }
 
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
+             override fun <T> onFailure(apiErrorModel: T, extras: T) {
 
-                try {
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@SellGoldActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
-        })
+                 try {
+                     if (apiErrorModel != null) {
+                         PrintUtil.showToast(
+                             this@SellGoldActivity,
+                             (apiErrorModel as BaseServiceResponseModel).message
+                         )
+                     } else {
+                         PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                     PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
+                 } finally {
+                     progressDialog!!.hide()
+                 }
+             }
+         })*/
     }
 
 
@@ -462,7 +397,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", user_id)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/gold_wallet_transactions.php")
@@ -478,92 +413,83 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 Log.e("failure Response", mMessage)
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val mMessage = response.body()!!.string()
+                var mMessage = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(mMessage)
-                    val status = json.get("status").toString()
-                    if (status == "200") {
-
-
-                        val jsonString: String = mMessage //http request
-                        var dataValue = GetAllTransactionGoldModel()
-                        val gson = Gson()
-                        dataValue =
-                            gson.fromJson(jsonString, GetAllTransactionGoldModel::class.java)
-
-
-                        Log.e(" Response", mMessage)
-                        if (json.getString("Message").toString().equals("Success")) {
-                            balance = dataValue.gold_Balance
-                            txtWalletBalence!!.text = balance + "GM"
+                    runOnUiThread {
+                        var json = JSONObject(mMessage)
+                        var status = json.get("status").toString()
+                        if (status == "200") {
+                            if (json.getString("Message").toString().equals("Success")) {
+                                var gold_Balance = json.optString("gold_Balance").toString()
+                                balance = gold_Balance
+                                txtWalletBalence!!.text = balance + "GM"
+                            }
+                        } else {
+                            PrintUtil.showToast(
+                                this@SellGoldActivity,
+                                json.getString("Message").toString()
+                            )
                         }
-                    } else {
-                        PrintUtil.showToast(
-                            this@SellGoldActivity,
-                            json.getString("Message").toString()
-                        )
                     }
                 }
             }
         })
-
     }
 
 
     private fun AttemptToGetTodayGoldRateOld() {
         // mAlert.onShowProgressDialog(SellGoldActivity.this, true);
-        getTodayGoldSellRateServiceProvider?.getTodayGoldRate(object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    val status: String? = (serviceResponse as GetTodayGoldSellModel).status
-                    val message: String? = (serviceResponse as GetTodayGoldSellModel).message
-                    TodayGoldSellRate =
-                        (serviceResponse as GetTodayGoldSellModel).gold_sale_rate
-                    txtGoldRate!!.text = "₹ $TodayGoldSellRate/GM"
-                    if (status == "200") {
-                        //  mAlert.onShowToastNotification(SellGoldActivity.this, message);
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@SellGoldActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(SellGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    progressDialog?.hide()
-                }
-            }
+        /* getTodayGoldSellRateServiceProvider?.getTodayGoldRate(object : APICallback {
+             override fun <T> onSuccess(serviceResponse: T) {
+                 try {
+                     val status: String? = (serviceResponse as GetTodayGoldSellModel).status
+                     val message: String? = (serviceResponse as GetTodayGoldSellModel).message
+                     TodayGoldSellRate =
+                         (serviceResponse as GetTodayGoldSellModel).gold_sale_rate
+                     txtGoldRate!!.text = "₹ $TodayGoldSellRate/GM"
+                     if (status == "200") {
+                         //  mAlert.onShowToastNotification(SellGoldActivity.this, message);
+                     } else {
+                         AlertDialogs().alertDialogOk(
+                             this@SellGoldActivity, "Alert", message,
+                             resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
+                         )
+                         //                        mAlert.onShowToastNotification(SellGoldActivity.this, message);
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                 } finally {
+                     progressDialog?.hide()
+                 }
+             }
 
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
+             override fun <T> onFailure(apiErrorModel: T, extras: T) {
 
-                try {
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@SellGoldActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
-                } finally {
-                    progressDialog?.hide()
-                }
-            }
-        })
-
-
-    }
+                 try {
+                     if (apiErrorModel != null) {
+                         PrintUtil.showToast(
+                             this@SellGoldActivity,
+                             (apiErrorModel as BaseServiceResponseModel).message
+                         )
+                     } else {
+                         PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                     PrintUtil.showNetworkAvailableToast(this@SellGoldActivity)
+                 } finally {
+                     progressDialog?.hide()
+                 }
+             }
+         })*/
 
 
-    private fun AttemptToGetTodayGoldRate() {
+        // change in api calling
+
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("user_id", VGoldApp.onGetUerId())
@@ -582,29 +508,30 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 Log.e("failure Response", mMessage)
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: okhttp3.Response) {
                 val mMessage = response.body()!!.string()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-
-                    val json = JSONObject(mMessage)
-                    val status = json.get("status").toString()
-                    if (status == "200") {
-                        Log.e(" Response", mMessage)
-                        if (json.getString("Message").toString().equals("Success")) {
-                            txtGoldRate!!.text = "₹" + json.getString("Gold_sale_rate") + "/GM"
-                            TodayGoldSellRateValue = json.getString("Gold_sale_rate")
+                    var json = JSONObject(mMessage)
+                    var status = json.get("status").toString()
+                    runOnUiThread {
+                        if (status == "200") {
+                            Log.e(" Response", mMessage)
+                            TodayGoldSellRate = json.optString("Gold_sale_rate").toString()
+                            txtGoldRate!!.text = "₹ $TodayGoldSellRate/GM"
+                        } else {
+                            PrintUtil.showToast(
+                                this@SellGoldActivity,
+                                json.getString("Message").toString()
+                            )
                         }
-                    } else {
-                        PrintUtil.showToast(
-                            this@SellGoldActivity,
-                            json.getString("Message").toString()
-                        )
                     }
                 }
             }
         })
+
     }
 
     override fun onDialogOk(resultCode: Int) {

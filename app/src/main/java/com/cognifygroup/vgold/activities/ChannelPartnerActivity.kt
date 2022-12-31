@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -16,18 +17,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cognifygroup.vgold.CPModule.CPServiceProvider
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.adapters.CPUserDetailsAdapter
-import com.cognifygroup.vgold.channelpartner.UserDetailsModel
-import com.cognifygroup.vgold.interfaces.APICallback
+import com.cognifygroup.vgold.channelpartner.UserDetailsModel_
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
-import com.cognifygroup.vgold.model.BaseServiceResponseModel
-import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
-import com.google.gson.Gson
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -43,8 +41,8 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
     var mAlert: AlertDialogs? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
-    private var mCPUserServiceProvider: CPServiceProvider? = null
+   // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+   // private var mCPUserServiceProvider: CPServiceProvider? = null
     private var mAdapter: CPUserDetailsAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,8 +72,8 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
         progressDialog!!.setCancelable(false)
         setFinishOnTouchOutside(false)
         mAlert = AlertDialogs().getInstance()
-        mCPUserServiceProvider = CPServiceProvider(this)
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
+      //  mCPUserServiceProvider = CPServiceProvider(this)
+       // loginStatusServiceProvider = LoginStatusServiceProvider(this)
         recyclerUsers!!.layoutManager = LinearLayoutManager(this@ChannelPartnerActivity)
         if (VGoldApp.onGetUserTot() != null && !TextUtils.isEmpty(VGoldApp.onGetUserTot())) {
             txtUserCountr!!.text = VGoldApp.onGetUserTot()
@@ -105,68 +103,8 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
         getUserDetails()
     }
 
-    private fun checkLoginSession() {
-        /*loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog!!.hide()
-                    val status: String? = (serviceResponse as LoginSessionModel).getStatus()
-                    val message: String? = (serviceResponse as LoginSessionModel).getMessage()
-                    val data: Boolean = (serviceResponse as LoginSessionModel).getData() == true
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data) {
-                            AlertDialogs().alertDialogOk(
-                                this@ChannelPartnerActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@ChannelPartnerActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog!!.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@ChannelPartnerActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@ChannelPartnerActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog!!.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@ChannelPartnerActivity)
-                } finally {
-                    progressDialog!!.hide()
-                }
-            }
-        })*/
-    }
-
     fun getUserDetails() {
-      //  progressDialog!!.show()
+        //  progressDialog!!.show()
         Log.i("TAG", "getUserDetails: " + VGoldApp.onGetUerId())
         /* mCPUserServiceProvider?.getUserDetails(VGoldApp.onGetUerId(), object : APICallback {
              override fun <T> onSuccess(serviceResponse: T) {
@@ -245,29 +183,43 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
                 Log.e("failure Response", mMessage)
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: okhttp3.Response) {
-                val mMessage = response.body()!!.string()
-                val json2 = JSONObject(mMessage)
-                val message = json2.get("Message").toString()
+                var mMessage = response.body()!!.string()
+                var json2 = JSONObject(mMessage)
+                var message = json2.get("Message").toString()
                 progressDialog!!.hide()
 
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
-                    val json = JSONObject(mMessage)
-                    val status = json.get("status").toString()
+                    var json = JSONObject(mMessage)
+                    var status = json.get("status").toString()
                     if (status.equals("200", ignoreCase = true)) {
-
-                        val jsonString: String = mMessage //http request
-                        var dataValue = UserDetailsModel()
-                        val gson = Gson()
-                        dataValue =
-                            gson.fromJson(jsonString, UserDetailsModel::class.java)
-
                         runOnUiThread {
-                            val userDetailsModelArrayList: ArrayList<UserDetailsModel.Data>? =
-                                dataValue.data
-                            if (userDetailsModelArrayList != null && userDetailsModelArrayList.size > 0) {
+                            var jsonArray: JSONArray = json.optJSONArray("data") as JSONArray
+
+                            var cndList = ArrayList<UserDetailsModel_.Data>()
+                            if (jsonArray.length() > 0) {
+                                for (i in 0 until jsonArray.length()) {
+                                    val item = UserDetailsModel_.Data()
+                                    item.uid = jsonArray.optJSONObject(i).optString("uid")
+                                    item.uname = jsonArray.optJSONObject(i).optString("uname")
+                                    item.umobile = jsonArray.optJSONObject(i).optString("umobile")
+                                    item.uemail = jsonArray.optJSONObject(i).optString("uemail")
+                                    item.urole = jsonArray.optJSONObject(i).optString("urole")
+                                    item.upic = jsonArray.optJSONObject(i).optString("upic")
+                                    item.total_gold_in_account = jsonArray.optJSONObject(i)
+                                        .optString("total_gold_in_account")
+                                    item.total_commission_created = jsonArray.optJSONObject(i)
+                                        .optString("total_commission_created")
+                                    cndList += item
+                                }
+                            }
+
+                            val userDetailsModelArrayList: ArrayList<UserDetailsModel_.Data> =
+                                cndList
+                            if (userDetailsModelArrayList.size > 0) {
                                 noData!!.visibility = View.GONE
                                 recyclerUsers!!.layoutManager =
                                     LinearLayoutManager(this@ChannelPartnerActivity)

@@ -13,20 +13,20 @@
 
         <ImageView
             android:id="@+id/imgBarcode"
-            android:layout_marginTop="@dimen/height_10"
-            android:layout_centerHorizontal="true"
             android:layout_width="150dp"
-            android:layout_height="150dp" />
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/height_10" />
 
         <TextView
             android:id="@+id/txtBarcode"
-            android:text="Your Personal VGold ID QR"
-            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/imgBarcode"
             android:layout_marginTop="@dimen/height_10"
-            android:textSize="14dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:gravity="center_horizontal"
+            android:text="Your Personal VGold ID QR"
+            android:textSize="14dp" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -35,36 +35,36 @@
 
             <LinearLayout
                 android:id="@+id/llsaloondetail"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="@dimen/height_5"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="@dimen/height_5"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginLeft="@dimen/height_20"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txtName1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Name"
                         android:singleLine="true"
-                        android:textSize="15dp"
-                        android:textColor="@color/colorPrimary" />
+                        android:text="Name"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/txtName"
-                        android:textSize="@dimen/height_15"
-                        android:text="Shivraj Babule"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="Shivraj Babule"
+                        android:textSize="@dimen/height_15" />
 
 
                     <View
@@ -78,18 +78,18 @@
                         android:id="@+id/txtCrn1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="CRN"
-                        android:singleLine="true"
                         android:layout_marginTop="@dimen/height_10"
-                        android:textSize="15dp"
-                        android:textColor="@color/colorPrimary" />
+                        android:singleLine="true"
+                        android:text="CRN"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/txtCRN"
-                        android:textSize="@dimen/height_15"
-                        android:layout_below="@+id/txtName"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtName"
+                        android:textSize="@dimen/height_15" />
 
                     <View
                         android:layout_width="match_parent"
@@ -101,18 +101,18 @@
                         android:id="@+id/txtpan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="PAN NO"
-                        android:singleLine="true"
-                        android:textSize="15dp"
                         android:layout_marginTop="@dimen/height_10"
-                        android:textColor="@color/colorPrimary" />
+                        android:singleLine="true"
+                        android:text="PAN NO"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/txtPanNumber"
-                        android:layout_below="@+id/txtCRN"
-                        android:textSize="@dimen/height_15"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtCRN"
+                        android:textSize="@dimen/height_15" />
 
                     <View
                         android:layout_width="match_parent"
@@ -122,49 +122,49 @@
 
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/txtAadhar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="AADHAR NO"
-                        android:singleLine="true"
-                        android:textSize="15dp"
                         android:layout_marginTop="@dimen/height_10"
-                        android:textColor="@color/colorPrimary" />
+                        android:singleLine="true"
+                        android:text="AADHAR NO"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/txtAadharNo"
-                        android:layout_below="@+id/txtCRN"
-                        android:textSize="@dimen/height_15"
-                        android:hint="938373372837"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtCRN"
+                        android:hint="938373372837"
+                        android:textSize="@dimen/height_15"
+                        android:visibility="gone" />
 
                     <View
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
                         android:layout_marginTop="5dp"
-                        android:background="@color/colorblack" />
+                        android:background="@color/colorblack"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/txtmail1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Email"
-                        android:singleLine="true"
-                        android:textSize="15dp"
                         android:layout_marginTop="@dimen/height_10"
-                        android:textColor="@color/colorPrimary" />
+                        android:singleLine="true"
+                        android:text="Email"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/txtMail"
-                        android:layout_below="@+id/txtPanNumber"
-                        android:textSize="@dimen/height_15"
-                        android:text="shiv@gmail.com"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtPanNumber"
+                        android:text="shiv@gmail.com"
+                        android:textSize="@dimen/height_15" />
 
 
                     <View
@@ -178,19 +178,19 @@
                         android:id="@+id/txtphone1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Phone"
-                        android:singleLine="true"
-                        android:textSize="15dp"
                         android:layout_marginTop="@dimen/height_10"
-                        android:textColor="@color/colorPrimary" />
+                        android:singleLine="true"
+                        android:text="Phone"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/txtPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/txtMail"
                         android:text="9637757238"
-                        android:textSize="@dimen/height_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/height_15" />
 
                     <View
                         android:layout_width="match_parent"
@@ -203,20 +203,20 @@
                         android:id="@+id/txtaddr"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Address"
-                        android:singleLine="true"
-                        android:textSize="15dp"
                         android:layout_marginTop="@dimen/height_10"
-                        android:textColor="@color/colorPrimary" />
+                        android:singleLine="true"
+                        android:text="Address"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/txtAddress"
-                        android:textSize="@dimen/height_15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/height_5"
                         android:layout_marginRight="@dimen/height_15"
                         android:text="Hadpsar hdjshdjas shjshdjash sjdsha shjsh dhjdhs sbdhshd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/height_15" />
 
                     <View
                         android:layout_width="match_parent"
@@ -226,108 +226,108 @@
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_marginTop="10dp"
-                        android:visibility="gone"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="20dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:visibility="gone">
 
                         <androidx.cardview.widget.CardView
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/tv_aadhar_front"
-                            app:layout_constraintEnd_toStartOf="@id/iv_aadharBack_card"
-                            android:layout_marginRight="@dimen/height_18"
-                            app:cardCornerRadius="8dp"
-                            android:background="@drawable/button_selected"
                             android:id="@+id/iv_aadharFront_Card"
                             android:layout_width="0dp"
-                            android:layout_height="80dp">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                app:srcCompat="@drawable/ic_personal_identificat"
-                                android:layout_width="match_parent"
-                                android:id="@+id/iv_aadharFront"
-                                android:layout_height="match_parent" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_marginTop="4dp"
-                            android:layout_width="wrap_content"
-                            android:text="Aadhar Front"
-                            android:id="@+id/tv_aadhar_front"
-                            app:layout_constraintTop_toBottomOf="@id/iv_aadharFront_Card"
-                            app:layout_constraintEnd_toEndOf="@id/iv_aadharFront_Card"
-                            android:typeface="serif"
-                            app:layout_constraintStart_toStartOf="@id/iv_aadharFront_Card"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_height="wrap_content" />
-
-
-                        <androidx.cardview.widget.CardView
-                            app:layout_constraintBottom_toTopOf="@id/tv_aadhar_back"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:id="@+id/iv_aadharBack_card"
-                            app:cardCornerRadius="8dp"
-                            app:layout_constraintStart_toEndOf="@id/iv_aadharFront_Card"
+                            android:layout_height="80dp"
                             android:layout_marginRight="@dimen/height_18"
-                            app:layout_constraintEnd_toStartOf="@id/iv_pancard_card"
-                            android:layout_width="0dp"
-                            android:layout_height="80dp">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                app:srcCompat="@drawable/ic_personal_identificat"
-                                android:layout_width="match_parent"
-                                android:id="@+id/iv_aadharBack"
-                                android:layout_height="match_parent" />
-
-                        </androidx.cardview.widget.CardView>
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Aadhar Back"
-                            android:id="@+id/tv_aadhar_back"
-                            app:layout_constraintTop_toBottomOf="@id/iv_aadharBack_card"
-                            app:layout_constraintEnd_toEndOf="@id/iv_aadharBack_card"
-                            app:layout_constraintStart_toStartOf="@id/iv_aadharBack_card"
-                            android:typeface="serif"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_height="wrap_content" />
-
-
-                        <androidx.cardview.widget.CardView
-                            app:layout_constraintBottom_toTopOf="@+id/tv_pan_card"
-                            app:layout_constraintStart_toEndOf="@id/iv_aadharBack_card"
-                            android:id="@+id/iv_pancard_card"
                             android:background="@drawable/button_selected"
                             app:cardCornerRadius="8dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/tv_aadhar_front"
+                            app:layout_constraintEnd_toStartOf="@id/iv_aadharBack_card"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_aadharFront"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/ic_personal_identificat" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_aadhar_front"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Aadhar Front"
+                            android:typeface="serif"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/iv_aadharFront_Card"
+                            app:layout_constraintStart_toStartOf="@id/iv_aadharFront_Card"
+                            app:layout_constraintTop_toBottomOf="@id/iv_aadharFront_Card" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/iv_aadharBack_card"
                             android:layout_width="0dp"
-                            android:layout_height="80dp">
+                            android:layout_height="80dp"
+                            android:layout_marginRight="@dimen/height_18"
+                            app:cardCornerRadius="8dp"
+                            app:layout_constraintBottom_toTopOf="@id/tv_aadhar_back"
+                            app:layout_constraintEnd_toStartOf="@id/iv_pancard_card"
+                            app:layout_constraintStart_toEndOf="@id/iv_aadharFront_Card"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_aadharBack"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/ic_personal_identificat" />
+
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_aadhar_back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Aadhar Back"
+                            android:typeface="serif"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/iv_aadharBack_card"
+                            app:layout_constraintStart_toStartOf="@id/iv_aadharBack_card"
+                            app:layout_constraintTop_toBottomOf="@id/iv_aadharBack_card" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/iv_pancard_card"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:background="@drawable/button_selected"
+                            app:cardCornerRadius="8dp"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_pan_card"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/iv_aadharBack_card"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/iv_pancard"
-                                android:cropToPadding="true"
-                                app:srcCompat="@drawable/ic_personal_identificat"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                                android:layout_height="match_parent"
+                                android:cropToPadding="true"
+                                app:srcCompat="@drawable/ic_personal_identificat" />
                         </androidx.cardview.widget.CardView>
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:text="Pan Card"
                             android:id="@+id/tv_pan_card"
-                            app:layout_constraintTop_toBottomOf="@id/iv_pancard_card"
-                            android:typeface="serif"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:text="Pan Card"
+                            android:typeface="serif"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/iv_pancard_card"
                             app:layout_constraintStart_toStartOf="@id/iv_pancard_card"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_height="wrap_content" />
+                            app:layout_constraintTop_toBottomOf="@id/iv_pancard_card" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -338,23 +338,22 @@
 
                 <Button
                     android:id="@+id/btnUpdateProfile"
+                    style="@style/Button"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="Update Profile"
                     android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/height_10"
                     android:layout_marginLeft="@dimen/height_10"
                     android:layout_marginTop="@dimen/height_10"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_marginRight="@dimen/height_10"
                     android:background="@drawable/roundborder1"
-                    style="@style/Button" />
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Update Profile" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
     </RelativeLayout>
-
 
 
 </ScrollView>

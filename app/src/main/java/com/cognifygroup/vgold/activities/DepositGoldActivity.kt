@@ -13,24 +13,21 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import com.cognifygroup.vgold.BuildConfig
 import com.cognifygroup.vgold.R
-import com.cognifygroup.vgold.getmaturityweight.DepositeChargesModel
-import com.cognifygroup.vgold.getmaturityweight.MaturityWeightModel
 import com.cognifygroup.vgold.getmaturityweight.MaturityWeightServiceProvider
-import com.cognifygroup.vgold.golddepositrequest.DepositeRequestModel
 import com.cognifygroup.vgold.golddepositrequest.DepositeRequestServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
-import com.cognifygroup.vgold.model.BaseServiceResponseModel
-import com.cognifygroup.vgold.model.LoginSessionModel
-import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.cognifygroup.vgold.vendorfordeposit.VendorForDepositeModel
 import com.cognifygroup.vgold.vendorfordeposit.VendorForDepositeServiceProvider
 import com.bumptech.glide.Glide
+import okhttp3.Call
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -60,7 +57,7 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
     var mAlert: AlertDialogs? = null
     var maturityWeightServiceProvider: MaturityWeightServiceProvider? = null
-    lateinit var vendorForDepositeServiceProvider: VendorForDepositeServiceProvider
+    //lateinit var vendorForDepositeServiceProvider: VendorForDepositeServiceProvider
     lateinit var depositeRequestServiceProvider: DepositeRequestServiceProvider
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
@@ -68,12 +65,11 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
     var timer = Timer()
     val DELAY: Long = 1000 // milliseconds
 
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    //  private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deposit_gold)
         supportActionBar?.title = "Gold Deposit"
-
 
         spinner_tennure_deposite = findViewById(R.id.spinner_tennure_deposite)
         edtgoldWeight = findViewById(R.id.edtgoldWeight)
@@ -167,9 +163,9 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         progressDialog!!.setCancelable(false)
         setFinishOnTouchOutside(false)
         mAlert = AlertDialogs().getInstance()
-        maturityWeightServiceProvider = MaturityWeightServiceProvider()
-        vendorForDepositeServiceProvider = VendorForDepositeServiceProvider(this)
-        depositeRequestServiceProvider = DepositeRequestServiceProvider(this)
+        // maturityWeightServiceProvider = MaturityWeightServiceProvider()
+      //  vendorForDepositeServiceProvider = VendorForDepositeServiceProvider(this)
+        // depositeRequestServiceProvider = DepositeRequestServiceProvider(this)
         AttemptToGetVendorForDeposite()
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -217,8 +213,8 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             }
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
-        checkLoginSession()
+        // loginStatusServiceProvider = LoginStatusServiceProvider(this)
+        //   checkLoginSession()
     }
 
     fun getLocalBitmapUri(imageView: ImageView): Uri? {
@@ -254,66 +250,6 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         return bmpUri
     }
 
-
-    private fun checkLoginSession() {
-        loginStatusServiceProvider?.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog?.hide()
-                    val status: String? = (serviceResponse as LoginSessionModel).getStatus()
-                    val message: String? = (serviceResponse as LoginSessionModel).getMessage()
-                    val data: Boolean = (serviceResponse as LoginSessionModel).getData() == true
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data) {
-                            AlertDialogs().alertDialogOk(
-                                this@DepositGoldActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@DepositGoldActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog?.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@DepositGoldActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog?.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
-                } finally {
-                    progressDialog?.hide()
-                }
-            }
-        })
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -366,7 +302,7 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
     private fun AttemptToGetVendorForDeposite() {
         // mAlert.onShowProgressDialog(SignUpActivity.this, true);
-        vendorForDepositeServiceProvider?.getVendorForDeposite(object : APICallback {
+        /*vendorForDepositeServiceProvider?.getVendorForDeposite(object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 try {
                     val status: String? = (serviceResponse as VendorForDepositeModel).status
@@ -431,32 +367,70 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                     progressDialog?.hide()
                 }
             }
-        })
-    }
+        })*/
 
-    private fun AttemptToGetMaturityWeight(
-        gold_weight: String,
-        tennure: String,
-        guarantee: String
-    ) {
-        //  progressDialog.show();
-        maturityWeightServiceProvider?.getMaturityWeight(
-            gold_weight,
-            tennure,
-            guarantee,
-            object : APICallback {
-                override fun <T> onSuccess(serviceResponse: T) {
-                    try {
-                        val status: String? = (serviceResponse as MaturityWeightModel).getStatus()
-                        val message: String? = (serviceResponse as MaturityWeightModel).getMessage()
-                        val maturityWeight: String? =
-                            (serviceResponse as MaturityWeightModel).getData()
-                        txtMaturityWeight!!.text = maturityWeight
+        // change in api
+        val client = OkHttpClient().newBuilder().build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/vendor_for_deposite.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                val resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message = json.get("Message").toString()
+                    runOnUiThread {
                         if (status == "200") {
+                            var data = json.getJSONArray("Data")
+                            var dataList = ArrayList<VendorForDepositeModel.Data>()
+                            for (i in 0 until data.length()) {
+                                val item = VendorForDepositeModel.Data()
+                                item.firm_name = data.optJSONObject(i).optString("firm_name")
+                                item.vendor_id = data.optJSONObject(i).optString("vendor_id")
+                                dataList += item
+                            }
 
-                            /*   mAlert.onShowToastNotification(GoldDepositeActivity.this, message);
-                            Intent intent=new Intent(GoldDepositeActivity.this,MainActivity.class);
-                            startActivity(intent);*/
+
+                            var mArrCity: ArrayList<VendorForDepositeModel.Data>? = dataList
+                            var adapter: ArrayAdapter<VendorForDepositeModel.Data> =
+                                ArrayAdapter<VendorForDepositeModel.Data>(
+                                    this@DepositGoldActivity,
+                                    R.layout.support_simple_spinner_dropdown_item,
+                                    mArrCity!!
+                                )
+                            //                        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                            adapter.setDropDownViewResource(R.layout.custom_spinner_item)
+                            //  adapter.notifyDataSetChanged()
+                            spinner_willingToDeposite!!.adapter = adapter
+                            spinner_willingToDeposite!!.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+                                        vendor_id =
+                                            java.lang.String.valueOf(mArrCity.get(position).vendor_id)
+                                        firmName =
+                                            java.lang.String.valueOf(mArrCity.get(position).firm_name)
+                                    }
+
+                                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+                                }
                         } else {
                             AlertDialogs().alertDialogOk(
                                 this@DepositGoldActivity,
@@ -467,79 +441,220 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                                 false,
                                 alertDialogOkListener
                             )
-
                             //                        mAlert.onShowToastNotification(GoldDepositeActivity.this, message);
-                            /* Intent intent=new Intent(GoldDepositeActivity.this,MainActivity.class);
-                            startActivity(intent);*/
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        progressDialog?.hide()
                     }
                 }
+            }
+        })
+    }
 
-                override fun <T> onFailure(apiErrorModel: T, extras: T) {
+    private fun AttemptToGetMaturityWeight(
+        gold_weight: String,
+        tennure: String,
+        guarantee: String
+    ) {
+        //  progressDialog.show();
+        /* maturityWeightServiceProvider?.getMaturityWeight(
+             gold_weight,
+             tennure,
+             guarantee,
+             object : APICallback {
+                 override fun <T> onSuccess(serviceResponse: T) {
+                     try {
+                         val status: String? = (serviceResponse as MaturityWeightModel).getStatus()
+                         val message: String? = (serviceResponse as MaturityWeightModel).getMessage()
+                         val maturityWeight: String? =
+                             (serviceResponse as MaturityWeightModel).getData()
+                         txtMaturityWeight!!.text = maturityWeight
+                         if (status == "200") {
 
-                    try {
-                        if (apiErrorModel != null) {
-                            PrintUtil.showToast(
-                                this@DepositGoldActivity,
-                                (apiErrorModel as BaseServiceResponseModel).message
-                            )
+                                mAlert.onShowToastNotification(GoldDepositeActivity.this, message);
+                         Intent intent=new Intent(GoldDepositeActivity.this,MainActivity.class);
+                         startActivity(intent);
+                     } else {
+                         AlertDialogs().alertDialogOk(
+                             this@DepositGoldActivity,
+                             "Alert",
+                             message,
+                             resources.getString(R.string.btn_ok),
+                             0,
+                             false,
+                             alertDialogOkListener
+                         )
+
+                         //                        mAlert.onShowToastNotification(GoldDepositeActivity.this, message);
+                          Intent intent=new Intent(GoldDepositeActivity.this,MainActivity.class);
+                         startActivity(intent);
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                 } finally {
+                     progressDialog?.hide()
+                 }
+             }
+
+             override fun <T> onFailure(apiErrorModel: T, extras: T) {
+
+                 try {
+                     if (apiErrorModel != null) {
+                         PrintUtil.showToast(
+                             this@DepositGoldActivity,
+                             (apiErrorModel as BaseServiceResponseModel).message
+                         )
+                     } else {
+                         PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                     PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
+                 } finally {
+                     //  progressDialog.hide();
+                 }
+             }
+         })
+*/
+
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("gold_weight", gold_weight)
+            .addFormDataPart("tennure", tennure)
+            .addFormDataPart("guarantee", guarantee)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/calculate_gold_mature_weight.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    runOnUiThread {
+                        var json = JSONObject(resp)
+                        var status = json.get("status").toString()
+                        var message = json.get("Message").toString()
+                        var Data = json.optString("Data").toString()
+                        if (status == "200") {
+                            Log.e(" Response", resp)
+
+                            var maturityWeight: String = Data
+                            txtMaturityWeight!!.text = maturityWeight
+
                         } else {
-                            PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
+                            AlertDialogs().alertDialogOk(
+                                this@DepositGoldActivity,
+                                "Alert",
+                                message,
+                                resources.getString(R.string.btn_ok),
+                                0,
+                                false,
+                                alertDialogOkListener
+                            )
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
-                    } finally {
-                        //  progressDialog.hide();
                     }
                 }
-            })
+            }
+        })
     }
 
     private fun AttemptToGetDepositeCharges(gold_weight: String) {
         //  progressDialog.show();
-        maturityWeightServiceProvider?.getDepositeCharges(gold_weight, object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    val status: String? = (serviceResponse as DepositeChargesModel).getStatus()
-                    val message: String? = (serviceResponse as DepositeChargesModel).getMessage()
-                    val DepositeCharge: String? =
-                        (serviceResponse as DepositeChargesModel).getData()
-                    txtDepositeCharge!!.text = DepositeCharge
-                    if (status == "200") {
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@DepositGoldActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    progressDialog?.hide()
-                }
+        /* maturityWeightServiceProvider?.getDepositeCharges(gold_weight, object : APICallback {
+             override fun <T> onSuccess(serviceResponse: T) {
+                 try {
+                     val status: String? = (serviceResponse as DepositeChargesModel).getStatus()
+                     val message: String? = (serviceResponse as DepositeChargesModel).getMessage()
+                     val DepositeCharge: String? =
+                         (serviceResponse as DepositeChargesModel).getData()
+                     txtDepositeCharge!!.text = DepositeCharge
+                     if (status == "200") {
+                     } else {
+                         AlertDialogs().alertDialogOk(
+                             this@DepositGoldActivity, "Alert", message,
+                             resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
+                         )
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                 } finally {
+                     progressDialog?.hide()
+                 }
+             }
+
+             override fun <T> onFailure(apiErrorModel: T, extras: T) {
+
+                 try {
+                     if (apiErrorModel != null) {
+                         PrintUtil.showToast(
+                             this@DepositGoldActivity,
+                             (apiErrorModel as BaseServiceResponseModel).message
+                         )
+                     } else {
+                         PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
+                     }
+                 } catch (e: Exception) {
+                     e.printStackTrace()
+                     PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
+                 } finally {
+                     //  progressDialog.hide();
+                 }
+             }
+         })*/
+
+        //  change in api call
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("gw", gold_weight)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/gold_deposite_charges.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
             }
 
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@DepositGoldActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message = json.get("Message").toString()
+                    runOnUiThread {
+                        if (status == "200") {
+                            Log.e(" Response", resp)
+                            var charges = json.get("charges").toString()
+                            txtDepositeCharge!!.text = charges
+                        } else {
+                            AlertDialogs().alertDialogOk(
+                                this@DepositGoldActivity,
+                                "Alert",
+                                message,
+                                resources.getString(R.string.btn_ok),
+                                0,
+                                false,
+                                alertDialogOkListener
+                            )
+                        }
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@DepositGoldActivity)
-                } finally {
-                    //  progressDialog.hide();
+
                 }
             }
         })
@@ -551,37 +666,37 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         add_purity: String, remark: String,
         guarantee: String
     ) {
-        progressDialog?.show()
-        depositeRequestServiceProvider?.getDepositeRequest(user_id!!,
-            gw,
-            tennure,
-            cmw,
-            dCharges,
-            vendor_id,
-            add_purity,
-            remark,
-            guarantee,
-            object : APICallback {
-                override fun <T> onSuccess(serviceResponse: T) {
-                    try {
-                        val status: String? = (serviceResponse as DepositeRequestModel).getStatus()
-                        val message: String? =
-                            (serviceResponse as DepositeRequestModel).getMessage()
-                        msg = message
-                        if (status == "200") {
-                            AlertDialogs().alertDialogOk(
-                                this@DepositGoldActivity,
-                                "Alert",
-                                message,
-                                resources.getString(R.string.btn_ok),
-                                1,
-                                false,
-                                alertDialogOkListener
-                            )
+        /* progressDialog?.show()
+         depositeRequestServiceProvider?.getDepositeRequest(user_id!!,
+             gw,
+             tennure,
+             cmw,
+             dCharges,
+             vendor_id,
+             add_purity,
+             remark,
+             guarantee,
+             object : APICallback {
+                 override fun <T> onSuccess(serviceResponse: T) {
+                     try {
+                         val status: String? = (serviceResponse as DepositeRequestModel).getStatus()
+                         val message: String? =
+                             (serviceResponse as DepositeRequestModel).getMessage()
+                         msg = message
+                         if (status == "200") {
+                             AlertDialogs().alertDialogOk(
+                                 this@DepositGoldActivity,
+                                 "Alert",
+                                 message,
+                                 resources.getString(R.string.btn_ok),
+                                 1,
+                                 false,
+                                 alertDialogOkListener
+                             )
 
-                            /* mAlert.onShowToastNotification(GoldDepositeActivity.this, message);
+                             *//* mAlert.onShowToastNotification(GoldDepositeActivity.this, message);
                             Intent intent=new Intent(GoldDepositeActivity.this,MainActivity.class);
-                            startActivity(intent);*/
+                            startActivity(intent);*//*
                         } else {
                             AlertDialogs().alertDialogOk(
                                 this@DepositGoldActivity,
@@ -594,9 +709,9 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                             )
 
                             //                        mAlert.onShowToastNotification(GoldDepositeActivity.this, message);
-                            /*Intent intent=new Intent(GoldDepositeActivity.this,SuccessActivity.class);
+                            *//*Intent intent=new Intent(GoldDepositeActivity.this,SuccessActivity.class);
                             intent.putExtra("message",message);
-                            startActivity(intent);*/
+                            startActivity(intent);*//*
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -624,6 +739,68 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                     }
                 }
             })
+        */
+
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("gw", gw)
+            .addFormDataPart("tennure", tennure)
+            .addFormDataPart("cmw", cmw)
+            .addFormDataPart("deposite_charges", dCharges)
+            .addFormDataPart("vendor_id", vendor_id)
+            .addFormDataPart("addpurity", add_purity)
+            .addFormDataPart("remark", remark)
+            .addFormDataPart("guarantee", guarantee)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/gold_deposite.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message = json.get("Message").toString()
+                    runOnUiThread {
+                        if (status == "200") {
+                            Log.e(" Response", resp)
+                            AlertDialogs().alertDialogOk(
+                                this@DepositGoldActivity,
+                                "Alert",
+                                message,
+                                resources.getString(R.string.btn_ok),
+                                1,
+                                false,
+                                alertDialogOkListener
+                            )
+                        } else {
+                            AlertDialogs().alertDialogOk(
+                                this@DepositGoldActivity,
+                                "Alert",
+                                message,
+                                resources.getString(R.string.btn_ok),
+                                2,
+                                false,
+                                alertDialogOkListener
+                            )
+                        }
+                    }
+                }
+            }
+        })
     }
 
     override fun onDialogOk(resultCode: Int) {
@@ -633,7 +810,8 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 startActivity(intent)
             }
             2 -> {
-                val failIntent = Intent(this@DepositGoldActivity, SuccessActivity::class.java)
+                val failIntent =
+                    Intent(this@DepositGoldActivity, SuccessActivity::class.java)
                 failIntent.putExtra("message", msg)
                 startActivity(failIntent)
             }

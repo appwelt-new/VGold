@@ -10,15 +10,19 @@ import androidx.appcompat.app.AppCompatActivity
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.goldbooking.GoldBookingModel
 import com.cognifygroup.vgold.goldbooking.GoldBookingServiceProvider
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
-import com.cognifygroup.vgold.model.BaseServiceResponseModel
-import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
+import com.google.gson.Gson
+import okhttp3.Call
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import org.json.JSONObject
+import java.io.IOException
 
-class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
-//    private lateinit var spgoldWeight: Spinner
+class GoldBookingActivity : AppCompatActivity(), AlertDialogOkListener {
+    //    private lateinit var spgoldWeight: Spinner
 //    private lateinit var spTennure: Spinner
 //    private lateinit var edtProCode: EditText
 //    private var userId = ""
@@ -46,7 +50,7 @@ class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gold_booking)
-       // sharedPreferences = getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
+        // sharedPreferences = getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
 
 
         supportActionBar?.title = "Gold Booking "
@@ -65,7 +69,7 @@ class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
 
         mAlert = AlertDialogs().getInstance()
 
-        goldBookingServiceProvider = GoldBookingServiceProvider(this)
+        //  goldBookingServiceProvider = GoldBookingServiceProvider(this)
 
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -114,6 +118,16 @@ class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
                     "48"
                 } else if (tennure == "60 month") {
                     "60"
+                } else if (tennure == "72 month") {
+                    "72"
+                } else if (tennure == "84 month") {
+                    "84"
+                } else if (tennure == "96 month") {
+                    "96"
+                } else if (tennure == "108 month") {
+                    "108"
+                } else if (tennure == "120 month") {
+                    "120"
                 } else {
                     ""
                 }
@@ -122,73 +136,10 @@ class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
         }
 
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
-
-       // checkLoginSession()
 
         btnNext!!.setOnClickListener {
             onClickOnBtnNext()
         }
-    }
-
-    private fun checkLoginSession() {
-        loginStatusServiceProvider?.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    progressDialog?.hide()
-                    val status: String? = (serviceResponse as LoginSessionModel).getStatus()
-                    val message: String? = (serviceResponse as LoginSessionModel).getMessage()
-                    val data: Boolean = (serviceResponse as LoginSessionModel).getData() == true
-                    Log.i("TAG", "onSuccess: $status")
-                    Log.i("TAG", "onSuccess: $message")
-                    if (status == "200") {
-                        if (!data) {
-                            AlertDialogs().alertDialogOk(
-                                this@GoldBookingActivity,
-                                "Alert",
-                                "$message,  Please relogin to app",
-                                resources.getString(R.string.btn_ok),
-                                11,
-                                false,
-                                alertDialogOkListener
-                            )
-                        }
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@GoldBookingActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(AddGoldActivity.this, message);
-                    }
-                } catch (e: Exception) {
-                    //  progressDialog.hide();
-                    e.printStackTrace()
-                } finally {
-                    //  progressDialog.hide();
-                }
-            }
-
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
-
-                try {
-                    progressDialog?.hide()
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@GoldBookingActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
-                        PrintUtil.showNetworkAvailableToast(this@GoldBookingActivity)
-                    }
-                } catch (e: Exception) {
-                    progressDialog?.hide()
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@GoldBookingActivity)
-                } finally {
-                    progressDialog?.hide()
-                }
-            }
-        })
     }
 
 
@@ -224,7 +175,7 @@ class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
         quantity: String, tennure: String,
         pc: String
     ) {
-        progressDialog?.show()
+        /*progressDialog?.show()
         goldBookingServiceProvider?.getAddBankDetails(
             quantity,
             tennure,
@@ -275,8 +226,8 @@ class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
                             )
 
                             //                        mAlert.onShowToastNotification(GoldBookingActivity.this, message);
-    //                        Intent intent = new Intent(GoldBookingActivity.this, BookingDetailActivity.class);
-    //                        startActivity(intent);
+                            //                        Intent intent = new Intent(GoldBookingActivity.this, BookingDetailActivity.class);
+                            //                        startActivity(intent);
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -304,6 +255,91 @@ class GoldBookingActivity : AppCompatActivity() ,AlertDialogOkListener {
                     }
                 }
             })
+*/
+        // change in api
+
+
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("quantity", quantity)
+            .addFormDataPart("tennure", tennure)
+            .addFormDataPart("pc", pc)
+            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/booking_details.php")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                var resp = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    var json = JSONObject(resp)
+                    var status = json.get("status").toString()
+                    var message = json.get("Message").toString()
+                    if (status == "200") {
+                        Log.e(" Response", resp)
+                        runOnUiThread {
+                            var monthly: String? = json.optString("Monthly")
+                            var booking_value: String? =
+                                json.optString("Booking_value")
+                            var down_payment: String? =
+                                json.optString("Down_payment")
+                            var gold_rate: String? = json.optString("Gold_rate")
+                            var booking_charge: String? = json.optString("Booking_charges")
+                            var initialBookingCharge: String? =
+                                json.optString("Initial_Booking_charges")
+                            var bookingChargeDisc: String? =
+                                json.optString("Booking_charges_discount")
+
+                            //  mAlert.onShowToastNotification(GoldBookingActivity.this, message);
+                            var intent =
+                                Intent(
+                                    this@GoldBookingActivity,
+                                    BookingDetailsActivity::class.java
+                                )
+                            intent.putExtra("monthly", monthly)
+                            intent.putExtra("booking_value", booking_value)
+                            intent.putExtra("down_payment", down_payment)
+                            intent.putExtra("gold_rate", gold_rate)
+                            intent.putExtra("booking_charge", booking_charge)
+                            intent.putExtra("quantity", quantity)
+                            intent.putExtra("tennure", tennure)
+                            intent.putExtra("pc", pc)
+                            intent.putExtra("initBookingCharge", initialBookingCharge)
+                            intent.putExtra("disc", bookingChargeDisc)
+                            startActivity(intent)
+
+                        }
+                    } else {
+                        runOnUiThread {
+                            AlertDialogs().alertDialogOk(
+                                this@GoldBookingActivity,
+                                "Alert",
+                                message,
+                                resources.getString(R.string.btn_ok),
+                                0,
+                                false,
+                                alertDialogOkListener
+                            )
+                        }
+
+                    }
+                }
+            }
+        })
+
+
     }
 
     override fun onDialogOk(resultCode: Int) {

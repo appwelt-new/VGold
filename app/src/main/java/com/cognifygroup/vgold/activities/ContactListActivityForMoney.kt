@@ -55,7 +55,7 @@ class ContactListActivityForMoney : AppCompatActivity(), AlertDialogOkListener {
 
         loginStatusServiceProvider = LoginStatusServiceProvider(this)
 
-        checkLoginSession()
+      //  checkLoginSession()
         btnProceed!!.setOnClickListener {
             onbtnProceedClick()
         }

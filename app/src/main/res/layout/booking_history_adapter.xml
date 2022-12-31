@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
 
     <androidx.cardview.widget.CardView
@@ -26,8 +26,8 @@
                 android:id="@+id/imageViewExercise"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/height_45"
-                android:layout_marginBottom="@dimen/height_10"
                 android:layout_marginTop="@dimen/height_10"
+                android:layout_marginBottom="@dimen/height_10"
                 android:src="@drawable/transaction" />
 
 
@@ -47,8 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/height_10"
                 android:layout_marginTop="@dimen/height_20"
+                android:layout_marginRight="@dimen/height_10"
                 android:text="Rs.3100"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textStyle="bold" />
@@ -67,8 +67,8 @@
                 android:id="@+id/txtTimeDateMoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_below="@+id/imageViewExercise"
+                android:layout_marginLeft="10dp"
                 android:text="ddsfsd"
                 android:textAllCaps="true"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -78,11 +78,11 @@
                 android:id="@+id/txtPaymentThrough"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/imageViewExercise"
                 android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/height_25"
                 android:layout_marginRight="@dimen/height_10"
                 android:gravity="center"
-                android:layout_marginLeft="@dimen/height_25"
-                android:layout_below="@+id/imageViewExercise"
                 android:text="Payment Through"
                 android:textAllCaps="true"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -91,9 +91,9 @@
                 android:id="@+id/txtPaymentFromTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTimeDateMoney"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="@dimen/height_5"
-                android:layout_below="@+id/txtTimeDateMoney"
                 android:text="000"
                 android:textAllCaps="true"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -102,16 +102,15 @@
                 android:id="@+id/txtStatus1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPaymentThrough"
                 android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/height_25"
                 android:layout_marginTop="@dimen/height_5"
                 android:layout_marginRight="@dimen/height_10"
                 android:gravity="center"
-                android:layout_marginLeft="@dimen/height_25"
-                android:layout_below="@+id/txtPaymentThrough"
                 android:text="Success"
                 android:textAllCaps="true"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
-
 
 
         </RelativeLayout>
