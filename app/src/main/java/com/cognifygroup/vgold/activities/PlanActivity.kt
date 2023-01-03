@@ -1,10 +1,7 @@
 package com.cognifygroup.vgold.activities
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
-import android.content.ContentValues
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
@@ -65,6 +62,8 @@ class PlanActivity : AppCompatActivity(), AlertDialogOkListener {
     lateinit var shareFab: FloatingActionButton
     private var alertDialogOkListener: AlertDialogOkListener = this
 
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
@@ -30,6 +31,7 @@ import com.cognifygroup.vgold.interfaces.GetBookingIdModel
 import com.cognifygroup.vgold.model.*
 import com.cognifygroup.vgold.payInstallment.PayInstallmentModel
 import com.cognifygroup.vgold.utilities.ColorSpinnerAdapter
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -104,17 +106,30 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
     private var alertDialogOkListener: AlertDialogOkListener = this
 
     var mAlert: AlertDialogs? = null
- /*   var getGoldBookingIdServiceProvider: GetGoldBookingIdServiceProvider? = null
-    var fetchDownPaymentServiceProvider: FetchDownPaymentServiceProvider? = null
-    var payInstallmentServiceProvider: PayInstallmentServiceProvider? = null
-    var getAllTransactionMoneyServiceProvider: GetAllTransactionMoneyServiceProvider? = null
-    var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
-    var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null*/
+    /*   var getGoldBookingIdServiceProvider: GetGoldBookingIdServiceProvider? = null
+       var fetchDownPaymentServiceProvider: FetchDownPaymentServiceProvider? = null
+       var payInstallmentServiceProvider: PayInstallmentServiceProvider? = null
+       var getAllTransactionMoneyServiceProvider: GetAllTransactionMoneyServiceProvider? = null
+       var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
+       var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
+       private var loginStatusServiceProvider: LoginStatusServiceProvider? = null*/
+
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay_installment)
+        sharedPreferences =
+            this@PayInstallmentActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
+
 
         spinner_goldBookingId = findViewById(R.id.spinner_goldBookingId)
         txtAmount = findViewById(R.id.txtAmount)
@@ -257,7 +272,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
                 txtWalletAmount!!.setVisibility(View.GONE)
                 txtWalletRupee!!.setVisibility(View.GONE)
             } else if (radioMoneyWallet!!.isChecked()) {
-                AttemptToGetMoneyBalance(VGoldApp.onGetUerId())
+                AttemptToGetMoneyBalance(userId)
                 txtPayableAmount!!.setText("")
                 txtPayableAmount!!.setError(null)
                 txtOtherAmount!!.setVisibility(View.GONE)
@@ -269,7 +284,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
                 txtWalletRupee!!.setVisibility(View.VISIBLE)
                 api!!.setVisibility(View.GONE)
             } else {
-                AttemptToGetGoldBalance(VGoldApp.onGetUerId())
+                AttemptToGetGoldBalance(userId)
                 txtPayableAmount!!.setText("")
                 txtPayableAmount!!.setError(null)
                 calculationLayout!!.setVisibility(View.GONE)
@@ -297,14 +312,19 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
                     }
                 } else if (radioGoldWallet!!.isChecked()) {
                     if (s.length > 0) {
-                        AttemptToPayInstallment(
-                            VGoldApp.onGetUerId(), bookingId!!,
-                            "" + txtAmount!!.getText().toString(),
-                            "Gold Wallet",
-                            "", "",
-                            txtPayableAmount!!.getText().toString(),
-                            "", "0"
-                        )
+                        if (bookingId != null) {
+                            AttemptToPayInstallment(
+                                userId,
+                                this@PayInstallmentActivity.bookingId!!,
+                                "" + txtAmount!!.getText().toString(),
+                                "Gold Wallet",
+                                "", "",
+                                txtPayableAmount!!.getText().toString(),
+                                "", "0"
+                            )
+
+                        }
+
                     } else {
                         txtWalletAmount!!.setText(moneyWalletBal)
                         calculationLayout!!.setVisibility(View.GONE)
@@ -314,7 +334,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
         })
 
         // checkLoginSession()
-        AttemptTogetBookingId(VGoldApp.onGetUerId())
+        AttemptTogetBookingId(userId)
     }
 
     fun getLocalBitmapUri(imageView: ImageView): Uri? {
@@ -424,7 +444,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/money_wallet_transactions.php")
@@ -459,7 +479,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
     }
 
     private fun AttemptToGetGoldBalance(user_id: String?) {
-      //  progressDialog!!.show()
+        //  progressDialog!!.show()
         /*  getAllTransactionGoldServiceProvider?.getAllTransactionGoldHistory(
               user_id,
               object : APICallback {
@@ -507,7 +527,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/gold_wallet_transactions.php")
@@ -671,29 +691,33 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
 //                        Double minAmt = Double.valueOf(txtAmount.getText().toString());
                             if (otherAmt > 0) {
                                 if (payment_option == "Cheque") {
-                                    AttemptToPayInstallment(
-                                        VGoldApp.onGetUerId(),
-                                        bookingId!!,
-                                        "" + txtAmount!!.text.toString(),
-                                        payment_option,
-                                        edtBankDetail!!.text.toString(),
-                                        "",
-                                        txtOtherAmount!!.text.toString(),
-                                        edtChequeNo!!.text.toString(),
-                                        "0"
-                                    )
+                                    if (bookingId != null) {
+                                        AttemptToPayInstallment(
+                                            userId,
+                                            bookingId!!,
+                                            "" + txtAmount!!.text.toString(),
+                                            payment_option,
+                                            edtBankDetail!!.text.toString(),
+                                            "",
+                                            txtOtherAmount!!.text.toString(),
+                                            edtChequeNo!!.text.toString(),
+                                            "0"
+                                        )
+                                    }
                                 } else if (payment_option == "RTGS") {
-                                    AttemptToPayInstallment(
-                                        VGoldApp.onGetUerId(),
-                                        bookingId!!,
-                                        "" + txtAmount!!.text.toString(),
-                                        payment_option,
-                                        edtRtgsBankDetail!!.text.toString(),
-                                        edtTxnId!!.text.toString(),
-                                        txtOtherAmount!!.text.toString(),
-                                        "",
-                                        "0"
-                                    )
+                                    if (bookingId != null) {
+                                        AttemptToPayInstallment(
+                                            userId,
+                                            bookingId!!,
+                                            "" + txtAmount!!.text.toString(),
+                                            payment_option,
+                                            edtRtgsBankDetail!!.text.toString(),
+                                            edtTxnId!!.text.toString(),
+                                            txtOtherAmount!!.text.toString(),
+                                            "",
+                                            "0"
+                                        )
+                                    }
                                 } /*else if (payment_option.equals("Money Wallet")) {
 
                                 AttemptToPayInstallment(VGoldApp.onGetUerId(), bookingId,
@@ -765,29 +789,35 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
                     } else {
                         if (txtAmount!!.text.toString() != "" && txtAmount!!.text.toString() != null) {
                             if (payment_option == "Cheque") {
-                                AttemptToPayInstallment(
-                                    VGoldApp.onGetUerId(),
-                                    bookingId!!,
-                                    "" + txtAmount!!.text.toString(),
-                                    payment_option,
-                                    edtBankDetail!!.text.toString(),
-                                    "",
-                                    txtOtherAmount!!.text.toString(),
-                                    edtChequeNo!!.text.toString(),
-                                    "0"
-                                )
+                                if (bookingId != null) {
+
+                                    AttemptToPayInstallment(
+                                        userId,
+                                        bookingId!!,
+                                        "" + txtAmount!!.text.toString(),
+                                        payment_option,
+                                        edtBankDetail!!.text.toString(),
+                                        "",
+                                        txtOtherAmount!!.text.toString(),
+                                        edtChequeNo!!.text.toString(),
+                                        "0"
+                                    )
+                                }
                             } else if (payment_option == "RTGS") {
-                                AttemptToPayInstallment(
-                                    VGoldApp.onGetUerId(),
-                                    bookingId!!,
-                                    "" + txtAmount!!.text.toString(),
-                                    payment_option,
-                                    edtRtgsBankDetail!!.text.toString(),
-                                    edtTxnId!!.text.toString(),
-                                    txtOtherAmount!!.text.toString(),
-                                    "",
-                                    "0"
-                                )
+                                if (bookingId != null) {
+
+                                    AttemptToPayInstallment(
+                                        userId,
+                                        bookingId!!,
+                                        "" + txtAmount!!.text.toString(),
+                                        payment_option,
+                                        edtRtgsBankDetail!!.text.toString(),
+                                        edtTxnId!!.text.toString(),
+                                        txtOtherAmount!!.text.toString(),
+                                        "",
+                                        "0"
+                                    )
+                                }
                             } /*else if (payment_option.equals("Money Wallet")) {
 
                                 AttemptToPayInstallment(VGoldApp.onGetUerId(), bookingId,
@@ -1054,19 +1084,25 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
         }
         btnYes.setOnClickListener {
             if (key.equals("moneyWallet", ignoreCase = true)) {
-                AttemptToPayInstallment(
-                    VGoldApp.onGetUerId(), bookingId!!,
-                    "" + txtAmount!!.text.toString(), "Money Wallet",
-                    "", "", txtPayableAmount!!.text.toString(),
-                    "", "0"
-                )
+                if (bookingId != null) {
+
+                    AttemptToPayInstallment(
+                        userId, bookingId!!,
+                        "" + txtAmount!!.text.toString(), "Money Wallet",
+                        "", "", txtPayableAmount!!.text.toString(),
+                        "", "0"
+                    )
+                }
             } else {
-                AttemptToPayInstallment(
-                    VGoldApp.onGetUerId(), bookingId!!,
-                    "" + txtAmount!!.text.toString(), "Gold Wallet",
-                    "", "",
-                    txtPayableAmount!!.text.toString(), "", "1"
-                )
+                if (bookingId != null) {
+
+                    AttemptToPayInstallment(
+                        userId, bookingId!!,
+                        "" + txtAmount!!.text.toString(), "Gold Wallet",
+                        "", "",
+                        txtPayableAmount!!.text.toString(), "", "1"
+                    )
+                }
             }
             dialog.dismiss()
         }
@@ -1080,7 +1116,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
         if (VGoldApp.onGetNo() != null && !TextUtils.isEmpty(VGoldApp.onGetNo())) {
             no = VGoldApp.onGetNo()!!.substring(0, 5)
         }
-        val transNo = VGoldApp.onGetUerId() + "-" + BaseActivity.date
+        val transNo = userId + "-" + BaseActivity.date
         val name: String?
         name =
             if (VGoldApp.onGetFirst() != null && !TextUtils.isEmpty(VGoldApp.onGetFirst())) {
@@ -1218,12 +1254,15 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
                 //Code to handle successful transaction here.
 //                Toast.makeText(PayInstallmentActivity.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
 //                Log.e("UPI", "payment successfull: "+approvalRefNo);
-                AttemptToPayInstallment(
-                    VGoldApp.onGetUerId(), bookingId!!,
-                    "" + txtAmount!!.text.toString(), payment_option,
-                    "", approvalRefNo, txtOtherAmount!!.text.toString(),
-                    "", "0"
-                )
+                if (bookingId != null) {
+
+                    AttemptToPayInstallment(
+                        userId, bookingId!!,
+                        "" + txtAmount!!.text.toString(), payment_option,
+                        "", approvalRefNo, txtOtherAmount!!.text.toString(),
+                        "", "0"
+                    )
+                }
             } else if ("Payment cancelled by user." == paymentCancel) {
                 Toast.makeText(
                     this@PayInstallmentActivity,
@@ -1428,7 +1467,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/installment_booking_id.php")
@@ -1617,7 +1656,7 @@ class PayInstallmentActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api calling
         var client = OkHttpClient().newBuilder().build()
         var requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("gbid", gbid)
             .addFormDataPart("amountr", amountr)
             .addFormDataPart("payment_option", payment_option)

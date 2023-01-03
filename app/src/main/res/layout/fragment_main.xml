@@ -58,7 +58,7 @@
                         android:paddingTop="6dp"
                         android:paddingRight="20dp"
                         android:singleLine="true"
-                        android:text="Rs.42200/-"
+                        android:text="Rs.0 /-"
                         android:textColor="@android:color/white"
                         android:textSize="20dp"
                         android:textStyle="bold" />

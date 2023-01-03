@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -15,6 +17,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -34,11 +37,25 @@ class ReviewActivity : AppCompatActivity(), AlertDialogOkListener {
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review)
 
         supportActionBar?.title = "Review  "
+
+
+        sharedPreferences =
+            this@ReviewActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
+
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         btnSubmitReview = findViewById(R.id.btnSubmitReview)
         edt_comment = findViewById(R.id.edt_comment)
@@ -71,7 +88,7 @@ class ReviewActivity : AppCompatActivity(), AlertDialogOkListener {
     }
 
     private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
+        loginStatusServiceProvider!!.getLoginStatus(userId, object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 try {
                     progressDialog!!.hide()
@@ -132,7 +149,7 @@ class ReviewActivity : AppCompatActivity(), AlertDialogOkListener {
 
 
     fun onClickOfbtnSubmitReview() {
-        AttemptToAddReiew(VGoldApp.onGetUerId(), edt_comment!!.text.toString())
+        AttemptToAddReiew(userId, edt_comment!!.text.toString())
     }
 
 
@@ -195,7 +212,7 @@ class ReviewActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("notes", comment)
             .build()
         val request = okhttp3.Request.Builder()

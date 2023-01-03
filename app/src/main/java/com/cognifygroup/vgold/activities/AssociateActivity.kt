@@ -1,6 +1,9 @@
 package com.cognifygroup.vgold.activities
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -19,6 +22,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 
 class AssociateActivity : AppCompatActivity() , AlertDialogOkListener {
@@ -34,11 +38,22 @@ class AssociateActivity : AppCompatActivity() , AlertDialogOkListener {
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_associate)
 
         supportActionBar?.title = "Associate "
+        sharedPreferences =
+            this@AssociateActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
 
 
         rc_vendorOffer = findViewById(R.id.rc_vendorOffer);
@@ -55,12 +70,12 @@ class AssociateActivity : AppCompatActivity() , AlertDialogOkListener {
         mAlert = AlertDialogs().getInstance()
         vendorOfferServiceProvider = VendorOfferServiceProvider(this)
         loginStatusServiceProvider = LoginStatusServiceProvider(this)
-        checkLoginSession()
+    //    checkLoginSession()
         AttemptToGetVendorOffer()
     }
 
     private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
+        loginStatusServiceProvider!!.getLoginStatus(userId, object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 try {
                     progressDialog!!.hide()

@@ -1,7 +1,9 @@
 package com.cognifygroup.vgold.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
@@ -18,10 +20,10 @@ import com.cognifygroup.vgold.getrefercode.ReferModel
 import com.cognifygroup.vgold.getrefercode.ReferServiceProvider
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.google.firebase.FirebaseApp
 import com.google.firebase.dynamiclinks.DynamicLink.AndroidParameters
-import com.google.firebase.dynamiclinks.DynamicLink.IosParameters
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.gson.Gson
 import okhttp3.Call
@@ -53,6 +55,8 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_refer)
@@ -66,6 +70,14 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
         btnSubmitR = findViewById(R.id.btnSubmitR)
 
         supportActionBar?.title = "Refer To Friend "
+        sharedPreferences =
+            this@ReferActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
+
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         init()
 
@@ -104,7 +116,7 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
         val name: String = edtNameR!!.text.toString()
         val mobile: String = edtMobileR!!.text.toString()
         if (email != "" && email != null && name != "" && name != null && mobile != "" && mobile != null) {
-            getReferCode(VGoldApp.onGetUerId())
+            getReferCode(userId)
         } else {
             AlertDialogs().alertDialogOk(
                 this@ReferActivity, "Alert", "All Data required",
@@ -295,7 +307,7 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/get_referal_code.php")
@@ -319,18 +331,18 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
                 val json2 = JSONObject(mMessage)
                 val message = json2.get("Message").toString()
                 progressDialog!!.hide()
-                var dataValue = ReferModel()
-                val gson = Gson()
-                dataValue = gson.fromJson(jsonString, ReferModel::class.java)
+              //  var dataValue = ReferModel()
+               // val gson = Gson()
+              //  dataValue = gson.fromJson(jsonString, ReferModel::class.java)
+                var data = json2.optString("data").toString()
 
-                val data = dataValue.getData()
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {
                     val json = JSONObject(mMessage)
                     val status = json.get("status").toString()
                     if ((status == "200")) {
-                        if (data != null && !TextUtils.isEmpty(data)) {
+                        if (!TextUtils.isEmpty(data)) {
                             runOnUiThread {
                                 createDynamicLink(data)
                             }
@@ -355,22 +367,26 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
     }
 
     private fun createDynamicLink(data: String) {
+
         val link =
-            "https://www.play.google.com/store/apps/details?id=" + applicationContext.packageName + "&referrer=" + data
+            "https://play.google.com/store/apps/details?id=com.cognifygroup.vgold&hl=en_IN&gl=US" + "&referrer=" + data
+
+        Log.i("TAG", "createDynamicLink: " + link)
+
         FirebaseDynamicLinks.getInstance().createDynamicLink()
             .setLink(Uri.parse(link))
-            .setDomainUriPrefix("https://www.vgold.page.link")
+            .setDomainUriPrefix("https://cognifygroup.page.link")
             .setAndroidParameters(
-                AndroidParameters.Builder("com.cognifygroup.vgoldd")
-                    .setMinimumVersion(125)
+                AndroidParameters.Builder("com.cognifygroup.vgold")
+                    .setMinimumVersion(1)
                     .build()
             )
-            .setIosParameters(
+            /*.setIosParameters(
                 IosParameters.Builder("com.cognifygroup.vgold")
                     .setAppStoreId("123456789")
                     .setMinimumVersion("1.0.1")
                     .build()
-            )
+            )*/
             .buildShortDynamicLink()
             .addOnSuccessListener { shortDynamicLink ->
                 val mInvitationUrl: String = shortDynamicLink.shortLink.toString()
@@ -378,7 +394,7 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
 
 //                            Log.d("TAG", mInvitationUrl);
                     AttemptToRefer(
-                        VGoldApp.onGetUerId(),
+                        userId,
                         edtNameR!!.text.toString(),
                         edtEmailR!!.text.toString(),
                         edtMobileR!!.text.toString(),
@@ -395,6 +411,7 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
         mobile_no: String,
         refLink: String
     ) {
+        // Toast.makeText(this@ReferActivity, "" + refLink, Toast.LENGTH_SHORT).show()
         /* progressDialog!!.show()
          referServiceProvider!!.getAddBankDetails(
              user_id,
@@ -466,7 +483,7 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id.toString())
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("name", name)
             .addFormDataPart("email", email)
             .addFormDataPart("mobile_no", mobile_no)

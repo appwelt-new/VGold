@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -12,6 +14,7 @@ import com.cognifygroup.vgold.goldbooking.GoldBookingModel
 import com.cognifygroup.vgold.goldbooking.GoldBookingServiceProvider
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.google.gson.Gson
 import okhttp3.Call
@@ -46,6 +49,8 @@ class GoldBookingActivity : AppCompatActivity(), AlertDialogOkListener {
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
 
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,15 @@ class GoldBookingActivity : AppCompatActivity(), AlertDialogOkListener {
 
 
         supportActionBar?.title = "Gold Booking "
+
+
+        sharedPreferences =
+            this@GoldBookingActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
 
         spinner_tennure = findViewById(R.id.spinner_tennure)
         spinner_goldWeight = findViewById(R.id.spinner_goldWeight)
@@ -264,7 +278,7 @@ class GoldBookingActivity : AppCompatActivity(), AlertDialogOkListener {
             .addFormDataPart("quantity", quantity)
             .addFormDataPart("tennure", tennure)
             .addFormDataPart("pc", pc)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/booking_details.php")

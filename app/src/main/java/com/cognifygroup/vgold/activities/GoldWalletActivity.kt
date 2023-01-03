@@ -2,7 +2,9 @@ package com.cognifygroup.vgold.activities
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -13,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.adapters.GoldTransactionAdapter
-import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.*
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -57,20 +59,25 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
     var recyclerViewGoldWallet: RecyclerView? = null
     var dialog: Dialog? = null
     var mAlert: AlertDialogs? = null
-    var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
-    var getTodayGoldSellRateServiceProvider: GetTodayGoldSellRateServiceProvider? = null
-    var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
+  //  var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
+   // var getTodayGoldSellRateServiceProvider: GetTodayGoldSellRateServiceProvider? = null
+   // var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
 
     private val GetAmount: String? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+  //  private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gold_wallet)
         supportActionBar?.title = "Gold Wallet "
-
+        sharedPreferences =
+            this@GoldWalletActivity.getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
         txtWalletGoldWeight = findViewById(R.id.txtWalletGoldWeight)
         recyclerViewGoldWallet = findViewById(R.id.recyclerViewGoldWallet)
         btnAddGoldToWallet = findViewById(R.id.btnAddGoldToWallet)
@@ -126,7 +133,7 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
 
     override fun onResume() {
         super.onResume()
-        AttemptToGetGoldTransactionHistory(VGoldApp.onGetUerId())
+        AttemptToGetGoldTransactionHistory(userId)
     }
 
 
@@ -207,7 +214,7 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/gold_wallet_transactions.php")
@@ -333,7 +340,7 @@ class GoldWalletActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/get_purchase_rate.php")

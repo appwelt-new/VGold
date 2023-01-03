@@ -3,6 +3,7 @@ package com.cognifygroup.vgold.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
@@ -22,6 +23,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.payInstallment.PayInstallmentModel
 import com.cognifygroup.vgold.payInstallment.PayInstallmentServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import org.json.JSONArray
 import org.json.JSONException
@@ -33,6 +35,9 @@ import java.util.*
 class PayUMoneyActivity : AppCompatActivity(),AlertDialogOkListener {
     //    AddWalletMoneyServiceProvider addWalletMoneyServiceProvider;
     var webView: WebView? = null
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     /*String merchant_key = "0dCMZ3lW";
     String salt = "VMeDRpi6aH";*/
@@ -83,6 +88,14 @@ class PayUMoneyActivity : AppCompatActivity(),AlertDialogOkListener {
         // getSupportActionBar().setHomeButtonEnabled(true);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         supportActionBar?.title = "Pay Money "
+
+        sharedPreferences =
+            this@PayUMoneyActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
 
         webView = findViewById(R.id.webview_payment)
 
@@ -208,7 +221,7 @@ class PayUMoneyActivity : AppCompatActivity(),AlertDialogOkListener {
                     // AttemptAddPaymentInformation(MiniXeroxApp.onGetPdfId(),MiniXeroxApp.onGetUploadedPdfUserId(),MiniXeroxApp.onGetUserId(),txnid,amount,"Success");
                     if (whichActivity == "money") {
                         AttemptToAddMoney(
-                            VGoldApp.onGetUerId(),
+                            userId,
                             amount,
                             "Payumoney",
                             "",
@@ -217,12 +230,12 @@ class PayUMoneyActivity : AppCompatActivity(),AlertDialogOkListener {
                         )
                     } else if (whichActivity == "gold") {
                         AttemptToAddGold(
-                            VGoldApp.onGetUerId(), goldWeight, "" + amount, "Payumoney", "",
+                            userId, goldWeight, "" + amount, "Payumoney", "",
                             txnid!!, ""
                         )
                     } else if (whichActivity == "installment") {
                         AttemptToPayInstallment(
-                            VGoldApp.onGetUerId(), bookingId,
+                            userId, bookingId,
                             "" + amount, "Payumoney",
                             "", txnid!!, otherAmount, ""
                         )

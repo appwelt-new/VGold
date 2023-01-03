@@ -1,7 +1,9 @@
 package com.cognifygroup.vgold.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -20,6 +22,7 @@ import com.cognifygroup.vgold.adapters.CPUserDetailsAdapter
 import com.cognifygroup.vgold.channelpartner.UserDetailsModel_
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -41,13 +44,27 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
     var mAlert: AlertDialogs? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-   // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
-   // private var mCPUserServiceProvider: CPServiceProvider? = null
+    // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    // private var mCPUserServiceProvider: CPServiceProvider? = null
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
+
     private var mAdapter: CPUserDetailsAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_channel_partner)
         supportActionBar?.title = "Channel Partner"
+
+
+        sharedPreferences =
+            this@ChannelPartnerActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
         txtUserCountr = findViewById(R.id.txtUserCountr)
         etUserSearch = findViewById(R.id.etUserSearch)
         recyclerUsers = findViewById(R.id.recyclerUsers)
@@ -72,8 +89,8 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
         progressDialog!!.setCancelable(false)
         setFinishOnTouchOutside(false)
         mAlert = AlertDialogs().getInstance()
-      //  mCPUserServiceProvider = CPServiceProvider(this)
-       // loginStatusServiceProvider = LoginStatusServiceProvider(this)
+        //  mCPUserServiceProvider = CPServiceProvider(this)
+        // loginStatusServiceProvider = LoginStatusServiceProvider(this)
         recyclerUsers!!.layoutManager = LinearLayoutManager(this@ChannelPartnerActivity)
         if (VGoldApp.onGetUserTot() != null && !TextUtils.isEmpty(VGoldApp.onGetUserTot())) {
             txtUserCountr!!.text = VGoldApp.onGetUserTot()
@@ -84,6 +101,7 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
         if (VGoldApp.onGetGoldTot() != null && !TextUtils.isEmpty(VGoldApp.onGetGoldTot())) {
             txtGold!!.text = VGoldApp.onGetGoldTot() + " gm"
         }
+
         etUserSearch!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -105,7 +123,7 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
 
     fun getUserDetails() {
         //  progressDialog!!.show()
-        Log.i("TAG", "getUserDetails: " + VGoldApp.onGetUerId())
+        Log.i("TAG", "getUserDetails: " + userId)
         /* mCPUserServiceProvider?.getUserDetails(VGoldApp.onGetUerId(), object : APICallback {
              override fun <T> onSuccess(serviceResponse: T) {
                  try {
@@ -165,7 +183,7 @@ class ChannelPartnerActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/cp_user_list.php")

@@ -21,16 +21,16 @@ import com.cognifygroup.vgold.transferGoldFinal.TransferGoldFinalModel
 import com.cognifygroup.vgold.transferGoldFinal.TransferGoldFinalServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 
-class Otp1Activity : AppCompatActivity(),AlertDialogOkListener {
+class Otp1Activity : AppCompatActivity(), AlertDialogOkListener {
     var edtOtp: EditText? = null
 
     var btnTransferGold: Button? = null
 
     var otp = ""
-    var amount:kotlin.String? = ""
-    var no:kotlin.String? = ""
-    var weight:kotlin.String? = ""
-    var moveFrom:kotlin.String? = ""
+    var amount: kotlin.String? = ""
+    var no: kotlin.String? = ""
+    var weight: kotlin.String? = ""
+    var moveFrom: kotlin.String? = ""
 
     private var transferGoldFinalServiceProvider: TransferGoldFinalServiceProvider? = null
     private var sellGoldServiceProvider: SellGoldServiceProvider? = null

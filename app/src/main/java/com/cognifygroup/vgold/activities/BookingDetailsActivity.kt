@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
@@ -28,6 +29,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.*
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.bumptech.glide.Glide
+import com.cognifygroup.vgold.utilities.Constants
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -127,6 +129,8 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
 
     private var dataModel: GoldBookingRequestModel.Data? = null
 
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,6 +140,14 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         supportActionBar!!.title = "Booking Details"
+
+        sharedPreferences =
+            this@BookingDetailsActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
         shreiv = findViewById(R.id.shreiv)
         bnkimg = findViewById(R.id.bnkimg)
         txtBookingValue = findViewById(R.id.txtBookingValue)
@@ -305,7 +317,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
                             llCheque!!.visibility = View.GONE
                             llRTGS!!.visibility = View.GONE
                             AttemptToGoldBookingRequest(
-                                VGoldApp.onGetUerId(),
+                                userId,
                                 booking_value!!, down_payment!!,
                                 monthly!!, gold_rate!!, quantity!!, tennure!!,
                                 pc!!, payment_option!!,
@@ -333,8 +345,8 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
                 }
             //  loginStatusServiceProvider = LoginStatusServiceProvider(this)
             // checkLoginSession()
-            AttemptToGetMoneyBalance(VGoldApp.onGetUerId())
-            AttemptToGetGoldBalance(VGoldApp.onGetUerId())
+            AttemptToGetMoneyBalance(userId)
+            AttemptToGetGoldBalance(userId)
         }
     }
 
@@ -414,7 +426,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api calling
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/money_wallet_transactions.php")
@@ -492,7 +504,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api calling
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/gold_wallet_transactions.php")
@@ -571,7 +583,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api calling
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/get_purchase_rate.php")
@@ -608,14 +620,14 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
     fun onClickOfBtnPayOnline() {
         if (payment_option == "Cheque") {
             AttemptToGoldBookingRequest(
-                VGoldApp.onGetUerId(), booking_value!!, down_payment!!,
+                userId, booking_value!!, down_payment!!,
                 monthly!!, gold_rate!!, quantity!!, tennure!!, pc!!, payment_option!!,
                 edtBankDetail!!.text.toString(), "",
                 edtChequeNo!!.text.toString(), initBookingCharge!!, disc!!, booking_charge!!, "0"
             )
         } else if (payment_option == "Online") {
             AttemptToGoldBookingRequest(
-                VGoldApp.onGetUerId(),
+                userId,
                 booking_value!!,
                 down_payment!!,
                 monthly!!,
@@ -755,7 +767,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         btnYes.setOnClickListener {
             if (key.equals("moneyWallet", ignoreCase = true)) {
                 AttemptToGoldBookingRequest(
-                    VGoldApp.onGetUerId(), booking_value!!,
+                    userId, booking_value!!,
                     down_payment!!,
                     monthly!!, gold_rate!!, quantity!!, tennure!!, pc!!,
                     payment_option!!,
@@ -764,7 +776,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
                 )
             } else {
                 AttemptToGoldBookingRequest(
-                    VGoldApp.onGetUerId(), booking_value!!,
+                    userId, booking_value!!,
                     down_payment!!,
                     monthly!!, gold_rate!!, quantity!!, tennure!!, pc!!,
                     payment_option!!,
@@ -784,7 +796,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         if (VGoldApp.onGetNo() != null && !TextUtils.isEmpty(VGoldApp.onGetNo())) {
             no = VGoldApp.onGetNo()!!.substring(0, 5)
         }
-        val transNo = VGoldApp.onGetUerId() + "-" + BaseActivity.date
+        val transNo = userId + "-" + BaseActivity.date
         val name: String?
         name = if (VGoldApp.onGetFirst() != null && !TextUtils.isEmpty(VGoldApp.onGetFirst())) {
             if (VGoldApp.onGetLast() != null && !TextUtils.isEmpty(VGoldApp.onGetLast())) {
@@ -804,7 +816,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
             .appendQueryParameter("tr", transNo)
             .appendQueryParameter(
                 "tn",
-                "GB_" + weight + "_" + goldRate + " " + name + "(" + VGoldApp.onGetUerId() + ")"
+                "GB_" + weight + "_" + goldRate + " " + name + "(" + userId + ")"
             )
             .appendQueryParameter("am", amt.toString())
             .appendQueryParameter(
@@ -903,7 +915,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
 //                Toast.makeText(BookingDetailActivity.this, "Transaction successful.", Toast.LENGTH_SHORT).show();
 //                Log.e("UPI", "payment successfull: "+approvalRefNo);
                 AttemptToGoldBookingRequest(
-                    VGoldApp.onGetUerId(), booking_value!!,
+                    userId, booking_value!!,
                     down_payment!!, monthly!!,
                     gold_rate!!, quantity!!, tennure!!, pc!!, payment_option!!,
                     edtRtgsBankDetail!!.text.toString(), approvalRefNo, "",
@@ -959,106 +971,106 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         disc: String, booking_charge: String, confirmedVal: String
     ) {
         // mAlert.onShowProgressDialog(AddBankActivity.this, true);
-         /*goldBookingRequestServiceProvider?.getGoldBookingRequest(user_id,
-             booking_value, down_payment, monthly, rate, gold_weight, tennure, pc,
-             payment_option, bank_details, tr_id, cheque_no, initBookingCharge, disc, booking_charge,
-             confirmedVal, object : APICallback {
-                 @SuppressLint("SetTextI18n")
-                 override fun <T> onSuccess(serviceResponse: T) {
-                     try {
-                         val status: String? =
-                             (serviceResponse as GoldBookingRequestModel).status
-                         val message: String? =
-                             (serviceResponse as GoldBookingRequestModel).message
-                         dataModel = (serviceResponse as GoldBookingRequestModel).data
-                         if (status == "200") {
-                             if (payment_option.equals("Gold Wallet", ignoreCase = true) &&
-                                 confirmedVal.equals("0", ignoreCase = true)
-                             ) {
-                                 calculationLayout!!.visibility = View.VISIBLE
-                                 txtGSTAmtId!!.visibility = View.VISIBLE
-                                 txtGSTPayableAmtId!!.visibility = View.VISIBLE
-                                 txtDeductedGoldId!!.visibility = View.VISIBLE
-                                 txtSaleRateId!!.visibility = View.VISIBLE
-                                 txtPayableAmtId!!.text =
-                                     ("Payable Amount : " + resources.getString(R.string.rs)
-                                             + dataModel?.amount_to_pay)
-                                 txtWalletAmtId!!.text =
-                                     "Gold in Wallet : " + dataModel?.gold_in_wallet
-                                         .toString() + " gm"
-                                 txtSaleRateId!!.text =
-                                     ("Today's Gold Sale Rate : " + resources.getString(R.string.rs)
-                                             + dataModel?.today_sale_rate)
-                                 txtGSTAmtId!!.text =
-                                     "GST for Today's Gold Sale Rate : " + dataModel?.gst_per
-                                         .toString() + "%"
-                                 txtGSTPayableAmtId!!.text =
-                                     ("GST on Payable Amount : " + resources.getString(R.string.rs)
-                                             + dataModel?.amount_to_pay_gst)
-                                 txtDeductedGoldId!!.text =
-                                     "Deducted Gold from Wallet : " + dataModel?.gold_reduce
-                                         .toString() + " gm"
-                                 txtBalanceRemainId!!.text = ("Remaining Gold in Wallet : "
-                                         + dataModel?.reduced_gold_in_wallet) + " gm"
+        /*goldBookingRequestServiceProvider?.getGoldBookingRequest(user_id,
+            booking_value, down_payment, monthly, rate, gold_weight, tennure, pc,
+            payment_option, bank_details, tr_id, cheque_no, initBookingCharge, disc, booking_charge,
+            confirmedVal, object : APICallback {
+                @SuppressLint("SetTextI18n")
+                override fun <T> onSuccess(serviceResponse: T) {
+                    try {
+                        val status: String? =
+                            (serviceResponse as GoldBookingRequestModel).status
+                        val message: String? =
+                            (serviceResponse as GoldBookingRequestModel).message
+                        dataModel = (serviceResponse as GoldBookingRequestModel).data
+                        if (status == "200") {
+                            if (payment_option.equals("Gold Wallet", ignoreCase = true) &&
+                                confirmedVal.equals("0", ignoreCase = true)
+                            ) {
+                                calculationLayout!!.visibility = View.VISIBLE
+                                txtGSTAmtId!!.visibility = View.VISIBLE
+                                txtGSTPayableAmtId!!.visibility = View.VISIBLE
+                                txtDeductedGoldId!!.visibility = View.VISIBLE
+                                txtSaleRateId!!.visibility = View.VISIBLE
+                                txtPayableAmtId!!.text =
+                                    ("Payable Amount : " + resources.getString(R.string.rs)
+                                            + dataModel?.amount_to_pay)
+                                txtWalletAmtId!!.text =
+                                    "Gold in Wallet : " + dataModel?.gold_in_wallet
+                                        .toString() + " gm"
+                                txtSaleRateId!!.text =
+                                    ("Today's Gold Sale Rate : " + resources.getString(R.string.rs)
+                                            + dataModel?.today_sale_rate)
+                                txtGSTAmtId!!.text =
+                                    "GST for Today's Gold Sale Rate : " + dataModel?.gst_per
+                                        .toString() + "%"
+                                txtGSTPayableAmtId!!.text =
+                                    ("GST on Payable Amount : " + resources.getString(R.string.rs)
+                                            + dataModel?.amount_to_pay_gst)
+                                txtDeductedGoldId!!.text =
+                                    "Deducted Gold from Wallet : " + dataModel?.gold_reduce
+                                        .toString() + " gm"
+                                txtBalanceRemainId!!.text = ("Remaining Gold in Wallet : "
+                                        + dataModel?.reduced_gold_in_wallet) + " gm"
 
-                                 //                                    ShowPopupDialog(dataModel, "goldWallet");
-                             } else {
-                                 val intent =
-                                     Intent(this@BookingDetailsActivity, SuccessActivity::class.java)
-                                 intent.putExtra("message", message)
-                                 startActivity(intent)
-                             }
+                                //                                    ShowPopupDialog(dataModel, "goldWallet");
+                            } else {
+                                val intent =
+                                    Intent(this@BookingDetailsActivity, SuccessActivity::class.java)
+                                intent.putExtra("message", message)
+                                startActivity(intent)
+                            }
 
 
-                             //   mAlert.onShowToastNotification(BookingDetailActivity.this, message);
-                         } else {
-                             AlertDialogs().alertDialogOk(
-                                 this@BookingDetailsActivity,
-                                 "Alert",
-                                 message,
-                                 resources.getString(R.string.btn_ok),
-                                 1,
-                                 false,
-                                 alertDialogOkListener
-                             )
-                             //                        mAlert.onShowToastNotification(BookingDetailActivity.this, message);
-                             //                        Intent intent = new Intent(BookingDetailActivity.this, MainActivity.class);
-                             //                        startActivity(intent);
-                         }
-                     } catch (e: Exception) {
-                         e.printStackTrace()
-                     } finally {
-                         progressDialog!!.hide()
-                     }
-                 }
+                            //   mAlert.onShowToastNotification(BookingDetailActivity.this, message);
+                        } else {
+                            AlertDialogs().alertDialogOk(
+                                this@BookingDetailsActivity,
+                                "Alert",
+                                message,
+                                resources.getString(R.string.btn_ok),
+                                1,
+                                false,
+                                alertDialogOkListener
+                            )
+                            //                        mAlert.onShowToastNotification(BookingDetailActivity.this, message);
+                            //                        Intent intent = new Intent(BookingDetailActivity.this, MainActivity.class);
+                            //                        startActivity(intent);
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        progressDialog!!.hide()
+                    }
+                }
 
-                 override fun <T> onFailure(apiErrorModel: T, extras: T) {
+                override fun <T> onFailure(apiErrorModel: T, extras: T) {
 
-                     try {
-                         if (apiErrorModel != null) {
-                             PrintUtil.showToast(
-                                 this@BookingDetailsActivity,
-                                 (apiErrorModel as BaseServiceResponseModel).message
-                             )
-                         } else {
-                             PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                         }
-                     } catch (e: Exception) {
-                         e.printStackTrace()
-                         PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
-                     } finally {
-                         progressDialog!!.hide()
-                     }
-                 }
-             })
+                    try {
+                        if (apiErrorModel != null) {
+                            PrintUtil.showToast(
+                                this@BookingDetailsActivity,
+                                (apiErrorModel as BaseServiceResponseModel).message
+                            )
+                        } else {
+                            PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        PrintUtil.showNetworkAvailableToast(this@BookingDetailsActivity)
+                    } finally {
+                        progressDialog!!.hide()
+                    }
+                }
+            })
 
-        // gold_booking*/
+       // gold_booking*/
 
 
         // change in api calling
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("booking_value", booking_value)
             .addFormDataPart("down_payment", down_payment)
             .addFormDataPart("monthly", monthly)

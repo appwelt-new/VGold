@@ -1,7 +1,9 @@
 package com.cognifygroup.vgold.activities
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.PointF
 import android.net.Uri
@@ -26,6 +28,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.messaging.Constants.MessageNotificationKeys.IMAGE_URL
@@ -58,7 +61,8 @@ class OfferLetterActivity : AppCompatActivity(), AlertDialogOkListener {
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
-
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     // zoom function
     var lastEvent: FloatArray? = null
@@ -82,6 +86,15 @@ class OfferLetterActivity : AppCompatActivity(), AlertDialogOkListener {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Our Vendors"
+
+        sharedPreferences =
+            this@OfferLetterActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
+
         imgLetter = findViewById(R.id.imgLetter)
         addAdv = findViewById(R.id.addAdv)
         fab = findViewById(R.id.fab)
@@ -176,8 +189,8 @@ class OfferLetterActivity : AppCompatActivity(), AlertDialogOkListener {
                 flag = false
             }
         }
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
-        checkLoginSession()
+       // loginStatusServiceProvider = LoginStatusServiceProvider(this)
+       // checkLoginSession()
     }
 
     private fun checkLoginSession() {

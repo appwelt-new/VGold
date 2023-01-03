@@ -1,7 +1,9 @@
 package com.cognifygroup.vgold.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.getbankdetails.GetBankModel
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.google.gson.Gson
 import okhttp3.Call
@@ -41,13 +44,23 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
     var balance: String? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-   // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
 
+    // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_withdraw)
 
         supportActionBar?.title = "Withdraw "
+
+        sharedPreferences =
+            this@WithdrawActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
 
         spinnerBank = findViewById(R.id.spinnerBank)
         edtWithdrawAmount = findViewById(R.id.edtWithdrawAmount)
@@ -68,8 +81,8 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
         // loginStatusServiceProvider = LoginStatusServiceProvider(this)
         //  checkLoginSession()
 
-        AttemptToGetMoneyTransactionHistory(VGoldApp.onGetUerId())
-      //  AttemptToBank(VGoldApp.onGetUerId())
+        AttemptToGetMoneyTransactionHistory(userId)
+        //  AttemptToBank(VGoldApp.onGetUerId())
 
         btnWithdrawMoney!!.setOnClickListener {
             onClickOfBtnWithdrawMoney()
@@ -97,7 +110,7 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
 //        double withdrawbalence = Double.parseDouble(edtWithdrawAmount.getText().toString());
         if (withdrawbalence <= walletbalence && withdrawbalence >= 500) {
             AttemptToWithdrawMoney(
-                VGoldApp.onGetUerId(),
+                userId,
                 BankId!!, edtWithdrawAmount!!.text.toString(), edtComment!!.text.toString()
             )
         } else {
@@ -185,7 +198,7 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api calling
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/get_bank_details.php")
@@ -330,7 +343,7 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("bank_id", bank_id)
             .addFormDataPart("amount", amount)
             .addFormDataPart("comment", comment)
@@ -447,7 +460,7 @@ class WithdrawActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/money_wallet_transactions.php")

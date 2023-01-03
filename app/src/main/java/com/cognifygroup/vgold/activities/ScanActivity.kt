@@ -17,7 +17,8 @@ import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.google.android.gms.vision.barcode.Barcode
 import info.androidhive.barcode.BarcodeReader
 
-class ScanActivity : AppCompatActivity(),BarcodeReader.BarcodeReaderListener,AlertDialogOkListener {
+class ScanActivity : AppCompatActivity(), BarcodeReader.BarcodeReaderListener,
+    AlertDialogOkListener {
     var barcodeReader: BarcodeReader? = null
 
     var txtMobile: TextView? = null
@@ -44,12 +45,12 @@ class ScanActivity : AppCompatActivity(),BarcodeReader.BarcodeReaderListener,Ale
         barcodeReader =
             supportFragmentManager.findFragmentById(R.id.barcode_scanner) as BarcodeReader?
 
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
-        checkLoginSession()
+        // loginStatusServiceProvider = LoginStatusServiceProvider(this)
+        //  checkLoginSession()
 
-    txtMobile!!.setOnClickListener{
-        onClickOfTxtMobile()
-    }
+        txtMobile!!.setOnClickListener {
+            onClickOfTxtMobile()
+        }
     }
 
     private fun checkLoginSession() {

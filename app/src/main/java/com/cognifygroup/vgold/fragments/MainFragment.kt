@@ -468,17 +468,13 @@ class MainFragment : Fragment(), AlertDialogOkListener {
                         var activity = getActivity();
                         if (activity != null && isAdded()) {
                             activity.runOnUiThread(Runnable {
-
                                 total_gain.text = resources.getString(R.string.rs) + gain + "/-"
                                 gainLayout.visibility = View.VISIBLE
                                 loanLayout.visibility = View.GONE
                                 certificateLayout.visibility = View.GONE
-
                             })
                         }
-
                     }
-
                 }
             }
         })

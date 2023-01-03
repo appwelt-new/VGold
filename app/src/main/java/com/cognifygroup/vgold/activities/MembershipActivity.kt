@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -18,6 +20,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 
 
@@ -38,6 +41,10 @@ class MembershipActivity : AppCompatActivity(), AlertDialogOkListener {
     private val alertDialogOkListener: AlertDialogOkListener = this
 
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_membership)
@@ -46,6 +53,14 @@ class MembershipActivity : AppCompatActivity(), AlertDialogOkListener {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Membership"
+
+
+        sharedPreferences =
+            this@MembershipActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
         txtClientName = findViewById(R.id.txtClientName)
         txtCrnNo = findViewById(R.id.txtCrnNo)
@@ -67,7 +82,7 @@ class MembershipActivity : AppCompatActivity(), AlertDialogOkListener {
     }
 
     private fun loadData() {
-        txtCrnNo!!.text = "CRN - " + VGoldApp.onGetUerId()
+        txtCrnNo!!.text = "CRN - " + userId
         txtClientName!!.text = "" + VGoldApp.onGetFirst().toString() + " " + VGoldApp.onGetLast()
         if (VGoldApp.onGetUserRole().equals("member")) {
             rlMembershipCard!!.setBackgroundResource(R.drawable.membershipcardlifetime)

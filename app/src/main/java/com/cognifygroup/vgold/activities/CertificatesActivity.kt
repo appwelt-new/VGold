@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
@@ -69,6 +70,7 @@ class CertificatesActivity : AppCompatActivity() {
     var oldDist = 1f
     private var xCoOrdinate = 0f
     private var yCoOrdinate: kotlin.Float = 0f
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -224,6 +226,9 @@ class CertificatesActivity : AppCompatActivity() {
 
 
     fun getcerimg() {
+
+        Log.i("TAG", "getcerimg: " + userId)
+
         // Use the imgur image upload API as documented at https://api.imgur.com/endpoints/image
         val client = OkHttpClient()
         val requestBody = MultipartBody.Builder()
@@ -234,7 +239,7 @@ class CertificatesActivity : AppCompatActivity() {
         val request = Request.Builder()
             // .header("Authorization", "Client-ID $IMGUR_CLIENT_ID")
             .url("https://www.vgold.co.in/dashboard/vgold_accnt_certificate/get_certificate.php?userid=" + userId)
-            //.post(requestBody)
+            .post(requestBody)
             .get()
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -434,10 +439,10 @@ class CertificatesActivity : AppCompatActivity() {
     }
 
     private fun rotation(event: MotionEvent): Float {
-       /* val delta_x = (event.getX(0) - event.getX(1)).toDouble()
-        val delta_y = (event.getY(0) - event.getY(1)).toDouble()
-        val radians = Math.atan2(delta_y, delta_x)
-        return Math.toDegrees(radians).toFloat()*/
+        /* val delta_x = (event.getX(0) - event.getX(1)).toDouble()
+         val delta_y = (event.getY(0) - event.getY(1)).toDouble()
+         val radians = Math.atan2(delta_y, delta_x)
+         return Math.toDegrees(radians).toFloat()*/
         return 1.0f
     }
 

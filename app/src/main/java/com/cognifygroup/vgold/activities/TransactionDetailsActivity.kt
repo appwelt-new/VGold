@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 
 class TransactionDetailsActivity : AppCompatActivity(),AlertDialogOkListener {
@@ -44,11 +47,21 @@ class TransactionDetailsActivity : AppCompatActivity(),AlertDialogOkListener {
 
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
-
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
     private var progressDialog: TransparentProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_details)
+
+
+        sharedPreferences =
+            this@TransactionDetailsActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
 
 
         txtTxnInstallmentprice = findViewById(R.id.txtTxnInstallmentprice)
@@ -93,7 +106,7 @@ class TransactionDetailsActivity : AppCompatActivity(),AlertDialogOkListener {
             txtReciptNo!!.text = "Reciept $recipt_no"
             txtDate!!.text = date
             txtName!!.text = VGoldApp.onGetFirst() + " " + VGoldApp.onGetLast()
-            txtCrn!!.text = VGoldApp.onGetUerId()
+            txtCrn!!.text = userId
             txtTxnInstallmentprice!!.text = installment
             txtTxnRemainingAmt!!.text = remainingamount
             // txtTxnPeriod.setText(peroid);
@@ -117,7 +130,7 @@ class TransactionDetailsActivity : AppCompatActivity(),AlertDialogOkListener {
 
 
     private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
+        loginStatusServiceProvider!!.getLoginStatus(userId, object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 try {
                     progressDialog!!.hide()
@@ -181,7 +194,7 @@ class TransactionDetailsActivity : AppCompatActivity(),AlertDialogOkListener {
     fun onClickOfImgTrDetails() {
         val browserIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("https://www.vgold.co.in/dashboard/user/module/goldbooking/mmd_receipt.php?id=" + recipt_no + "&&user_id=" + VGoldApp.onGetUerId())
+            Uri.parse("https://www.vgold.co.in/dashboard/user/module/goldbooking/mmd_receipt.php?id=" + recipt_no + "&&user_id=" + userId)
         )
         startActivity(browserIntent)
     }

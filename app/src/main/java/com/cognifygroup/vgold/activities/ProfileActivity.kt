@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -14,20 +16,21 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import org.json.JSONObject
 
-class ProfileActivity : AppCompatActivity(),AlertDialogOkListener {
+class ProfileActivity : AppCompatActivity(), AlertDialogOkListener {
 
     var txtName: TextView? = null
 
-  //  @InjectView(R.id.txtPanNumber)
+    //  @InjectView(R.id.txtPanNumber)
     var txtPanNumber: TextView? = null
 
-  //  @InjectView(R.id.txtCRN)
+    //  @InjectView(R.id.txtCRN)
     var txtCRN: TextView? = null
 
     //
@@ -35,11 +38,11 @@ class ProfileActivity : AppCompatActivity(),AlertDialogOkListener {
 //    var txtMail: TextView? = null
     private lateinit var txtMail: TextView
 
-//    @InjectView(R.id.txtPhone)
+    //    @InjectView(R.id.txtPhone)
 //    var txtPhone: TextView? = null
     private lateinit var txtPhone: TextView
 
-//    @InjectView(R.id.txtAddress)
+    //    @InjectView(R.id.txtAddress)
 //    var txtAddress: TextView? = null
 //
 //    @InjectView(R.id.imgBarcode)
@@ -52,11 +55,17 @@ class ProfileActivity : AppCompatActivity(),AlertDialogOkListener {
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
 
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-      //  ButterKnife.inject(this)
+        //  ButterKnife.inject(this)
+        sharedPreferences =
+            this@ProfileActivity.getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
         txtCRN = findViewById(R.id.txtCRN)
         txtPanNumber = findViewById(R.id.txtPanNumber)
@@ -88,9 +97,9 @@ class ProfileActivity : AppCompatActivity(),AlertDialogOkListener {
         progressDialog!!.setCancelable(false)
         setFinishOnTouchOutside(false)
 
-        Log.i("TAG", "init: "+VGoldApp)
+        Log.i("TAG", "init: " + VGoldApp)
         txtName!!.text = VGoldApp.onGetFirst() + " " + VGoldApp.onGetLast()
-        txtCRN!!.text = VGoldApp.onGetUerId()
+        txtCRN!!.text = userId
         var pan = VGoldApp.onGetPanNo()
         if (pan == "" || pan == null) {
             pan = "0000000000"
@@ -99,7 +108,7 @@ class ProfileActivity : AppCompatActivity(),AlertDialogOkListener {
         try {
             val screte_pan = pan.substring(pan.length - 4, pan.length)
             txtPanNumber!!.text = "XXXXXX$screte_pan"
-        }catch (e:Exception){
+        } catch (e: Exception) {
 
         }
 
@@ -121,8 +130,8 @@ class ProfileActivity : AppCompatActivity(),AlertDialogOkListener {
 //
 //                override fun onError() {}
 //            })
-     //   loginStatusServiceProvider = LoginStatusServiceProvider(this)
-      //  checkLoginSession()
+        //   loginStatusServiceProvider = LoginStatusServiceProvider(this)
+        //  checkLoginSession()
     }
 
     private fun checkLoginSession() {

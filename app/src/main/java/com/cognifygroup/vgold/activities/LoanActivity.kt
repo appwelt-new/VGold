@@ -1,7 +1,9 @@
 package com.cognifygroup.vgold.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -55,14 +58,26 @@ class LoanActivity : AppCompatActivity(), AlertDialogOkListener {
 
     // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
     // var getLoanServiceProvider: LoanServiceProvider? = null
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loan)
 
         supportActionBar!!.title = "Loan"
 
-
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+
+
+        sharedPreferences =
+            this@LoanActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
 
         loanEligibleAmt = findViewById(R.id.loanEligibleAmt)
@@ -78,7 +93,7 @@ class LoanActivity : AppCompatActivity(), AlertDialogOkListener {
         mAlert = AlertDialogs().getInstance()
 
         //  getLoanServiceProvider = LoanServiceProvider(this)
-        AttemptToLoanDetails(VGoldApp.onGetUerId())
+        AttemptToLoanDetails(userId)
 
         /*intrestedId.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -153,7 +168,7 @@ class LoanActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id.toString())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/get_user_loan_eligiblity.php")
@@ -255,7 +270,7 @@ class LoanActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id.toString())
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("amount", amt)
             .addFormDataPart("comment", comment)
             .build()
@@ -323,7 +338,7 @@ class LoanActivity : AppCompatActivity(), AlertDialogOkListener {
         if (!TextUtils.isEmpty(amt) && amt.toDouble() > 0) {
             if (loanAmt != null && !TextUtils.isEmpty(loanAmt)) {
                 if (loanAmt!!.toDouble() >= amt.toDouble()) {
-                    ApplyForLoan(VGoldApp.onGetUerId(), amt, remark)
+                    ApplyForLoan(userId, amt, remark)
                 } else {
                     AlertDialogs().alertDialogOk(
                         this@LoanActivity,

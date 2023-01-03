@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -22,14 +24,15 @@ import com.cognifygroup.vgold.transferGoldFinal.TransferGoldFinalModel
 import com.cognifygroup.vgold.transferGoldFinal.TransferGoldFinalServiceProvider
 import com.cognifygroup.vgold.transferMoney.TransferMoneyModel
 import com.cognifygroup.vgold.transferMoney.TransferMoneyServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import java.text.DecimalFormat
 
-class PayActivity : AppCompatActivity(),AlertDialogOkListener {
+class PayActivity : AppCompatActivity(), AlertDialogOkListener {
     var name: String? = null
     var mobile: String? = null
     var mobileno: String? = null
-    var otp:kotlin.String? = null
+    var otp: kotlin.String? = null
     var whichactivity = "0"
 
     var txtName: TextView? = null
@@ -78,9 +81,19 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
     private var mAlert: AlertDialogs? = null
     private var progressDialog: TransparentProgressDialog? = null
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay)
+
+        sharedPreferences =
+            this@PayActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
 
         imgSwap1 = findViewById(R.id.imgSwap1)
         imgSwap = findViewById(R.id.imgSwap)
@@ -174,7 +187,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
             }
         }
         edtAmount!!.addTextChangedListener(textWatcher)
-        AttemptToGetGoldTransactionHistory(VGoldApp.onGetUerId())
+        AttemptToGetGoldTransactionHistory(userId)
         AttemptToGetTodayGoldRate()
         val intent = intent
         name = intent.getStringExtra("name")
@@ -208,7 +221,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
     }
 
     private fun checkLoginSession() {
-        loginStatusServiceProvider?.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
+        loginStatusServiceProvider?.getLoginStatus(userId, object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 try {
                     progressDialog?.hide()
@@ -295,6 +308,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
         super.onResume()
         getTransferMoney(txtMobile!!.text.toString())
     }
+
     fun onClickOfBtnAddGoldTowallet() {
         startActivity(Intent(this@PayActivity, PayActivity::class.java))
     }
@@ -337,7 +351,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
                     if (result != 0.0) {
                         if (enterbalence <= walletbalence) {
                             // Toast.makeText(PayActivity.this,""+GoldW,Toast.LENGTH_LONG).show();
-                            getOtp(VGoldApp.onGetUerId(), txtMobile!!.text.toString(), GoldW)
+                            getOtp(userId, txtMobile!!.text.toString(), GoldW)
                             //                                TransferGold(VGoldApp.onGetUerId(),txtMobile.getText().toString(),GoldW);
                         } else {
                             btnAddGoldWallet!!.visibility = View.VISIBLE
@@ -381,7 +395,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
                     if (enterbalence1 != 0.0) {
                         if (enterbalence1 <= walletbalence) {
                             getOtp(
-                                VGoldApp.onGetUerId(),
+                                userId,
                                 txtMobile!!.text.toString(),
                                 edtGoldWeight!!.text.toString()
                             )
@@ -479,8 +493,8 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
                                     .putExtra("moveFrom", "payActivity")
                             );*/
 
-    //                        AlertDialogs.alertDialogOk(PayActivity.this, "Alert", "Otp sent to your register mobile no and mail",
-    //                                getResources().getString(R.string.btn_ok), 1, false, alertDialogOkListener);
+                        //                        AlertDialogs.alertDialogOk(PayActivity.this, "Alert", "Otp sent to your register mobile no and mail",
+                        //                                getResources().getString(R.string.btn_ok), 1, false, alertDialogOkListener);
 
                         /*startActivity(new Intent(PayActivity.this, Otp1Activity.class)
                                     .putExtra("OTP", otp)
@@ -493,7 +507,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
                             resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
                         )
 
-    //                        mAlert.onShowToastNotification(PayActivity.this, message);
+                        //                        mAlert.onShowToastNotification(PayActivity.this, message);
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -537,7 +551,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
                         //  Toast.makeText(PayActivity.this,message,Toast.LENGTH_LONG).show();
                     } else {
 
-    //                        mAlert.onShowToastNotification(PayActivity.this, message);
+                        //                        mAlert.onShowToastNotification(PayActivity.this, message);
                         txtError!!.visibility = View.VISIBLE
                         btnRefer!!.visibility = View.VISIBLE
                         btnPay!!.visibility = View.GONE
@@ -600,7 +614,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
 
                             // mAlert.onShowToastNotification(PayActivity.this, message);
                         } else {
-    //                        mAlert.onShowToastNotification(PayActivity.this, message);
+                            //                        mAlert.onShowToastNotification(PayActivity.this, message);
                             AlertDialogs().alertDialogOk(
                                 this@PayActivity,
                                 "Alert",
@@ -655,7 +669,7 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
                             resources.getString(R.string.btn_ok), 3, false, alertDialogOkListener
                         )
 
-    //                        mAlert.onShowToastNotification(PayActivity.this, message);
+                        //                        mAlert.onShowToastNotification(PayActivity.this, message);
                     } else {
                         AlertDialogs().alertDialogOk(
                             this@PayActivity, "Alert", message,
@@ -693,49 +707,55 @@ class PayActivity : AppCompatActivity(),AlertDialogOkListener {
 
     private fun AttemptToGetTodayGoldRate() {
         //mAlert.onShowProgressDialog(PayActivity.this, true);
-        getTodayGoldRateServiceProvider?.getTodayGoldRate(VGoldApp.onGetUerId(),object : APICallback {
-            override fun <T> onSuccess(serviceResponse: T) {
-                try {
-                    val status: String? = (serviceResponse as GetTodayGoldRateModel).status
-                    val message: String? = (serviceResponse as GetTodayGoldRateModel).message
-                    todayGoldRate =
-                        (serviceResponse as GetTodayGoldRateModel).gold_purchase_rate.toString()
-                    txtGoldRate!!.text = "₹ $todayGoldRate/GM"
-                    if (status == "200") {
-                        // mAlert.onShowToastNotification(PayActivity.this, message);
-                    } else {
-                        AlertDialogs().alertDialogOk(
-                            this@PayActivity, "Alert", message,
-                            resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
-                        )
-                        //                        mAlert.onShowToastNotification(PayActivity.this, message);
+        getTodayGoldRateServiceProvider?.getTodayGoldRate(userId,
+            object : APICallback {
+                override fun <T> onSuccess(serviceResponse: T) {
+                    try {
+                        val status: String? = (serviceResponse as GetTodayGoldRateModel).status
+                        val message: String? = (serviceResponse as GetTodayGoldRateModel).message
+                        todayGoldRate =
+                            (serviceResponse as GetTodayGoldRateModel).gold_purchase_rate.toString()
+                        txtGoldRate!!.text = "₹ $todayGoldRate/GM"
+                        if (status == "200") {
+                            // mAlert.onShowToastNotification(PayActivity.this, message);
+                        } else {
+                            AlertDialogs().alertDialogOk(
+                                this@PayActivity,
+                                "Alert",
+                                message,
+                                resources.getString(R.string.btn_ok),
+                                0,
+                                false,
+                                alertDialogOkListener
+                            )
+                            //                        mAlert.onShowToastNotification(PayActivity.this, message);
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        progressDialog?.hide()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    progressDialog?.hide()
                 }
-            }
 
-            override fun <T> onFailure(apiErrorModel: T, extras: T) {
+                override fun <T> onFailure(apiErrorModel: T, extras: T) {
 
-                try {
-                    if (apiErrorModel != null) {
-                        PrintUtil.showToast(
-                            this@PayActivity,
-                            (apiErrorModel as BaseServiceResponseModel).message
-                        )
-                    } else {
+                    try {
+                        if (apiErrorModel != null) {
+                            PrintUtil.showToast(
+                                this@PayActivity,
+                                (apiErrorModel as BaseServiceResponseModel).message
+                            )
+                        } else {
+                            PrintUtil.showNetworkAvailableToast(this@PayActivity)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                         PrintUtil.showNetworkAvailableToast(this@PayActivity)
+                    } finally {
+                        progressDialog?.hide()
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    PrintUtil.showNetworkAvailableToast(this@PayActivity)
-                } finally {
-                    progressDialog?.hide()
                 }
-            }
-        })
+            })
     }
 
     override fun onDialogOk(resultCode: Int) {

@@ -1,7 +1,9 @@
 package com.cognifygroup.vgold.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +16,7 @@ import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.*
 import com.cognifygroup.vgold.sellGold.SellGoldServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -51,6 +54,8 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
     private val alertDialogOkListener: AlertDialogOkListener = this
     // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
 
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +63,16 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         supportActionBar!!.title = "Sell Gold"
+
+
+        sharedPreferences =
+            this@SellGoldActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
+
 
         edtGoldWeight = findViewById(R.id.edtGoldWeight)
         txtSellAmount = findViewById(R.id.txtSellAmount)
@@ -81,7 +96,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         AttemptToGetTodayGoldRateOld()
 
 
-        AttemptToGetGoldTransactionHistory(VGoldApp.onGetUerId())
+        AttemptToGetGoldTransactionHistory(userId)
 
         btnSell!!.setOnClickListener {
             onClickOfBtnbtnSell()
@@ -133,7 +148,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 if (enterbalence <= walletbalence) {
                     goldWeight = edtGoldWeight!!.text.toString()
                     amt = "" + result
-                    getOtp(VGoldApp.onGetUerId())
+                    getOtp(userId)
 
 //                    AttemptToSellGold(VGoldApp.onGetUerId(), edtGoldWeight.getText().toString(), "" + result);
                 } else {
@@ -220,7 +235,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("action", "send_otp")
             .build()
         val request = okhttp3.Request.Builder()
@@ -397,7 +412,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/gold_wallet_transactions.php")
@@ -492,7 +507,7 @@ class SellGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", VGoldApp.onGetUerId())
+            .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
             .url("https://www.vgold.co.in/dashboard/webservices/get_sale_rate.php")

@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +21,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 
 class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener {
@@ -33,9 +36,18 @@ class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gold_transaction_history)
+
+        sharedPreferences =
+            this@GoldTransactionHistoryActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
 
         rvGoldTransactioHistory = findViewById(R.id.rvGoldTransactioHistory)
@@ -73,7 +85,7 @@ class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener
     }
 
     private fun checkLoginSession() {
-        loginStatusServiceProvider!!.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
+        loginStatusServiceProvider!!.getLoginStatus(userId, object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 try {
                     progressDialog!!.hide()
@@ -140,7 +152,7 @@ class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener
     fun onClickOfImgTrHistory() {
         val browserIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("https://www.vgold.co.in/dashboard/user/module/goldbooking/transaction_pdf.php?bid=" + booking_id + "&&user_id=" + VGoldApp.onGetUerId())
+            Uri.parse("https://www.vgold.co.in/dashboard/user/module/goldbooking/transaction_pdf.php?bid=" + booking_id + "&&user_id=" + userId)
         )
         startActivity(browserIntent)
     }

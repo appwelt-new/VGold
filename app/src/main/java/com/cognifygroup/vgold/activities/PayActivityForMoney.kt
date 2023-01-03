@@ -1,5 +1,7 @@
 package com.cognifygroup.vgold.activities
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -20,6 +22,7 @@ import com.cognifygroup.vgold.payMoneyOtp.PayMoneyOtpModel
 import com.cognifygroup.vgold.payMoneyOtp.PayMoneyOtpServiceProvider
 import com.cognifygroup.vgold.transferMoney.TransferMoneyModel
 import com.cognifygroup.vgold.transferMoney.TransferMoneyServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 
 class PayActivityForMoney : AppCompatActivity(), AlertDialogOkListener {
@@ -50,11 +53,19 @@ class PayActivityForMoney : AppCompatActivity(), AlertDialogOkListener {
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
     private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay_for_money)
 
         supportActionBar?.title = "Pay For Money "
+        sharedPreferences =
+            this@PayActivityForMoney.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
         txtName = findViewById(R.id.txtName)
         txtMobile = findViewById(R.id.txtMobile)
@@ -79,7 +90,7 @@ class PayActivityForMoney : AppCompatActivity(), AlertDialogOkListener {
         getAllTransactionMoneyServiceProvider = GetAllTransactionMoneyServiceProvider(this)
         transferMoneyFinalServiceProvider = TransferMoneyFinalServiceProvider(this)
 
-        /*btnPay.setVisibility(View.INVISIBLE);*/AttemptToGetMoneyTransactionHistory(VGoldApp.onGetUerId())
+        /*btnPay.setVisibility(View.INVISIBLE);*/AttemptToGetMoneyTransactionHistory(userId)
         val intent = intent
         name = intent.getStringExtra("name")
         mobile = intent.getStringExtra("number")
@@ -115,7 +126,7 @@ class PayActivityForMoney : AppCompatActivity(), AlertDialogOkListener {
     }
 
     private fun checkLoginSession() {
-        loginStatusServiceProvider?.getLoginStatus(VGoldApp.onGetUerId(), object : APICallback {
+        loginStatusServiceProvider?.getLoginStatus(userId, object : APICallback {
             override fun <T> onSuccess(serviceResponse: T) {
                 try {
                     progressDialog!!.hide()
@@ -224,7 +235,7 @@ class PayActivityForMoney : AppCompatActivity(), AlertDialogOkListener {
         } else {
             if (amount != "" && amount != null) {
                 if (enterbalence <= walletbalence) {
-                    TransferMoney(VGoldApp.onGetUerId(), txtMobile!!.text.toString(), amount)
+                    TransferMoney(userId, txtMobile!!.text.toString(), amount)
                 } else {
                     btnAddGoldWallet!!.visibility = View.VISIBLE
                     AlertDialogs().alertDialogOk(

@@ -3,6 +3,7 @@ package com.cognifygroup.vgold.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
@@ -25,6 +26,7 @@ import com.cognifygroup.vgold.addgold.AddGoldServiceProvider
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.GetTodayGoldRateServiceProvider
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
+import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -62,8 +64,9 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
     private var succesMsg: String? = null
 
     var mAlert: AlertDialogs? = null
-    var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
-    var addGoldServiceProvider: AddGoldServiceProvider? = null
+
+    //  var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
+    //  var addGoldServiceProvider: AddGoldServiceProvider? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
 
     var result = 0.0
@@ -73,10 +76,18 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
     var todayGoldRate = "0"
     var todayGoldRateWithGst = "0"
     private var progressDialog: TransparentProgressDialog? = null
-    private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    //private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_gold)
+
+        sharedPreferences =
+            this@AddGoldActivity.getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
         txtGoldRate = findViewById(R.id.txtGoldRate)
         txtGoldWeight = findViewById(R.id.txtGoldWeight)
@@ -354,7 +365,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         if (goldWeight != "0.0" && goldWeight != null) {
             if (payment_option == "Cheque") {
                 AttemptToAddGold(
-                    VGoldApp.onGetUerId(),
+                   userId,
                     goldWeight,
                     "" + amount,
                     payment_option,
@@ -364,7 +375,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 )
             } else if (payment_option == "Online") {
                 AttemptToAddGold(
-                    VGoldApp.onGetUerId(),
+                   userId,
                     goldWeight,
                     "" + amount,
                     payment_option,
@@ -374,7 +385,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 )
             } else if (payment_option == "Wallet") {
                 AttemptToAddGold(
-                    VGoldApp.onGetUerId(),
+                    userId,
                     goldWeight,
                     "" + amount,
                     payment_option,
@@ -422,7 +433,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         } else {
             "NA"
         }
-        val transNo = VGoldApp.onGetUerId() + "-" + BaseActivity.date
+        val transNo = userId + "-" + BaseActivity.date
         val uri = Uri.Builder()
             .scheme("upi")
             .authority("pay")
@@ -432,7 +443,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
             .appendQueryParameter("tr", transNo)
             .appendQueryParameter(
                 "tn",
-                "GP_ " + weight + "_" + todayGoldRateWithGst + " " + name + "(" + VGoldApp.onGetUerId() + ")"
+                "GP_ " + weight + "_" + todayGoldRateWithGst + " " + name + "(" + userId + ")"
             )
             .appendQueryParameter("am", amount.toString())
             .appendQueryParameter(
@@ -530,7 +541,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 //Code to handle successful transaction here.
 //                Log.e("UPI", "payment successfull: "+approvalRefNo);
                 AttemptToAddGold(
-                    VGoldApp.onGetUerId(),
+                    userId,
                     goldWeight,
                     "" + amount,
                     payment_option,
@@ -758,7 +769,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("gold", gold)
             .addFormDataPart("amount", amount)
             .addFormDataPart("payment_option", payment_option)

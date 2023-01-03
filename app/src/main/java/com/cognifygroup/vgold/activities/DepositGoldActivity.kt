@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -21,8 +23,8 @@ import com.cognifygroup.vgold.golddepositrequest.DepositeRequestServiceProvider
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.cognifygroup.vgold.vendorfordeposit.VendorForDepositeModel
-import com.cognifygroup.vgold.vendorfordeposit.VendorForDepositeServiceProvider
 import com.bumptech.glide.Glide
+import com.cognifygroup.vgold.utilities.Constants
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -57,6 +59,7 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
     var mAlert: AlertDialogs? = null
     var maturityWeightServiceProvider: MaturityWeightServiceProvider? = null
+
     //lateinit var vendorForDepositeServiceProvider: VendorForDepositeServiceProvider
     lateinit var depositeRequestServiceProvider: DepositeRequestServiceProvider
     private var progressDialog: TransparentProgressDialog? = null
@@ -66,10 +69,20 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
     val DELAY: Long = 1000 // milliseconds
 
     //  private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deposit_gold)
         supportActionBar?.title = "Gold Deposit"
+
+
+        sharedPreferences =
+            this@DepositGoldActivity.getSharedPreferences(
+                Constants.VGOLD_DB,
+                Context.MODE_PRIVATE
+            )
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
         spinner_tennure_deposite = findViewById(R.id.spinner_tennure_deposite)
         edtgoldWeight = findViewById(R.id.edtgoldWeight)
@@ -164,7 +177,7 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
         setFinishOnTouchOutside(false)
         mAlert = AlertDialogs().getInstance()
         // maturityWeightServiceProvider = MaturityWeightServiceProvider()
-      //  vendorForDepositeServiceProvider = VendorForDepositeServiceProvider(this)
+        //  vendorForDepositeServiceProvider = VendorForDepositeServiceProvider(this)
         // depositeRequestServiceProvider = DepositeRequestServiceProvider(this)
         AttemptToGetVendorForDeposite()
         val adapter = ArrayAdapter.createFromResource(
@@ -260,7 +273,7 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
     fun onClickOfBtnSendRequest() {
         AttemptToGetDepositeRequest(
-            VGoldApp.onGetUerId(),
+            userId,
             edtgoldWeight!!.text.toString(),
             tennure!!,
             txtMaturityWeight!!.text.toString(),
@@ -515,6 +528,10 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
          })
 */
 
+        Log.i("TAG", "AttemptToGetMaturityWeight: " + gold_weight)
+        Log.i("TAG", "AttemptToGetMaturityWeight: " + tennure)
+        Log.i("TAG", "AttemptToGetMaturityWeight: " + guarantee)
+
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("gold_weight", gold_weight)
@@ -544,7 +561,7 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                         var status = json.get("status").toString()
                         var message = json.get("Message").toString()
                         var Data = json.optString("Data").toString()
-                        if (status == "200") {
+                        if (!Data.equals("0")) {
                             Log.e(" Response", resp)
 
                             var maturityWeight: String = Data
@@ -743,7 +760,7 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("gw", gw)
             .addFormDataPart("tennure", tennure)
             .addFormDataPart("cmw", cmw)

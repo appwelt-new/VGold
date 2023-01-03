@@ -1,6 +1,8 @@
 package com.cognifygroup.vgold.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -19,6 +21,7 @@ import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
 import com.bumptech.glide.Glide
+import com.cognifygroup.vgold.utilities.Constants
 import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -49,16 +52,26 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
     //var bnkdethideiv: ImageView? = null
 
     var mAlert: AlertDialogs? = null
-   // var addMoneyServiceProvider: AddMoneyServiceProvider? = null
+
+    // var addMoneyServiceProvider: AddMoneyServiceProvider? = null
     private var progressDialog: TransparentProgressDialog? = null
     private val alertDialogOkListener: AlertDialogOkListener = this
-   // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+
+    // private var loginStatusServiceProvider: LoginStatusServiceProvider? = null
+    private var userId = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_money)
 
         supportActionBar?.title = "Add Money"
+
+
+        sharedPreferences =
+            this@AddMoneyActivity.getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
+        userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
+
         edtAddMoney = findViewById(R.id.edtAddMoney)
         btnAddMoney = findViewById(R.id.btnAddMoney)
         spinner_payment_option1 = findViewById(R.id.spinner_payment_option1)
@@ -82,8 +95,8 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
 
         mAlert = AlertDialogs().getInstance()
 
-       // addMoneyServiceProvider = AddMoneyServiceProvider(this)
-      //  loginStatusServiceProvider = LoginStatusServiceProvider(this)
+        // addMoneyServiceProvider = AddMoneyServiceProvider(this)
+        //  loginStatusServiceProvider = LoginStatusServiceProvider(this)
 
         Glide.with(this)
             .load("https://www.vgold.co.in/dashboard/vgold_rate/bank%20details.png")
@@ -204,7 +217,7 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
     fun onClickOfBtnAddMoney() {
         if (payment_option == "Cheque") {
             AttemptToAddMoney(
-                VGoldApp.onGetUerId(),
+                userId,
                 "" + edtAddMoney!!.text.toString(),
                 payment_option!!,
                 edtBankDetail1!!.text.toString(),
@@ -213,7 +226,7 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
             )
         } else if (payment_option == "Online") {
             AttemptToAddMoney(
-                VGoldApp.onGetUerId(),
+                userId,
                 "" + edtAddMoney!!.text.toString(),
                 payment_option!!,
                 edtRtgsBankDetail1!!.text.toString(),
@@ -315,7 +328,7 @@ class AddMoneyActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("user_id", user_id)
+            .addFormDataPart("user_id", userId)
             .addFormDataPart("amount", amount)
             .addFormDataPart("payment_option", payment_option)
             .addFormDataPart("bank_details", bank_details)

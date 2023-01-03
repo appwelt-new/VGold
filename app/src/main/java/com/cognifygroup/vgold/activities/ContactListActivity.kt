@@ -52,7 +52,7 @@ class ContactListActivity : AppCompatActivity() ,AlertDialogOkListener{
 
         loginStatusServiceProvider = LoginStatusServiceProvider(this)
 
-        checkLoginSession()
+//        checkLoginSession()
 
         imgContact!!.setOnClickListener {
             onImgContactClick()

@@ -97,7 +97,7 @@ class CPUserDetailsActivity : AppCompatActivity(),AlertDialogOkListener {
         mAlert = AlertDialogs().getInstance()
         addComplainServiceProvider = AddComplainServiceProvider(this)
         loginStatusServiceProvider = LoginStatusServiceProvider(this)
-        checkLoginSession()
+      //  checkLoginSession()
         setTabViews()
         setUserDetails()
     }
