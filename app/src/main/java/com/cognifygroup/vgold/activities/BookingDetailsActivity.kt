@@ -1067,6 +1067,24 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
        // gold_booking*/
 
 
+        Log.i("TAG", "user_id : " + user_id)
+        Log.i("TAG", "booking_value : " + booking_value)
+        Log.i("TAG", "down_payment : " + down_payment)
+        Log.i("TAG", "monthly : " + monthly)
+        Log.i("TAG", "rate : " + rate)
+        Log.i("TAG", "gold_weight : " + gold_weight)
+        Log.i("TAG", "tennure : " + tennure)
+        Log.i("TAG", "pc : " + pc)
+        Log.i("TAG", "payment_option : " + payment_option)
+        Log.i("TAG", "bank_details : " + bank_details)
+        Log.i("TAG", "tr_id : " + tr_id)
+        Log.i("TAG", "cheque_no : " + cheque_no)
+        Log.i("TAG", "initial_booking_charges : " + initBookingCharge)
+        Log.i("TAG", "booking_charges_discount : " + disc)
+        Log.i("TAG", "booking_charges : " + booking_charge)
+        Log.i("TAG", "confirmed : " + confirmedVal)
+
+
         // change in api calling
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)

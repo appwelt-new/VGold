@@ -331,9 +331,9 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
                 val json2 = JSONObject(mMessage)
                 val message = json2.get("Message").toString()
                 progressDialog!!.hide()
-              //  var dataValue = ReferModel()
-               // val gson = Gson()
-              //  dataValue = gson.fromJson(jsonString, ReferModel::class.java)
+                //  var dataValue = ReferModel()
+                // val gson = Gson()
+                //  dataValue = gson.fromJson(jsonString, ReferModel::class.java)
                 var data = json2.optString("data").toString()
 
                 if (!response.isSuccessful) {
@@ -480,6 +480,8 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
                 }
             })
 */
+
+        Log.i("TAG", "AttemptToRefer: " + refLink)
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
