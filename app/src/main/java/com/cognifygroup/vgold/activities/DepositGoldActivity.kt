@@ -758,6 +758,19 @@ class DepositGoldActivity : AppCompatActivity(), AlertDialogOkListener {
             })
         */
 
+
+
+        Log.i("DepositGold", "user_id: " + userId)
+        Log.i("DepositGold", "gw: " + gw)
+        Log.i("DepositGold", "tennure: " + tennure)
+        Log.i("DepositGold", "cmw: " + cmw)
+        Log.i("DepositGold", "deposite_charges: " + dCharges)
+        Log.i("DepositGold", "vendor_id: " + vendor_id)
+        Log.i("DepositGold", "addpurity: " + add_purity)
+        Log.i("DepositGold", "remark: " + remark)
+        Log.i("DepositGold", "guarantee: " + guarantee)
+
+
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("user_id", userId)

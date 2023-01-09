@@ -58,7 +58,7 @@ class GoldDepositHistoryActivity : AppCompatActivity() {
             .addFormDataPart("user_id", userId)
             .build()
         val request = okhttp3.Request.Builder()
-            .url("https://www.vgold.co.in/dashboard/webservices/gold_deposite_history.php?")
+            .url("https://www.vgold.co.in/dashboard/webservices/gold_deposite_history.php")
 //            .header("AUTHORIZATION", "Bearer $token")
             .header("Accept", "application/json")
             .header("Content-Type", "application/json")

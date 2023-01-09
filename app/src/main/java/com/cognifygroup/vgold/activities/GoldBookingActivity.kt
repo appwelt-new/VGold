@@ -273,6 +273,11 @@ class GoldBookingActivity : AppCompatActivity(), AlertDialogOkListener {
         // change in api
 
 
+        Log.i("GoldBA", "quantity: "+quantity)
+        Log.i("GoldBA", "tennure: "+tennure)
+        Log.i("GoldBA", "pc: "+pc)
+        Log.i("GoldBA", "user_id: "+userId)
+
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("quantity", quantity)

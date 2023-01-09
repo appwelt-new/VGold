@@ -481,7 +481,12 @@ class ReferActivity : AppCompatActivity(), AlertDialogOkListener {
             })
 */
 
-        Log.i("TAG", "AttemptToRefer: " + refLink)
+        Log.i("TAG", "user_id: " + userId)
+        Log.i("TAG", "name: " + name)
+        Log.i("TAG", "email: " + email)
+        Log.i("TAG", "mobile_no: " + mobile_no)
+        Log.i("TAG", "refer_link: " + refLink)
+
 
         val client = OkHttpClient().newBuilder().build()
         val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)

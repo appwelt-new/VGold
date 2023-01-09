@@ -195,7 +195,6 @@
             android:textAlignment="center" />
 
         <Button
-            android:visibility="gone"
             android:id="@+id/btnShareBankDetails"
             style="@style/Button"
             android:layout_width="300dp"
@@ -208,7 +207,8 @@
             android:background="@drawable/roundborder1"
             android:backgroundTint="@color/colorPrimary"
             android:text="Share Bank Details"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutimage"
@@ -234,10 +234,10 @@
                 app:layout_constraintTop_toTopOf="@id/layoutimage" />
 
             <ImageView
-                android:elevation="2dp"
                 android:id="@+id/shreiv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:elevation="2dp"
                 android:src="@drawable/ic_share1"
                 app:layout_constraintEnd_toEndOf="@id/bnkdetiv"
                 app:layout_constraintTop_toTopOf="@id/bnkdetiv" />

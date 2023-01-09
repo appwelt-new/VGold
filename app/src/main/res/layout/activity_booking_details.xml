@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -22,61 +22,62 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Booking Value"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:layout_marginTop="@dimen/height_10"
+                android:text="Booking Value"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtBookingValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/height_5"
-                android:text="0"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textSize="14dp"
-                android:backgroundTint="@color/colorblack" />
+                android:layout_marginTop="@dimen/height_5"
+                android:backgroundTint="@color/colorblack"
+                android:text="0"
+                android:textSize="14dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gold Rate/gm "
-                android:textStyle="bold"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_marginLeft="@dimen/height_10"
+                android:layout_marginTop="@dimen/height_10"
+                android:text="Gold Rate/gm "
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="15dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtGoldRate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/height_5"
                 android:layout_marginLeft="@dimen/height_10"
+                android:layout_marginTop="@dimen/height_5"
+                android:backgroundTint="@color/colorblack"
                 android:text="5090"
-                android:textSize="14dp"
-                android:backgroundTint="@color/colorblack" />
+                android:textSize="14dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Down Payment"
-                android:textStyle="bold"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_marginLeft="@dimen/height_10"
+                android:layout_marginTop="@dimen/height_10"
+                android:text="Down Payment"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="15dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtDownPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/height_5"
-                android:text="0"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textSize="14dp"
-                android:backgroundTint="@color/colorblack" />
+                android:layout_marginTop="@dimen/height_5"
+                android:backgroundTint="@color/colorblack"
+                android:text="0"
+                android:textSize="14dp" />
 
 
             <TextView
@@ -84,84 +85,85 @@
                 android:id="@+id/initChargeLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Booking Charges"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:layout_marginTop="@dimen/height_10"
+                android:text="Booking Charges"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtInitBookingCharge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/height_5"
-                android:text="0"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textSize="14dp"
-                android:backgroundTint="@color/colorblack" />
+                android:layout_marginTop="@dimen/height_5"
+                android:backgroundTint="@color/colorblack"
+                android:text="0"
+                android:textSize="14dp" />
 
 
             <TextView
                 android:id="@+id/discLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Discount"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:layout_marginTop="@dimen/height_10"
+                android:text="Discount"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtBookingChargeDisc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/height_5"
-                android:text="0"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textSize="14dp"
-                android:backgroundTint="@color/colorblack" />
+                android:layout_marginTop="@dimen/height_5"
+                android:backgroundTint="@color/colorblack"
+                android:text="0"
+                android:textSize="14dp" />
 
             <TextView
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Discounted Booking Charges"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:layout_marginTop="@dimen/height_10"
+                android:text="Discounted Booking Charges"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtBookingCharge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/height_5"
-                android:text="0"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textSize="14dp"
-                android:backgroundTint="@color/colorblack" />
+                android:layout_marginTop="@dimen/height_5"
+                android:backgroundTint="@color/colorblack"
+                android:text="0"
+                android:textSize="14dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Monthly installment"
-                android:textStyle="bold"
-                android:layout_marginTop="@dimen/height_10"
-                android:textSize="15dp"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:layout_marginTop="@dimen/height_10"
+                android:text="Monthly installment"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtMonthly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/height_5"
                 android:layout_marginLeft="@dimen/height_10"
-                android:textSize="14dp"
+                android:layout_marginTop="@dimen/height_5"
+                android:backgroundTint="@color/colorblack"
                 android:text="0"
-                android:backgroundTint="@color/colorblack" />
+                android:textSize="14dp" />
 
 
         </LinearLayout>
@@ -190,20 +192,19 @@
 
         <LinearLayout
             android:id="@+id/llbd"
-            android:layout_below="@+id/llbookingDetail"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/height_10"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/llbookingDetail"
+            android:layout_marginTop="@dimen/height_10"
             android:orientation="vertical">
 
             <Spinner
                 android:id="@+id/spinner_payment_option"
-                android:padding="@dimen/height_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/height_10"
                 android:entries="@array/payment_option"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </Spinner>
+                android:padding="@dimen/height_5"></Spinner>
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -212,10 +213,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:paddingBottom="10dp"
                 android:layout_marginRight="10dp"
-                android:orientation="vertical"
                 android:background="@color/colorLittleGraylight"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
                 android:visibility="gone">
 
                 <TextView
@@ -295,48 +296,48 @@
 
             <LinearLayout
                 android:id="@+id/llCheque"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <EditText
                     android:id="@+id/edtBankDetail"
-                    android:hint="@string/enter_bank_details"
-                    android:textSize="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_bank_details"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:id="@+id/edtChequeNo"
-                    android:hint="@string/enter_cheque_number"
-                    android:textSize="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_cheque_number"
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llRTGS"
-                android:layout_marginTop="@dimen/height_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/height_10"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <EditText
                     android:id="@+id/edtRtgsBankDetail"
-                    android:hint="@string/enter_bankdetails"
-                    android:textSize="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_bankdetails"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:id="@+id/edtTxnId"
-                    android:hint="Enter Transaction Id"
-                    android:textSize="15dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Transaction Id"
+                    android:textSize="15dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -357,44 +358,30 @@
             android:text="Pay" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bnkdetiv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/btnPayOnline"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp">
 
             <ImageView
+                android:id="@+id/bnkdetiv"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/bnkdetiv"
-                android:src="@drawable/bankdetails"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="40dp"
-                android:layout_gravity="center"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true" />
+                android:src="@drawable/bankdetails"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
 
             <ImageView
                 android:id="@+id/shreiv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="28dp"
+                android:elevation="2dp"
                 android:src="@drawable/ic_share1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.8"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/bnkdetiv"
                 app:layout_constraintTop_toTopOf="@id/bnkdetiv" />
-
-            <ImageView
-                android:id="@+id/bnkimg"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/bnkdetiv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>

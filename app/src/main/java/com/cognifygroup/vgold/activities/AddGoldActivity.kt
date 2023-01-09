@@ -169,6 +169,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                     }
                     if (result != 0.00 && result != null) {
                         txtGoldWeight!!.text = "" + DecimalFormat("##.###").format(result) + " gm"
+                        goldWeight = DecimalFormat("##.###").format(result)
                     }
                 } else {
                     txtGoldWeight!!.text = ""
@@ -199,7 +200,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                     id: Long
                 ) {
                     val paymentoption = parent.getItemAtPosition(pos) as String
-                    if (paymentoption == "cheque") {
+                    if (paymentoption == "Cheque") {
                         payment_option = "Cheque"
                         llCheque!!.visibility = View.VISIBLE
                         llRTGS!!.visibility = View.GONE
@@ -362,10 +363,10 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
       }*/
 
     fun OnClickOfProceedToPayment() {
-        if (goldWeight != "0.0" && goldWeight != null) {
+        if (goldWeight != "0.0") {
             if (payment_option == "Cheque") {
                 AttemptToAddGold(
-                   userId,
+                    userId,
                     goldWeight,
                     "" + amount,
                     payment_option,
@@ -375,7 +376,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
                 )
             } else if (payment_option == "Online") {
                 AttemptToAddGold(
-                   userId,
+                    userId,
                     goldWeight,
                     "" + amount,
                     payment_option,
@@ -765,6 +766,17 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
  */
 
 
+
+
+        Log.i("TAG", "user_id: " + user_id)
+        Log.i("TAG", "gold: " + gold)
+        Log.i("TAG", "amount: " + amount)
+        Log.i("TAG", "payment_option: " + payment_option)
+        Log.i("TAG", "bank_details: " + bank_details)
+        Log.i("TAG", "tr_id: " + tr_id)
+        Log.i("TAG", "cheque_no: " + cheque_no)
+
+
         //change in api calling
 
         val client = OkHttpClient().newBuilder().build()
@@ -793,6 +805,7 @@ class AddGoldActivity : AppCompatActivity(), AlertDialogOkListener {
 
             override fun onResponse(call: Call, response: okhttp3.Response) {
                 var resp = response.body()!!.string()
+                Log.i("TAG", "onResponse: "+resp)
                 if (!response.isSuccessful) {
                     throw IOException("Unexpected code" + response)
                 } else {

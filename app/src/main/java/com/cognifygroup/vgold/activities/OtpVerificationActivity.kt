@@ -22,7 +22,6 @@ import com.cognifygroup.vgold.utilities.Constants.Companion.VGOLD_DB
 //import com.google.android.gms.tasks.OnCompleteListener
 //import com.google.android.gms.tasks.Task
 //import com.google.firebase.FirebaseException
-import com.google.firebase.auth.*
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONArray
@@ -53,7 +52,7 @@ class OtpVerificationActivity : AppCompatActivity() {
     private lateinit var resndOtpBtn: LinearLayout
     private var verificationId = ""
     private var cFirebaseOtp = ""
-    private lateinit var firebaseAuth: FirebaseAuth
+   // private lateinit var firebaseAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp_verification)
@@ -69,7 +68,7 @@ class OtpVerificationActivity : AppCompatActivity() {
         mbDisp = findViewById(R.id.tv_No)
 
         eMail = intent.getStringExtra("email_id").toString()
-        firebaseAuth = FirebaseAuth.getInstance()
+     //   firebaseAuth = FirebaseAuth.getInstance()
 
         // sendVerificationCode("+91"+eMail)
 //For Skipping Otp Screen

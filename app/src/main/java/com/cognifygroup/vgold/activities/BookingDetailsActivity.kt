@@ -112,6 +112,9 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
     var disc: String? = null
     var booking_charge: String? = null
     val UPI_PAYMENT = 0
+
+    var objbnkdetiv: ImageView? = null
+
     //   var getAllTransactionMoneyServiceProvider: GetAllTransactionMoneyServiceProvider? = null
     //  var getAllTransactionGoldServiceProvider: GetAllTransactionGoldServiceProvider? = null
     // var getTodayGoldRateServiceProvider: GetTodayGoldRateServiceProvider? = null
@@ -149,7 +152,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
         shreiv = findViewById(R.id.shreiv)
-        bnkimg = findViewById(R.id.bnkimg)
+        objbnkdetiv = findViewById(R.id.bnkdetiv)
         txtBookingValue = findViewById(R.id.txtBookingValue)
         txtBalanceRemainId = findViewById(R.id.txtBalanceRemainId)
         txtDeductedGoldId = findViewById(R.id.txtDeductedGoldId)
@@ -177,6 +180,10 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
         txtDownPayment = findViewById(R.id.txtDownPayment)
         txtGoldRate = findViewById(R.id.txtGoldRate)
 
+        Glide.with(this)
+            .load("https://www.vgold.co.in/dashboard/vgold_rate/bank%20details.png")
+            .into(objbnkdetiv!!);
+
         init()
 
         btnPayOnline!!.setOnClickListener {
@@ -185,10 +192,7 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
 
         shreiv!!.setOnClickListener {
 
-            Glide.with(this)
-                .load("https://appweltworkspace.slack.com/files/U01N3NJ4LQ2/F04BN46S32L/bank_details-02.png")
-                .into(bnkimg!!);
-            val bmpUri: Uri? = getLocalBitmapUri(bnkimg!!)
+            val bmpUri: Uri? = getLocalBitmapUri(objbnkdetiv!!)
             if (bmpUri != null) {
                 // Construct a ShareIntent with link to image
 
@@ -203,6 +207,8 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
 
             }
         }
+
+
 
     }
 
@@ -1067,22 +1073,22 @@ class BookingDetailsActivity : AppCompatActivity(), AlertDialogOkListener {
        // gold_booking*/
 
 
-        Log.i("TAG", "user_id : " + user_id)
-        Log.i("TAG", "booking_value : " + booking_value)
-        Log.i("TAG", "down_payment : " + down_payment)
-        Log.i("TAG", "monthly : " + monthly)
-        Log.i("TAG", "rate : " + rate)
-        Log.i("TAG", "gold_weight : " + gold_weight)
-        Log.i("TAG", "tennure : " + tennure)
-        Log.i("TAG", "pc : " + pc)
-        Log.i("TAG", "payment_option : " + payment_option)
-        Log.i("TAG", "bank_details : " + bank_details)
-        Log.i("TAG", "tr_id : " + tr_id)
-        Log.i("TAG", "cheque_no : " + cheque_no)
-        Log.i("TAG", "initial_booking_charges : " + initBookingCharge)
-        Log.i("TAG", "booking_charges_discount : " + disc)
-        Log.i("TAG", "booking_charges : " + booking_charge)
-        Log.i("TAG", "confirmed : " + confirmedVal)
+        Log.i("BGA", "user_id : " + user_id)
+        Log.i("BGA", "booking_value : " + booking_value)
+        Log.i("BGA", "down_payment : " + down_payment)
+        Log.i("BGA", "monthly : " + monthly)
+        Log.i("BGA", "rate : " + rate)
+        Log.i("BGA", "gold_weight : " + gold_weight)
+        Log.i("BGA", "tennure : " + tennure)
+        Log.i("BGA", "pc : " + pc)
+        Log.i("BGA", "payment_option : " + payment_option)
+        Log.i("BGA", "bank_details : " + bank_details)
+        Log.i("BGA", "tr_id : " + tr_id)
+        Log.i("BGA", "cheque_no : " + cheque_no)
+        Log.i("BGA", "initial_booking_charges : " + initBookingCharge)
+        Log.i("BGA", "booking_charges_discount : " + disc)
+        Log.i("BGA", "booking_charges : " + booking_charge)
+        Log.i("BGA", "confirmed : " + confirmedVal)
 
 
         // change in api calling
