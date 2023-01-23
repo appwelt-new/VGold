@@ -52,7 +52,8 @@ class OtpVerificationActivity : AppCompatActivity() {
     private lateinit var resndOtpBtn: LinearLayout
     private var verificationId = ""
     private var cFirebaseOtp = ""
-   // private lateinit var firebaseAuth: FirebaseAuth
+
+    // private lateinit var firebaseAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp_verification)
@@ -68,7 +69,7 @@ class OtpVerificationActivity : AppCompatActivity() {
         mbDisp = findViewById(R.id.tv_No)
 
         eMail = intent.getStringExtra("email_id").toString()
-     //   firebaseAuth = FirebaseAuth.getInstance()
+        //   firebaseAuth = FirebaseAuth.getInstance()
 
         // sendVerificationCode("+91"+eMail)
 //For Skipping Otp Screen
@@ -199,7 +200,7 @@ class OtpVerificationActivity : AppCompatActivity() {
 
                         //mMessage = '[' + mMessage + ']';
                         val json = JSONObject(mMessage)
-
+                        Log.i("TAGjnjn", "onResponse: " + json)
                         if (json != null) {
 
                             val code = json.getInt("status")
@@ -265,7 +266,7 @@ class OtpVerificationActivity : AppCompatActivity() {
                                         try {
                                             var status: Boolean = false
                                             val verson_code = jsonObject.getString("Version_code")
-                                            // val verson_code = "1.3.22"
+                                            //  val verson_code = "1.2.30"
                                             val pInfo: PackageInfo =
                                                 VGoldApp.context!!.getPackageManager()
                                                     .getPackageInfo(
@@ -339,11 +340,11 @@ class OtpVerificationActivity : AppCompatActivity() {
                                         }
 
 
-                                       /* Toast.makeText(
-                                            this@OtpVerificationActivity,
-                                            "OTP Verification Done",
-                                            Toast.LENGTH_LONG
-                                        ).show()*/
+                                        /* Toast.makeText(
+                                             this@OtpVerificationActivity,
+                                             "OTP Verification Done",
+                                             Toast.LENGTH_LONG
+                                         ).show()*/
                                     })
                                 }
                             } else {

@@ -1,6 +1,5 @@
 package com.cognifygroup.vgold.fragments
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -20,13 +19,13 @@ import android.view.Window
 import android.widget.*
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import com.bumptech.glide.Glide
 import com.cognifygroup.vgold.BuildConfig
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.activities.*
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
+import com.cognifygroup.vgold.model.BaseServiceResponseModel
 import com.cognifygroup.vgold.utilities.Constants
-import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import okhttp3.Call
 import okhttp3.MultipartBody
@@ -36,7 +35,6 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.security.cert.Certificate
 
 class MainFragment : Fragment(), AlertDialogOkListener {
 
@@ -386,12 +384,13 @@ class MainFragment : Fragment(), AlertDialogOkListener {
 
         title.setOnClickListener { dialog.dismiss() }
 
-//        if (VGoldApp.onGetIsCP().equals(1)) {
-//            btnSubmit.visibility = View.GONE
-//        } else {
-//            btnSubmit.visibility = View.VISIBLE
-//        }
-        //  btnSubmit.setOnClickListener { bePartnerCall() }
+        if (VGoldApp.onGetIsCP().equals(1)) {
+            btnSubmit.visibility = View.GONE
+        } else {
+            btnSubmit.visibility = View.VISIBLE
+        }
+        Log.i("TAG", "bePartnerDialog: " + VGoldApp.onGetIsCP())
+        btnSubmit.setOnClickListener { bePartnerCall() }
 
         dialog.show()
 
@@ -616,6 +615,108 @@ class MainFragment : Fragment(), AlertDialogOkListener {
         }
     }
 
+    private fun bePartnerCall() {
 
+
+        /* progressDialog.show()
+         cpServiceProvider.requetToBePartner(VGoldApp.onGetUerId(), object : APICallback() {
+             fun <T> onSuccess(serviceResponse: T) {
+                 try {
+                     val status: String = (serviceResponse as UserEMIStatusDetailsModel).getStatus()
+                     val message: String =
+                         (serviceResponse as UserEMIStatusDetailsModel).getMessage()
+                     if (status.equals("200", ignoreCase = true)) {
+                         AlertDialogs.alertDialogOk(
+                             this@MainActivity, "Alert", message,
+                             resources.getString(R.string.btn_ok), 1, false, alertDialogOkListener
+                         )
+                     } else {
+                         AlertDialogs.alertDialogOk(
+                             this@MainActivity, "Alert", message,
+                             resources.getString(R.string.btn_ok), 0, false, alertDialogOkListener
+                         )
+                     }
+                 } catch (e: java.lang.Exception) {
+                     e.printStackTrace()
+                 } finally {
+                     progressDialog.hide()
+                 }
+             }
+
+             fun <T> onFailure(apiErrorModel: T?, extras: T) {
+                 try {
+                     if (apiErrorModel != null) {
+                         PrintUtil.showToast(
+                             this@MainActivity,
+                             (apiErrorModel as BaseServiceResponseModel).getMessage()
+                         )
+                     } else {
+                         PrintUtil.showNetworkAvailableToast(this@MainActivity)
+                     }
+                 } catch (e: java.lang.Exception) {
+                     e.printStackTrace()
+                     PrintUtil.showNetworkAvailableToast(this@MainActivity)
+                 } finally {
+                     progressDialog.hide()
+                 }
+             }
+         })*/
+
+
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("user_id", userId)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/save_become_cp_request.php")
+//            .header("AUTHORIZATION", "Bearer $token")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+                Log.i("TAG", "onFailure: " + mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                val mMessage = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    val json = JSONObject(mMessage)
+                    val status = json.get("status").toString()
+                    activity?.runOnUiThread {
+                        if (status == "200") {
+                            AlertDialogs().alertDialogOk(
+                                context,
+                                "Alert",
+                                json.getString("Message").toString(),
+                                resources.getString(R.string.btn_ok),
+                                0,
+                                false,
+                                alertDialogOkListener
+                            )
+                        } else {
+                            AlertDialogs().alertDialogOk(
+                                context,
+                                "Alert",
+                                json.getString("Message").toString(),
+                                resources.getString(R.string.btn_ok),
+                                0,
+                                false,
+                                alertDialogOkListener
+                            )
+                        }
+                        Log.i("TAG", "onResponse: " + json.getString("Message").toString())
+                    }
+                }
+
+            }
+        })
+    }
 }
 

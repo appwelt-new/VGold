@@ -1,11 +1,13 @@
 package com.cognifygroup.vgold.adapters
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +19,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.model.GoldBookingHistoryItem
 import com.cognifygroup.vgold.utilities.Constants
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : RecyclerView.Adapter<GoldBookingHistoryAdapter.GoldBookingHistoryViewHolder>(){
+class GoldBookingHistoryAdapter(branchList: List<GoldBookingHistoryItem>) :
+    RecyclerView.Adapter<GoldBookingHistoryAdapter.GoldBookingHistoryViewHolder>() {
 
     private var userId = ""
     private lateinit var sharedPreferences: SharedPreferences
-    private var listData: MutableList<GoldBookingHistoryItem> = branchList as MutableList <GoldBookingHistoryItem>
+    private var listData: MutableList<GoldBookingHistoryItem> =
+        branchList as MutableList<GoldBookingHistoryItem>
 
     class GoldBookingHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val goldPdf: ImageView = itemView.findViewById(R.id.imgGoldBookingHistory)
@@ -69,24 +76,25 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
     }
 
     override fun onBindViewHolder(holder: GoldBookingHistoryViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
         val currentCan = listData[position]
-        holder.gDateTxt.text= currentCan.gdate
+        holder.gDateTxt.text = currentCan.gdate
         holder.gItemNo.text = currentCan.gitemno
         holder.gItemWtQtty.text = currentCan.gitemweight
         holder.gRatte.text = currentCan.grate
         holder.gBookVl.text = currentCan.gbookvlu
-        holder.gBookChrg.text= currentCan.gbookcharg
+        holder.gBookChrg.text = currentCan.gbookcharg
         holder.gBookAmt.text = currentCan.gbookamt
         holder.gInstlm.text = currentCan.ginstalmnt
-        holder.gTenr.text = currentCan.gtenur
+        holder.gTenr.text = currentCan.gtenur + " Month"
         holder.gPaidBln.text = currentCan.gpaidamt
         holder.gBalAmt.text = currentCan.gbalamt
         holder.gTodGain.text = currentCan.gtodaygain
         holder.gttlPdInstlment.text = currentCan.gtotPaidInstllmnt
-        holder.gcloseDate.text = currentCan.gcloseDate
         holder.gAccountStatus.text = currentCan.gAcStatus
 
-        sharedPreferences = holder.itemView.context.getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
+        sharedPreferences =
+            holder.itemView.context.getSharedPreferences(Constants.VGOLD_DB, Context.MODE_PRIVATE)
         userId = sharedPreferences.getString(Constants.VUSER_ID, null).toString()
 
         val date: String = listData.get(position).gdate
@@ -94,6 +102,14 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
         val month = date.substring(5, 7)
         val day = date.substring(date.length - 2, date.length)
         holder.gDateTxt.setText("$day-$month-$year")
+
+
+
+        holder.gcloseDate.text = convertDateTimeFormat(
+            currentCan.gtenur,
+            holder.gDateTxt.text.toString()
+        )
+
 
         if (holder.gttlPdInstlment.text.equals(null) || holder.gttlPdInstlment.text.isEmpty())
             holder.gttlPdInstlment.text = "0"
@@ -115,13 +131,14 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
             holder.gAccountStatus.setText("Matured")
             holder.gAccountStatus.setTextColor(Color.BLUE)
             //  holder.closeLayout.setVisibility(View.GONE);
-        } else {
-            holder.gAccountStatus.setText("")
+        } else if (listData.get(position).gAcStatus.equals("0")) {
+            holder.gAccountStatus.setText("Closed")
             holder.gAccountStatus.setTextColor(Color.RED)
             // holder.closeLayout.setVisibility(View.VISIBLE);
             // holder.layoutLogo.setVisibility(View.GONE);
             holder.gcloseDate.setVisibility(View.VISIBLE)
         }
+
 
         //********* edited by suraj *****************************************
 
@@ -147,8 +164,8 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
             holder.layoutTodayGain.setVisibility(View.VISIBLE)
             //  holder.closeLayout.setVisibility(View.VISIBLE);
             holder.layoutRate.setVisibility(View.VISIBLE)
-           // holder.layoutLogo.setVisibility(View.VISIBLE)
-            holder.layoutClosingDate.setVisibility(View.GONE)
+            // holder.layoutLogo.setVisibility(View.VISIBLE)
+            holder.layoutClosingDate.setVisibility(View.VISIBLE)
             //9763583584
         } else {
             holder.gBookChrg.setVisibility(View.GONE)
@@ -167,7 +184,7 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
             holder.layoutTodayGain.setVisibility(View.GONE)
             //   holder.closeLayout.setVisibility(View.GONE);
             holder.layoutRate.setVisibility(View.VISIBLE)
-           // holder.gBookVl.setVisibility(View.GONE)
+            // holder.gBookVl.setVisibility(View.GONE)
             holder.layoutClosingDate.setVisibility(View.VISIBLE)
         }
 
@@ -177,9 +194,10 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
         holder.prgsBar.setSecondaryProgress(holder.gttlPdInstlment.text.toString().toInt())
         holder.prgsBar.setProgress(holder.gttlPdInstlment.text.toString().toInt(), true)
         holder.prgsBar.setMax((holder.gTenr.text.toString().filter { it.isDigit() }).toInt())
-        ObjectAnimator.ofInt(holder.prgsBar, "progress", 0, holder.prgsBar.secondaryProgress).apply{
-            duration = 3000
-        }.start()
+        ObjectAnimator.ofInt(holder.prgsBar, "progress", 0, holder.prgsBar.secondaryProgress)
+            .apply {
+                duration = 3000
+            }.start()
 
 
         val closingDate: String = listData.get(position).gcloseDate
@@ -187,17 +205,17 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
         val closing_month = date.substring(5, 7)
         val closing_day = date.substring(date.length - 2, date.length)
 
-        holder.gcloseDate.setText("$closing_day-$closing_month-$closing_year")
+  //      holder.gcloseDate.setText("$closing_day-$closing_month-$closing_year")
 
-      //   PDF Button Code
-       holder.goldPdf.setOnClickListener {
-           val browserIntent = Intent(
-               Intent.ACTION_VIEW,
-               Uri.parse(
-                   "https://www.vgold.co.in/dashboard/user/module/goldbooking/booking_receipt.php?bid=" + holder.gItemNo.text.toString() + "&&user_id=" + userId
-               )
-           )
-           holder.itemView.context.startActivity(browserIntent)
+        //   PDF Button Code
+        holder.goldPdf.setOnClickListener {
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(
+                    "https://www.vgold.co.in/dashboard/user/module/goldbooking/booking_receipt.php?bid=" + holder.gItemNo.text.toString() + "&&user_id=" + userId
+                )
+            )
+            holder.itemView.context.startActivity(browserIntent)
 
         }
 
@@ -205,4 +223,52 @@ class GoldBookingHistoryAdapter (branchList: List<GoldBookingHistoryItem>) : Rec
     }
 
     override fun getItemCount() = listData.size
+
+
+    @SuppressLint("SimpleDateFormat")
+    fun convertDateTimeFormat(
+        tenure: String?,
+        date1: String?
+    ): String? {
+
+        var add_value = 0
+        if (tenure.equals("12")) {
+            add_value = 1;
+        } else if (tenure.equals("24")) {
+            add_value = 2;
+        } else if (tenure.equals("36")) {
+            add_value = 3;
+        } else if (tenure.equals("48")) {
+            add_value = 4;
+        } else if (tenure.equals("60")) {
+            add_value = 5;
+        } else if (tenure.equals("72")) {
+            add_value = 6;
+        } else if (tenure.equals("84")) {
+            add_value = 7;
+        } else if (tenure.equals("96")) {
+            add_value = 8;
+        } else if (tenure.equals("108")) {
+            add_value = 9;
+        } else if (tenure.equals("120")) {
+            add_value = 10;
+        }
+        var df = SimpleDateFormat("dd-MM-yyyy")
+        var date: Date? = null
+        var nextDate: String? = ""
+        try {
+            date = date1?.let { SimpleDateFormat("dd-MM-yyyy").parse(it) }
+            val calendar = Calendar.getInstance()
+            if (date != null) {
+                calendar.time = date
+            }
+            calendar.add(Calendar.YEAR, add_value)
+           //   Log.i("TAG", "convertDateTimeFormattt: "+tenure)
+            //            df.setTimeZone(TimeZone.getTimeZone("Portugal"));
+            nextDate = df.format(calendar.time)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return nextDate
+    }
 }

@@ -103,7 +103,7 @@ class GoldBookingHistory : AppCompatActivity() {
                                         .getString("booking_charge"),
                                     prdds.getJSONObject(i).getString("down_payment"),
                                     prdds.getJSONObject(i).getString("monthly_installment"),
-                                    prdds.getJSONObject(i).getString("tennure") + " Month",
+                                    prdds.getJSONObject(i).getString("tennure"),
                                     prdds.getJSONObject(i).getString("total_paid_amount"),
                                     resources.getString(R.string.rs) + prdds.getJSONObject(i)
                                         .getString("total_balance_amount"),
