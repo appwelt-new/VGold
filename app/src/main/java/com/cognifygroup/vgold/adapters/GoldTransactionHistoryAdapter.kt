@@ -1,5 +1,6 @@
 package com.cognifygroup.vgold.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -100,25 +101,11 @@ class GoldTransactionHistoryAdapter(
         return goldTransactionHistoryArrayList.size
     }
 
-    inner class MyViewHolder(itemView: View?) :
-        RecyclerView.ViewHolder(itemView!!) {
-        @InjectView(R.id.cardTransactionHistory)
-        var cardTransactionHistory: CardView? = null
-
-        @InjectView(R.id.txtTransactionId)
-        var txtTransactionId: TextView? = null
-
-        @InjectView(R.id.txtInstallmentAmount)
-        var txtInstallmentAmount: TextView? = null
-
-        @InjectView(R.id.txtTransactionDate)
-        var txtTransactionDate: TextView? = null
-
-        @InjectView(R.id.txtStatus)
-        var txtStatus: TextView? = null
-
-        init {
-            ButterKnife.inject(this, itemView)
-        }
+    inner class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+        val cardTransactionHistory: CardView = itemView!!.findViewById(R.id.cardTransactionHistory)
+        val txtTransactionId: TextView = itemView!!.findViewById(R.id.txtTransactionId)
+        val txtInstallmentAmount: TextView = itemView!!.findViewById(R.id.txtInstallmentAmount)
+        val txtTransactionDate: TextView = itemView!!.findViewById(R.id.txtTransactionDate)
+        val txtStatus: TextView = itemView!!.findViewById(R.id.txtStatus)
     }
 }

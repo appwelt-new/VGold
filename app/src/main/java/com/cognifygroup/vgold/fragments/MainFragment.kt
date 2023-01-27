@@ -20,6 +20,7 @@ import android.widget.*
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cognifygroup.vgold.BuildConfig
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.activities.*
@@ -135,13 +136,21 @@ class MainFragment : Fragment(), AlertDialogOkListener {
 //        Glide.with(requireContext())
 //            .load("https://vgold.co.in/dashboard/vgold_rate/vgold_rate_card_mobile.php")
 //            .into(imggoldRate);
-
         Glide.with(requireContext())
             .load("https://www.vgold.co.in/dashboard/vgold_rate/vgold_rate_show_mobile.png")
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(imggoldRate);
 
         Picasso.with(requireContext()).load("https://www.vgold.co.in/vgold_rate_show.png")
             .into(oldrteimg)
+
+
+        /*   Picasso.with(requireContext())
+               .load("https://www.vgold.co.in/dashboard/vgold_rate/vgold_rate_show_mobile.png")
+               .into(imggoldRate)*/
+
+
         getGoldBookingGain()
         getLoanVal()
         blink()

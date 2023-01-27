@@ -5,6 +5,10 @@ package com.cognifygroup.vgold.activities
 //import com.android.volley.VolleyError
 //import com.android.volley.toolbox.JsonObjectRequest
 //import com.android.volley.toolbox.Volley
+//import com.google.android.gms.tasks.OnCompleteListener
+//import com.google.android.gms.tasks.Task
+//import com.google.firebase.FirebaseException
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageInfo
@@ -16,20 +20,12 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.cognifygroup.vgold.R
 import com.cognifygroup.vgold.model.GenericTextWatcher
-import com.cognifygroup.vgold.model.LoginModel
 import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.Constants.Companion.VGOLD_DB
-//import com.google.android.gms.tasks.OnCompleteListener
-//import com.google.android.gms.tasks.Task
-//import com.google.firebase.FirebaseException
-import com.google.gson.Gson
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 
 class OtpVerificationActivity : AppCompatActivity() {
@@ -306,22 +302,10 @@ class OtpVerificationActivity : AppCompatActivity() {
                                             }
 
                                             if (status) {
-                                                try {
-                                                    startActivity(
-                                                        Intent(
-                                                            Intent.ACTION_VIEW,
-                                                            Uri.parse("https://play.google.com/store/apps/details?id=com.cognifygroup.vgold")
-                                                        )
-                                                    )
 
-                                                } catch (e: ActivityNotFoundException) {
-                                                    startActivity(
-                                                        Intent(
-                                                            Intent.ACTION_VIEW,
-                                                            Uri.parse("market://details?id=com.cognifygroup.vgold")
-                                                        )
-                                                    )
-                                                }
+                                                Alert()
+
+
                                             } else {
                                                 val intent = Intent(
                                                     this@OtpVerificationActivity,
@@ -398,6 +382,58 @@ class OtpVerificationActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+
+    private fun Alert() {
+        val alertDialog = AlertDialog.Builder(this)
+
+        // Setting Dialog Title
+        alertDialog.setTitle("")
+
+        // Setting Dialog Message
+        alertDialog.setMessage("New app version available , Update now")
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton(
+            "Yes"
+        ) { dialog, which ->
+            try {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=com.cognifygroup.vgold")
+                    )
+                )
+
+            } catch (e: ActivityNotFoundException) {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=com.cognifygroup.vgold")
+                    )
+                )
+            }
+        }
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton(
+            "No"
+        ) { dialog, which ->
+            dialog.cancel()
+
+            val intent = Intent(
+                this@OtpVerificationActivity,
+                MainActivity::class.java
+            )
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+
+        }
+        // Showing Alert Message
+        alertDialog.show()
     }
 
 

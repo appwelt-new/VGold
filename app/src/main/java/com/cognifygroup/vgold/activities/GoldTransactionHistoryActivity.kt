@@ -7,24 +7,34 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cognifygroup.vgold.GetGoldTransactionHistory.GetGoldTransactionHistoryModel
 import com.cognifygroup.vgold.GetGoldTransactionHistory.GetGoldTransactionHistoryServiceProvider
 import com.cognifygroup.vgold.R
+import com.cognifygroup.vgold.adapters.GoldBookingHistoryAdapter
 import com.cognifygroup.vgold.adapters.GoldTransactionHistoryAdapter
 import com.cognifygroup.vgold.interfaces.APICallback
 import com.cognifygroup.vgold.interfaces.AlertDialogOkListener
 import com.cognifygroup.vgold.model.BaseServiceResponseModel
+import com.cognifygroup.vgold.model.GoldBookingHistoryItem
 import com.cognifygroup.vgold.model.LoginSessionModel
 import com.cognifygroup.vgold.model.LoginStatusServiceProvider
 import com.cognifygroup.vgold.utilities.Constants
 import com.cognifygroup.vgold.utilities.TransparentProgressDialog
+import okhttp3.Call
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import org.json.JSONObject
+import java.io.IOException
 
-class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener {
+class GoldTransactionHistoryActivity : AppCompatActivity(), AlertDialogOkListener {
 
     var mAlert: AlertDialogs? = null
     var getGoldTransactionHistoryServiceProvider: GetGoldTransactionHistoryServiceProvider? = null
@@ -54,7 +64,7 @@ class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener
         tb_goldTransactionHistory = findViewById(R.id.tb_goldTransactionHistory)
         imgGoldTransactionHistory = findViewById(R.id.imgGoldTransactionHistory)
 
-        setSupportActionBar(tb_goldTransactionHistory)
+        //setSupportActionBar(tb_goldTransactionHistory)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         tb_goldTransactionHistory!!.contentInsetStartWithNavigation = 0
@@ -80,8 +90,8 @@ class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener
         getGoldTransactionHistoryServiceProvider = GetGoldTransactionHistoryServiceProvider()
         val intent = intent
         booking_id = intent.getStringExtra("GOLD_BOOKING_ID")
-        loginStatusServiceProvider = LoginStatusServiceProvider(this)
-       // checkLoginSession()
+        //   loginStatusServiceProvider = LoginStatusServiceProvider(this)
+        // checkLoginSession()
     }
 
     private fun checkLoginSession() {
@@ -159,8 +169,8 @@ class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener
 
 
     private fun AttemptToGetGoldTransactionHistory(gold_booking_id: String) {
-        progressDialog!!.show()
-        getGoldTransactionHistoryServiceProvider?.getGoldTransactionHistory(
+        //  progressDialog!!.show()
+        /*getGoldTransactionHistoryServiceProvider?.getGoldTransactionHistory(
             gold_booking_id,
             object : APICallback {
                 override fun <T> onSuccess(serviceResponse: T) {
@@ -219,7 +229,72 @@ class GoldTransactionHistoryActivity : AppCompatActivity(),AlertDialogOkListener
                         progressDialog!!.hide()
                     }
                 }
-            })
+            })*/
+
+
+        val client = OkHttpClient().newBuilder().build()
+        val requestBody: RequestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("gold_booking_id", gold_booking_id)
+            .build()
+        val request = okhttp3.Request.Builder()
+            .url("https://www.vgold.co.in/dashboard/webservices/gold_booking_transactions.php")
+//            .header("AUTHORIZATION", "Bearer $token")
+            .header("Accept", "application/json")
+            .header("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                val mMessage = e.message.toString()
+                e.printStackTrace()
+                Log.e("failure Response", mMessage)
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                val mMessage = response.body()!!.string()
+                if (!response.isSuccessful) {
+                    throw IOException("Unexpected code" + response)
+                } else {
+                    val json = JSONObject(mMessage)
+                    val prdds = json.getJSONArray("Data")
+
+
+//                    Log.d("Upload Status", "Image Uploaded Successfully !")
+                    runOnUiThread(Runnable {
+
+                        val cndList = ArrayList<GetGoldTransactionHistoryModel.Data>()
+
+                        if (prdds.length() > 0) {
+                            for (i in 0 until prdds.length()) {
+                                val item = GetGoldTransactionHistoryModel.Data(
+                                    prdds.getJSONObject(i).getString("id"),
+                                    prdds.getJSONObject(i).getString("period"),
+                                    prdds.getJSONObject(i).getString("installment"),
+                                    prdds.getJSONObject(i).getString("entry_status"),
+                                    prdds.getJSONObject(i).getString("remaining_amount"),
+                                    prdds.getJSONObject(i).getString("transaction_id"),
+                                    prdds.getJSONObject(i).getString("payment_method"),
+                                    prdds.getJSONObject(i).getString("bank_details"),
+                                    prdds.getJSONObject(i).getString("cheque_no"),
+                                    prdds.getJSONObject(i).getString("status"),
+                                    prdds.getJSONObject(i).getString("admin_status"),
+                                    prdds.getJSONObject(i).getString("transaction_date"),
+                                    prdds.getJSONObject(i).getString("next_due_date")
+                                )
+                                cndList += item
+                            }
+                            rvGoldTransactioHistory?.adapter =
+                                GoldTransactionHistoryAdapter(this@GoldTransactionHistoryActivity,cndList,booking_id!!)
+                            rvGoldTransactioHistory?.layoutManager =
+                                LinearLayoutManager(this@GoldTransactionHistoryActivity)
+                            rvGoldTransactioHistory?.setHasFixedSize(false)
+                        }
+
+                    })
+                }
+            }
+        })
+
     }
 
     override fun onDialogOk(resultCode: Int) {

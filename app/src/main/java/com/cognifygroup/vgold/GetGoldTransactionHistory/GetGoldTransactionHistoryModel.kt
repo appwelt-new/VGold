@@ -17,57 +17,22 @@ class GetGoldTransactionHistoryModel {
     @SerializedName("status")
     var status: String? = null
 
-    class Data {
-        @Expose
-        @SerializedName("transaction_date")
-        var transaction_date: String? = null
+    class Data(
 
-        @Expose
-        @SerializedName("admin_status")
-        var admin_status: String? = null
+        val id: String,
+        val period: String,
+        val installment: String,
+        val entry_status: String,
+        val remaining_amount: String,
+        val transaction_id: String,
+        val payment_method: String,
+        val bank_details: String,
+        val cheque_no: String,
+        val status: String,
+        val admin_status: String,
+        val transaction_date: String,
+        val next_due_date: String
 
-        @Expose
-        @SerializedName("status")
-        var status: String? = null
+    )
 
-        @Expose
-        @SerializedName("cheque_no")
-        var cheque_no: String? = null
-
-        @Expose
-        @SerializedName("bank_details")
-        var bank_details: String? = null
-
-        @Expose
-        @SerializedName("payment_method")
-        var payment_method: String? = null
-
-        @Expose
-        @SerializedName("transaction_id")
-        var transaction_id: String? = null
-
-        @Expose
-        @SerializedName("remaining_amount")
-        var remaining_amount: String? = null
-
-        @Expose
-        @SerializedName("entry_status")
-        var entry_status: String? = null
-
-        @Expose
-        @SerializedName("installment")
-        var installment: String? = null
-
-        @Expose
-        @SerializedName("period")
-        var period: String? = null
-
-        @Expose
-        @SerializedName("id")
-        var id: String? = null
-
-        @Expose
-        @SerializedName("next_due_date")
-        var next_due_date: String? = null
-    }
 }

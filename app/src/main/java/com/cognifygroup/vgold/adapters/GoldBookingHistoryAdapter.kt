@@ -7,16 +7,17 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cognifygroup.vgold.R
+import com.cognifygroup.vgold.activities.GoldTransactionHistoryActivity
 import com.cognifygroup.vgold.model.GoldBookingHistoryItem
 import com.cognifygroup.vgold.utilities.Constants
 import java.text.ParseException
@@ -59,6 +60,7 @@ class GoldBookingHistoryAdapter(branchList: List<GoldBookingHistoryItem>) :
         val layoutTodayGain: LinearLayout = itemView.findViewById(R.id.layoutTodayGain)
         val layoutRate: LinearLayout = itemView.findViewById(R.id.layoutRate)
         val layoutClosingDate: LinearLayout = itemView.findViewById(R.id.layoutClosingDate)
+        val cardRating1: RelativeLayout = itemView.findViewById(R.id.cardRating1)
 
 
     }
@@ -219,7 +221,17 @@ class GoldBookingHistoryAdapter(branchList: List<GoldBookingHistoryItem>) :
 
         }
 
-
+        holder.cardRating1.setOnClickListener {
+         holder.itemView.context.startActivity(
+                Intent(
+                    holder.itemView.context,
+                    GoldTransactionHistoryActivity::class.java
+                ).putExtra(
+                    "GOLD_BOOKING_ID",
+                    currentCan.gitemno
+                )
+            )
+        }
     }
 
     override fun getItemCount() = listData.size
